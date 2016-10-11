@@ -1,5 +1,17 @@
 grammar EnricherQL;
 
+START: '*';
+
+// Keywords
+SELECT: S E L E C T;
+FROM: F R O M;
+JOIN: J O I N;
+TABLE: T A B L E;
+STREAM: S T R E A M;
+USING: U S I N G;
+INSERT: I N S E R T;
+INTO: I N T O;
+
 ID : [a-zA-Z_] [a-zA-Z_0-9]*;
 
 fragment DIGIT : [0-9];
