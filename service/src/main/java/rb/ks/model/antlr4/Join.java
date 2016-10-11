@@ -1,40 +1,35 @@
 package rb.ks.model.antlr4;
 
+import java.util.List;
+
 import static com.cookingfox.guava_preconditions.Preconditions.checkNotNull;
 
 public class Join {
 
-    Select select;
+    List<String> dimensionsList;
 
-    Class rClass;
+    Stream topic;
 
-    public static Join join() {
-        return new Join();
+    String className;
+
+    public void setStream(Stream stream) {
+        topic = stream;
     }
 
-    public Join using(Class myClass) {
-        checkNotNull(select, "Select is required");
-        this.rClass = checkNotNull(myClass, "Class is required");
-        return this;
+    public void setDimensions(List<String> newDimensionsList) {
+        dimensionsList = newDimensionsList;
     }
 
-    public Class using() {
-        return rClass;
-    }
-
-    public Join query(Select select) {
-        this.select = checkNotNull(select, "Select is required");
-        return this;
-    }
-
-    public Select query() {
-        return select;
+    public void setClassName(String newClassName) {
+        className = newClassName;
     }
 
     public void validate() {
-        checkNotNull(select, "Select is required");
-        checkNotNull(rClass, "Class is required");
-        select.validate();
+        checkNotNull(dimensionsList, "Dimensions is required");
+        checkNotNull(topic, "Stream is required");
+        checkNotNull(className, "Class is required");
+
+        topic.validate();
     }
 
 }
