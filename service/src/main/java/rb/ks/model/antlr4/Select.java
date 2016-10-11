@@ -1,6 +1,7 @@
 package rb.ks.model.antlr4;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static com.cookingfox.guava_preconditions.Preconditions.checkNotNull;
@@ -11,7 +12,7 @@ public class Select {
     List<Stream> streams = new ArrayList<>();
 
     public Select() {
-        this(new ArrayList<>(), new ArrayList<>());
+        this(Collections.EMPTY_LIST, Collections.EMPTY_LIST);
     }
 
     public Select(List<String> dimensions, List<Stream> streams) {
