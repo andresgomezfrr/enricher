@@ -1,7 +1,8 @@
 grammar EnricherQL;
 
+query: SELECT (STAR | (id (',' id)*)) FROM type (id (',' id)*) (query_join)* query_output;
 
-query_join: JOIN SELECT (START|(id (',' id)*)) FROM type id USING className;
+query_join: JOIN SELECT (STAR|(id (',' id)*)) FROM type id USING className;
 
 query_output: INSERT INTO type id;
 
@@ -14,7 +15,7 @@ className: CLASS_NAME;
 
 id: ID;
 
-START: '*';
+STAR: '*';
 
 // Keywords
 SELECT: S E L E C T;
