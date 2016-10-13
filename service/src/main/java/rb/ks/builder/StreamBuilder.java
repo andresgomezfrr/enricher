@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import rb.ks.builder.config.Config;
 import rb.ks.exceptions.PlanBuilderException;
-import rb.ks.join.Joiner;
+import rb.ks.enrichment.join.Joiner;
 import rb.ks.metrics.MetricsManager;
 import rb.ks.model.PlanModel;
 import rb.ks.query.antlr4.Join;
