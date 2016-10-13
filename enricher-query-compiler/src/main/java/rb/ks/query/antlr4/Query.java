@@ -1,4 +1,4 @@
-package rb.ks.model.antlr4;
+package rb.ks.query.antlr4;
 
 import java.util.List;
 

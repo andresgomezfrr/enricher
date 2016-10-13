@@ -3,7 +3,8 @@ package rb.ks.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import rb.ks.exceptions.PlanBuilderException;
-import rb.ks.model.antlr4.Query;
+import rb.ks.query.EnricherCompiler;
+import rb.ks.query.antlr4.Query;
 
 import java.util.*;
 
@@ -13,7 +14,7 @@ public class PlanModel {
     @JsonCreator
     public PlanModel(@JsonProperty("queries") Map<String, String> queries) {
         queries.forEach((name, queryString) -> {
-            Query query = null; //TODO: Implement query parser!
+            Query query = EnricherCompiler.parse(queryString);
             this.queries.put(name, query);
         });
     }
