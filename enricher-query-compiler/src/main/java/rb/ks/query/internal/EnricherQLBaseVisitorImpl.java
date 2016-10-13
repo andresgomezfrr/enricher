@@ -1,6 +1,5 @@
 package rb.ks.query.internal;
 
-import org.antlr.v4.runtime.RuleContext;
 import rb.ks.model.PlanModel;
 import rb.ks.model.antlr4.Join;
 import rb.ks.model.antlr4.Query;
@@ -15,7 +14,7 @@ import java.util.stream.Collectors;
 public class EnricherQLBaseVisitorImpl extends EnricherQLBaseVisitor {
 
     @Override
-    public PlanModel visitQuery(EnricherQLParser.QueryContext ctx) {
+    public Query visitQuery(EnricherQLParser.QueryContext ctx) {
 
         List<String> selectDimensions = ctx.dimensions().id().stream().map(id -> id.getText()).collect(Collectors.toList());
 
@@ -32,12 +31,7 @@ public class EnricherQLBaseVisitorImpl extends EnricherQLBaseVisitor {
 
         Stream output = new Stream(ctx.query_output().id().getText(), ctx.query_output().type().getText().matches("TABLE"));
 
-        Query query = new Query(
-                new Select(selectDimensions, selectInputStreams),
-                joins,
-                output);
-
-        return null;
+        return new Query(new Select(selectDimensions, selectInputStreams), joins, output);
     }
 
 }
