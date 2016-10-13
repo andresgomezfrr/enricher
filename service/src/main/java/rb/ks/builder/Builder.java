@@ -40,7 +40,7 @@ public class Builder {
     public void updateStreamConfig(String streamConfig) throws IOException, PlanBuilderException {
         if (streams != null) {
             metricsManager.clean();
-            //streamBuilder.close();
+            streamBuilder.close();
             streams.close();
             log.info("Clean Normalizer process");
         }
@@ -62,7 +62,7 @@ public class Builder {
 
             metricsManager.interrupt();
             threadBootstraper.interrupt();
-            //streamBuilder.close();
+            streamBuilder.close();
         });
         streams.start();
 
@@ -72,7 +72,7 @@ public class Builder {
     public void close() {
         metricsManager.interrupt();
         threadBootstraper.interrupt();
-        //streamBuilder.close();
+        streamBuilder.close();
         if (streams != null) streams.close();
     }
 }
