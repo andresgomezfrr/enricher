@@ -1,6 +1,5 @@
 package rb.ks.enrichment.join.impl;
 
-import org.omg.CORBA.Object;
 import rb.ks.enrichment.join.Joiner;
 
 import java.util.HashMap;
