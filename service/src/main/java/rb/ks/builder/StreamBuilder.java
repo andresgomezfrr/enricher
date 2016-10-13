@@ -25,14 +25,12 @@ public class StreamBuilder {
     MetricsManager metricsManager;
     Config config;
     Map<String, KStream<String, Map<String, Object>>> streams;
-    Map<String, List<KTable<String, Map<String, Object>>>> tables;
 
     public StreamBuilder(Config config, MetricsManager metricsManager) {
         this.appId = config.get(APPLICATION_ID_CONFIG);
         this.config = config;
         this.metricsManager = metricsManager;
         this.streams = new HashMap<>();
-        this.tables = new HashMap<>();
     }
 
     private static final Logger log = LoggerFactory.getLogger(StreamBuilder.class);
@@ -130,9 +128,7 @@ public class StreamBuilder {
 
     private void clean() {
         streams.clear();
-        tables.clear();
     }
-
 
     private Joiner makeJoiner(String className)
             throws IllegalAccessException, InstantiationException, ClassNotFoundException {
