@@ -8,6 +8,7 @@ import rb.ks.model.antlr4.Stream;
 import rb.ks.query.compiler.EnricherQLBaseVisitor;
 import rb.ks.query.compiler.EnricherQLParser;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,11 +19,18 @@ public class EnricherQLBaseVisitorImpl extends EnricherQLBaseVisitor {
 
         List<String> selectDimensions = ctx.dimensions().id().stream().map(id -> id.getText()).collect(Collectors.toList());
 
+        if(selectDimensions.isEmpty())
+            selectDimensions = Collections.singletonList("*");
+
         List<Stream> selectInputStreams = ctx.streams().id().stream().map(id -> new Stream(id.getText(), ctx.type().toString().matches("TABLE"))).collect(Collectors.toList());
 
         List<Join> joins = ctx.query_join().stream().map(joinContext -> {
             boolean table = joinContext.type().getText().equals("TABLE");
             List<String> joinDimensions = joinContext.dimensions().id().stream().map(id -> id.getText()).collect(Collectors.toList());
+
+            if(joinDimensions.isEmpty())
+                joinDimensions = Collections.singletonList("*");
+
             String className = joinContext.className().getText();
             String joinStream = joinContext.id().getText();
 
