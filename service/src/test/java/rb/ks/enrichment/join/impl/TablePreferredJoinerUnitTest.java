@@ -8,7 +8,7 @@ import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
-public class TablePreferredJoinerTest {
+public class TablePreferredJoinerUnitTest {
 
     TablePreferredJoiner tablePreferredJoiner;
 
