@@ -1,5 +1,7 @@
 package rb.ks.query.antlr4;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static com.cookingfox.guava_preconditions.Preconditions.checkNotNull;
@@ -8,12 +10,22 @@ public class Query {
 
     Select select;
     List<Join> joins;
+    List<EnrichWith> enrichWiths;
     Stream insertTopic;
 
-    public Query(Select select, List<Join> joins, Stream insertTopic) {
+    public Query(Select select, Stream insertTopic) {
+        this(select, insertTopic, Collections.EMPTY_LIST);
+    }
+
+    public Query(Select select, Stream insertTopic, List<Join> joins) {
+        this(select, insertTopic, joins, Collections.EMPTY_LIST);
+    }
+
+    public Query(Select select, Stream insertTopic, List<Join> joins, List<EnrichWith> enrichWiths) {
         this.select = checkNotNull(select, "SELECT cannot be null");
         this.joins = checkNotNull(joins, "JOINS cannot be null");
         this.insertTopic = checkNotNull(insertTopic, "INSERT cannot be null");
+        this.enrichWiths = checkNotNull(enrichWiths, "ENRICH WITH cannot be null");
     }
 
     public void setSelect(Select newSelect) {
@@ -42,6 +54,14 @@ public class Query {
 
     public Stream getInsert() {
         return insertTopic;
+    }
+
+    public void setEnrichWiths(List<EnrichWith> enrichWiths) {
+        this.enrichWiths = enrichWiths;
+    }
+
+    public List<EnrichWith> getEnrichWiths() {
+        return this.enrichWiths;
     }
 
     public void validate() {

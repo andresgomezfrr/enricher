@@ -1,10 +1,7 @@
 package rb.ks.query;
 
 import org.junit.Test;
-import rb.ks.query.antlr4.Join;
-import rb.ks.query.antlr4.Query;
-import rb.ks.query.antlr4.Select;
-import rb.ks.query.antlr4.Stream;
+import rb.ks.query.antlr4.*;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -59,7 +56,7 @@ public class EnricherCompilerUnitTest {
         assertEquals("rb_input2", joinStream.getName());
         assertFalse(joinStream.isTable());
 
-        String joinerClass = joins.get(0).getJoinerClass();
+        String joinerClass = joins.get(0).getJoinerName();
 
         assertNotNull(joinerClass);
         assertEquals("joiner.package.Class", joinerClass);
@@ -122,7 +119,7 @@ public class EnricherCompilerUnitTest {
         assertEquals("rb_input2", joinStream1.getName());
         assertFalse(joinStream1.isTable());
 
-        String joinerClass1 = joins.get(0).getJoinerClass();
+        String joinerClass1 = joins.get(0).getJoinerName();
 
         assertNotNull(joinerClass1);
         assertEquals("joiner.package.Class1", joinerClass1);
@@ -140,7 +137,7 @@ public class EnricherCompilerUnitTest {
         assertEquals("rb_input3", joinStream2.getName());
         assertTrue(joinStream2.isTable());
 
-        String joinerClass2 = joins.get(1).getJoinerClass();
+        String joinerClass2 = joins.get(1).getJoinerName();
 
         assertNotNull(joinerClass2);
         assertEquals("joiner.pkg1.pkg2.Class2", joinerClass2);
@@ -159,10 +156,92 @@ public class EnricherCompilerUnitTest {
         assertEquals("rb_input4", joinStream3.getName());
         assertFalse(joinStream3.isTable());
 
-        String joinerClass3 = joins.get(2).getJoinerClass();
+        String joinerClass3 = joins.get(2).getJoinerName();
 
         assertNotNull(joinerClass3);
         assertEquals("joiner.Class3", joinerClass3);
+
+        // Insert tests
+        Stream insertObject = query.getInsert();
+
+        assertNotNull(insertObject);
+        assertEquals("rb_output", insertObject.getName());
+        assertTrue(insertObject.isTable());
+
+    }
+
+    @Test
+    public void ShouldParseQueryWithEnrichWithCorrectly() {
+
+        String stringQuery = "SELECT * FROM STREAM rb_input " +
+                "JOIN SELECT a,b FROM STREAM rb_input2 USING joiner.package.Class " +
+                "ENRICH WITH function.configA " +
+                "ENRICH WITH function.configB " +
+                "INSERT INTO TABLE rb_output";
+
+        Query query = EnricherCompiler.parse(stringQuery);
+
+        assertNotNull(query);
+
+        // Select tests
+        Select selectObject = query.getSelect();
+
+        assertNotNull(selectObject);
+
+        List<String> selectDimensions = selectObject.getDimensions();
+
+        assertNotNull(selectDimensions);
+        assertEquals(1, selectDimensions.size());
+        assertEquals(Collections.singletonList("*"), selectDimensions);
+
+        List<Stream> selectStreams = selectObject.getStreams();
+
+        assertNotNull(selectStreams);
+        assertEquals(1, selectStreams.size());
+        assertEquals("rb_input", selectStreams.get(0).getName());
+        assertFalse(selectStreams.get(0).isTable());
+
+        // Joins tests
+        List<Join> joins = query.getJoins();
+
+        assertEquals(1, joins.size());
+
+        List<String> joinDimensions = joins.get(0).getDimensions();
+        assertNotNull(joinDimensions);
+        assertEquals(2, joinDimensions.size());
+        assertEquals(Arrays.asList("a", "b"), joinDimensions);
+
+        Stream joinStream = joins.get(0).getStream();
+
+        assertNotNull(joinStream);
+        assertEquals("rb_input2", joinStream.getName());
+        assertFalse(joinStream.isTable());
+
+        String joinerClass = joins.get(0).getJoinerName();
+
+        assertNotNull(joinerClass);
+        assertEquals("joiner.package.Class", joinerClass);
+
+        // Enrich with tests
+        List<EnrichWith> enrichWiths = query.getEnrichWiths();
+
+        assertNotNull(enrichWiths);
+
+        assertEquals(2, enrichWiths.size());
+
+        EnrichWith enrichWith1 = enrichWiths.get(0);
+
+        assertNotNull(enrichWith1);
+
+        assertEquals("function", enrichWith1.getFunctionName());
+        assertEquals("configA", enrichWith1.getConfigKey());
+
+        EnrichWith enrichWith2 = enrichWiths.get(1);
+
+        assertNotNull(enrichWith2);
+
+        assertEquals("function", enrichWith2.getFunctionName());
+        assertEquals("configB", enrichWith2.getConfigKey());
 
         // Insert tests
         Stream insertObject = query.getInsert();

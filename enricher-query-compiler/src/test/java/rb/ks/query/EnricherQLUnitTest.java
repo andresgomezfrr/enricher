@@ -39,6 +39,18 @@ public class EnricherQLUnitTest {
     }
 
     @Test
+    public void EnricherWithShouldWork() {
+        String query = "ENRICH WITH function.configuration";
+
+        ANTLRInputStream inputStream = new ANTLRInputStream(query);
+        EnricherQLLexer lexer = new EnricherQLLexer(inputStream);
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
+        EnricherQLParser parser = new EnricherQLParser(tokens);
+
+        assertEquals(query.replaceAll("\\s+", ""), parser.query_enrich_with().getText());
+    }
+
+    @Test
     public void SimpleSelectShouldWork() {
 
         String query = "SELECT * FROM STREAM rb_input " +
