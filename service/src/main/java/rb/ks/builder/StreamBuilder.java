@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import rb.ks.builder.config.Config;
 import rb.ks.enrichment.simple.BaseEnrich;
 import rb.ks.enrichment.simple.Enrich;
+import rb.ks.exceptions.EnricherNotFound;
 import rb.ks.exceptions.PlanBuilderException;
 import rb.ks.enrichment.join.Joiner;
 import rb.ks.metrics.MetricsManager;
@@ -14,8 +15,7 @@ import rb.ks.model.PlanModel;
 import rb.ks.query.antlr4.Join;
 import rb.ks.query.antlr4.Select;
 import rb.ks.query.antlr4.Stream;
-import rb.ks.query.exception.JoinerNotFound;
-import rb.ks.query.exception.StreamBuilderException;
+import rb.ks.exceptions.JoinerNotFound;
 
 import java.util.HashMap;
 import java.util.List;
@@ -50,6 +50,7 @@ public class StreamBuilder {
         buildInstances(model);
         addStresms(model, builder);
         addTables(model, builder);
+        addEnriches(model);
         addInserts(model);
 
         return builder;
@@ -136,15 +137,32 @@ public class StreamBuilder {
 
                 KStream<String, Map<String, Object>> stream = streams.get(entry.getKey());
                 Joiner joiner = joiners.get(join.getJoinerName());
-                if(joiner == null) throw new JoinerNotFound("Joiner " + join.getJoinerName() + " not found!");
+                if (joiner == null) throw new JoinerNotFound("Joiner " + join.getJoinerName() + " not found!");
                 stream = stream.leftJoin(table, joiner);
                 streams.put(entry.getKey(), stream);
             });
         });
     }
 
-    private void addEnriches(PlanModel model, KStreamBuilder builder) {
+    private void addEnriches(PlanModel model) {
+        model.getQueries().entrySet().forEach(entry -> {
+            List<String> enrichWiths = entry.getValue().getEnrichWiths();
 
+            enrichWiths.forEach(enrichName -> {
+                KStream<String, Map<String, Object>> stream = streams.get(entry.getKey());
+
+                Enrich enrich = enrichers.get(enrichName);
+                if (enrich == null) throw new EnricherNotFound("Enricher " + enrichName + " not found!");
+
+                if (enrich instanceof BaseEnrich) {
+                    stream = stream.mapValues((BaseEnrich) enrich);
+                } else {
+                    log.error("WTF!! The enrich {} isn't a enrich!", enrichName);
+                }
+
+                streams.put(entry.getKey(), stream);
+            });
+        });
     }
 
     private void addInserts(PlanModel model) {
