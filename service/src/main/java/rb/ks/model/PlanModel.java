@@ -52,8 +52,8 @@ public class PlanModel {
 
     public void validate() throws PlanBuilderException {
 
-        List<String> definedJoiners = this.joiners.stream().map(joiner -> joiner.className).collect(Collectors.toList());
-        List<String> definedEnrichers = this.enrichers.stream().map(enricher -> enricher.className).collect(Collectors.toList());
+        List<String> definedJoiners = this.joiners.stream().map(joiner -> joiner.name).collect(Collectors.toList());
+        List<String> definedEnrichers = this.enrichers.stream().map(enricher -> enricher.name).collect(Collectors.toList());
 
         for(Map.Entry<String, Query> queryEntry : queries.entrySet()) {
             List<String> enrichers = queryEntry.getValue().getEnrichWiths();
