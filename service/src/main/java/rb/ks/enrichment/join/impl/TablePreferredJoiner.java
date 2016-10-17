@@ -9,8 +9,9 @@ public class TablePreferredJoiner  extends Joiner<Map<String, Object>, Map<Strin
 
     @Override
     public Map<String, Object> join(Map<String, Object> stream, Map<String, Object> table) {
-        Map<String, Object> joinerMap = new HashMap<>(stream);
-        joinerMap.putAll(table);
+        Map<String, Object> joinerMap = new HashMap<>();
+        joinerMap.putAll(stream);
+        if (table != null) joinerMap.putAll(table);
         return joinerMap;
     }
 }
