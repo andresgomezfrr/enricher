@@ -15,7 +15,7 @@ public class EnricherCompilerUnitTest {
     public void ShouldParseSimpleQueryCorrectly() {
 
         String stringQuery = "SELECT * FROM STREAM rb_input " +
-                "JOIN SELECT a,b FROM STREAM rb_input2 USING joiner.package.Class " +
+                "JOIN SELECT a,b FROM STREAM rb_input2 USING jClass " +
                 "INSERT INTO TABLE rb_output";
 
         Query query = EnricherCompiler.parse(stringQuery);
@@ -59,7 +59,7 @@ public class EnricherCompilerUnitTest {
         String joinerClass = joins.get(0).getJoinerName();
 
         assertNotNull(joinerClass);
-        assertEquals("joiner.package.Class", joinerClass);
+        assertEquals("jClass", joinerClass);
 
         // Insert tests
         Stream insertObject = query.getInsert();
@@ -74,9 +74,9 @@ public class EnricherCompilerUnitTest {
     public void ShouldParseComplexQueryCorrectly() {
 
         String stringQuery = "SELECT * FROM STREAM rb_input " +
-                "JOIN SELECT a,b,c FROM STREAM rb_input2 USING joiner.package.Class1 " +
-                "JOIN SELECT * FROM TABLE rb_input3 USING joiner.pkg1.pkg2.Class2 " +
-                "JOIN SELECT x,y FROM STREAM rb_input4 USING joiner.Class3 " +
+                "JOIN SELECT a,b,c FROM STREAM rb_input2 USING jClass1 " +
+                "JOIN SELECT * FROM TABLE rb_input3 USING jClass2 " +
+                "JOIN SELECT x,y FROM STREAM rb_input4 USING jClass3 " +
                 "INSERT INTO TABLE rb_output";
 
         Query query = EnricherCompiler.parse(stringQuery);
@@ -122,7 +122,7 @@ public class EnricherCompilerUnitTest {
         String joinerClass1 = joins.get(0).getJoinerName();
 
         assertNotNull(joinerClass1);
-        assertEquals("joiner.package.Class1", joinerClass1);
+        assertEquals("jClass1", joinerClass1);
 
         // Join 2
         List<String> joinDimensions2 = joins.get(1).getDimensions();
@@ -140,7 +140,7 @@ public class EnricherCompilerUnitTest {
         String joinerClass2 = joins.get(1).getJoinerName();
 
         assertNotNull(joinerClass2);
-        assertEquals("joiner.pkg1.pkg2.Class2", joinerClass2);
+        assertEquals("jClass2", joinerClass2);
 
 
         // Join 3
@@ -159,7 +159,7 @@ public class EnricherCompilerUnitTest {
         String joinerClass3 = joins.get(2).getJoinerName();
 
         assertNotNull(joinerClass3);
-        assertEquals("joiner.Class3", joinerClass3);
+        assertEquals("jClass3", joinerClass3);
 
         // Insert tests
         Stream insertObject = query.getInsert();
@@ -174,9 +174,9 @@ public class EnricherCompilerUnitTest {
     public void ShouldParseQueryWithEnrichWithCorrectly() {
 
         String stringQuery = "SELECT * FROM STREAM rb_input " +
-                "JOIN SELECT a,b FROM STREAM rb_input2 USING joiner.package.Class " +
-                "ENRICH WITH pkg1.pkg2.classA " +
-                "ENRICH WITH pkg1.classB " +
+                "JOIN SELECT a,b FROM STREAM rb_input2 USING jClass " +
+                "ENRICH WITH pkg2classA " +
+                "ENRICH WITH pkg1classB " +
                 "INSERT INTO TABLE rb_output";
 
         Query query = EnricherCompiler.parse(stringQuery);
@@ -220,7 +220,7 @@ public class EnricherCompilerUnitTest {
         String joinerClass = joins.get(0).getJoinerName();
 
         assertNotNull(joinerClass);
-        assertEquals("joiner.package.Class", joinerClass);
+        assertEquals("jClass", joinerClass);
 
         // Enrich with tests
         List<String> enrichWiths = query.getEnrichWiths();
@@ -233,13 +233,13 @@ public class EnricherCompilerUnitTest {
 
         assertNotNull(enrichWith1);
 
-        assertEquals("pkg1.pkg2.classA", enrichWith1);
+        assertEquals("pkg2classA", enrichWith1);
 
         String enrichWith2 = enrichWiths.get(1);
 
         assertNotNull(enrichWith2);
 
-        assertEquals("pkg1.classB", enrichWith2);
+        assertEquals("pkg1classB", enrichWith2);
 
         // Insert tests
         Stream insertObject = query.getInsert();

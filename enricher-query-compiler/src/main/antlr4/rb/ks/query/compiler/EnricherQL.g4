@@ -16,7 +16,7 @@ type
 dimensions: (dimWildcard | (id (',' id)*));
 streams: (dimWildcard | (id (',' id)*));
 
-className: ID ('.' ID)*;
+className: ID;
 
 id: ID;
 
