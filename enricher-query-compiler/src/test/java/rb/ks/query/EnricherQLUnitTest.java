@@ -40,7 +40,7 @@ public class EnricherQLUnitTest {
 
     @Test
     public void EnricherWithShouldWork() {
-        String query = "ENRICH WITH function.configuration";
+        String query = "ENRICH WITH pkg1.pkg2.class1";
 
         ANTLRInputStream inputStream = new ANTLRInputStream(query);
         EnricherQLLexer lexer = new EnricherQLLexer(inputStream);
