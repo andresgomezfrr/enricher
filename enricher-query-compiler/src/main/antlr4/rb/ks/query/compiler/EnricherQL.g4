@@ -4,7 +4,7 @@ query: SELECT dimensions FROM type streams (query_join)* (query_enrich_with)* qu
 
 query_join: JOIN SELECT dimensions FROM type id USING className;
 
-query_enrich_with: ENRICH WITH id '.' id;
+query_enrich_with: ENRICH WITH className;
 
 query_output: INSERT INTO type id;
 
