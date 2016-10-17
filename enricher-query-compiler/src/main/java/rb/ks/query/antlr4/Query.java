@@ -10,7 +10,7 @@ public class Query {
 
     Select select;
     List<Join> joins;
-    List<EnrichWith> enrichWiths;
+    List<String> enrichWiths;
     Stream insertTopic;
 
     public Query(Select select, Stream insertTopic) {
@@ -21,7 +21,7 @@ public class Query {
         this(select, insertTopic, joins, Collections.EMPTY_LIST);
     }
 
-    public Query(Select select, Stream insertTopic, List<Join> joins, List<EnrichWith> enrichWiths) {
+    public Query(Select select, Stream insertTopic, List<Join> joins, List<String> enrichWiths) {
         this.select = checkNotNull(select, "SELECT cannot be null");
         this.joins = checkNotNull(joins, "JOINS cannot be null");
         this.insertTopic = checkNotNull(insertTopic, "INSERT cannot be null");
@@ -56,11 +56,11 @@ public class Query {
         return insertTopic;
     }
 
-    public void setEnrichWiths(List<EnrichWith> enrichWiths) {
+    public void setEnrichWiths(List<String> enrichWiths) {
         this.enrichWiths = enrichWiths;
     }
 
-    public List<EnrichWith> getEnrichWiths() {
+    public List<String> getEnrichWiths() {
         return this.enrichWiths;
     }
 
@@ -73,6 +73,8 @@ public class Query {
 
         checkNotNull(insertTopic, "INSERT cannot be null");
         insertTopic.validate();
+
+        checkNotNull(enrichWiths, "ENRICH WITH cannot be null");
     }
 
 }
