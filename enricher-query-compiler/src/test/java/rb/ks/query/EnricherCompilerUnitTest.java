@@ -59,7 +59,7 @@ public class EnricherCompilerUnitTest {
         assertEquals("rb_input2", joinStream.getName());
         assertFalse(joinStream.isTable());
 
-        String joinerClass = joins.get(0).getJoinerClass();
+        String joinerClass = joins.get(0).getJoinerName();
 
         assertNotNull(joinerClass);
         assertEquals("joiner.package.Class", joinerClass);
@@ -122,7 +122,7 @@ public class EnricherCompilerUnitTest {
         assertEquals("rb_input2", joinStream1.getName());
         assertFalse(joinStream1.isTable());
 
-        String joinerClass1 = joins.get(0).getJoinerClass();
+        String joinerClass1 = joins.get(0).getJoinerName();
 
         assertNotNull(joinerClass1);
         assertEquals("joiner.package.Class1", joinerClass1);
@@ -140,7 +140,7 @@ public class EnricherCompilerUnitTest {
         assertEquals("rb_input3", joinStream2.getName());
         assertTrue(joinStream2.isTable());
 
-        String joinerClass2 = joins.get(1).getJoinerClass();
+        String joinerClass2 = joins.get(1).getJoinerName();
 
         assertNotNull(joinerClass2);
         assertEquals("joiner.pkg1.pkg2.Class2", joinerClass2);
@@ -159,7 +159,7 @@ public class EnricherCompilerUnitTest {
         assertEquals("rb_input4", joinStream3.getName());
         assertFalse(joinStream3.isTable());
 
-        String joinerClass3 = joins.get(2).getJoinerClass();
+        String joinerClass3 = joins.get(2).getJoinerName();
 
         assertNotNull(joinerClass3);
         assertEquals("joiner.Class3", joinerClass3);
