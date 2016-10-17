@@ -8,20 +8,44 @@ import rb.ks.query.antlr4.Query;
 
 import java.util.*;
 
+import static com.cookingfox.guava_preconditions.Preconditions.checkNotNull;
+
 public class PlanModel {
     Map<String, Query> queries = new LinkedHashMap<>();
+    List<JoinerModel> joiners = new ArrayList<>();
+    List<EnricherModel> enrichers = new ArrayList<>();
 
     @JsonCreator
-    public PlanModel(@JsonProperty("queries") Map<String, String> queries) {
+    public PlanModel(@JsonProperty("joiners") List<JoinerModel> joiners,
+                     @JsonProperty("queries") Map<String, String> queries,
+                     @JsonProperty("enrichers") List<EnricherModel> enrichers) {
+        checkNotNull(joiners, "joiners cannot be null");
+        checkNotNull(queries, "queries cannot be null");
+
+        this.joiners.addAll(joiners);
+
         queries.forEach((name, queryString) -> {
             Query query = EnricherCompiler.parse(queryString);
             this.queries.put(name, query);
+
         });
+
+        if(enrichers != null) this.enrichers.addAll(enrichers);
     }
 
     @JsonProperty
     public Map<String, Query> getQueries() {
         return queries;
+    }
+
+    @JsonProperty
+    public List<JoinerModel> getJoiners() {
+        return joiners;
+    }
+
+    @JsonProperty
+    public List<EnricherModel> getEnrichers() {
+        return enrichers;
     }
 
     public void validate() throws PlanBuilderException {

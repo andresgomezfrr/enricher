@@ -8,6 +8,7 @@ import rb.ks.query.antlr4.Query;
 import rb.ks.query.antlr4.Select;
 import rb.ks.query.antlr4.Stream;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
@@ -27,37 +28,10 @@ public class PlanModelUnitTest {
 
     @Test
     public void planModelShouldBeBuiltCorrectly() throws IOException {
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        File file = new File(classLoader.getResource("plan-builder.json").getFile());
 
-        StringBuilder stringBuilder = new StringBuilder();
-
-        stringBuilder.append("{\"queries\": ")
-
-                .append("{")
-
-                .append("\"query1\": ")
-                .append("\"SELECT * FROM STREAM rb_input "+
-                        "JOIN SELECT a,b FROM STREAM rb_input2 USING joiner.package.Class " +
-                        "INSERT INTO TABLE rb_output\",")
-
-                .append("\"query2\": ")
-                .append("\"SELECT i,j,k,l FROM STREAM rb_input, rb_input2 " +
-                        "JOIN SELECT a,b,c FROM STREAM rb_input3 USING joiner.package.Class1 " +
-                        "JOIN SELECT * FROM TABLE rb_input4 USING joiner.pkg1.pkg2.Class2 " +
-                        "JOIN SELECT x,y FROM STREAM rb_input5 USING joiner.Class3 " +
-                        "INSERT INTO TABLE rb_output\",")
-
-                .append("\"query3\": ")
-                .append("\"SELECT * FROM TABLE rb_input " +
-                        "JOIN SELECT a,b,c FROM TABLE rb_input2 USING joiner.package.Class1 " +
-                        "JOIN SELECT * FROM STREAM rb_input3 USING joiner.Class2 " +
-                        "INSERT INTO STREAM rb_output\"")
-
-                .append("}")
-                .append("}");
-
-        String jsonQuery = stringBuilder.toString();
-
-        PlanModel planModel = mapper.readValue(jsonQuery, PlanModel.class);
+        PlanModel planModel = mapper.readValue(file, PlanModel.class);
 
         assertNotNull(planModel);
 
@@ -116,7 +90,7 @@ public class PlanModelUnitTest {
         String join1_1ClassName = join1_1.getJoinerClass();
 
         assertNotNull(join1_1ClassName);
-        assertEquals("joiner.package.Class", join1_1ClassName);
+        assertEquals("joiner", join1_1ClassName);
 
         // ********************************************** Query1: Insert *********************************************//
         Stream insert1_1 = query1.getInsert();
@@ -175,7 +149,7 @@ public class PlanModelUnitTest {
         String join2_1ClassName = join2_1.getJoinerClass();
 
         assertNotNull(join2_1ClassName);
-        assertEquals("joiner.package.Class1", join2_1ClassName);
+        assertEquals("joiner1", join2_1ClassName);
 
         // Join2.2
         Join join2_2 = joins2_1.get(1);
@@ -196,7 +170,7 @@ public class PlanModelUnitTest {
         String join2_2ClassName = join2_2.getJoinerClass();
 
         assertNotNull(join2_2ClassName);
-        assertEquals("joiner.pkg1.pkg2.Class2", join2_2ClassName);
+        assertEquals("joinerPkg2Class2", join2_2ClassName);
 
         // Join2.3
         Join join2_3 = joins2_1.get(2);
@@ -271,7 +245,7 @@ public class PlanModelUnitTest {
         String join3_1ClassName = join3_1.getJoinerClass();
 
         assertNotNull(join3_1ClassName);
-        assertEquals("joiner.package.Class1", join3_1ClassName);
+        assertEquals("joiner1", join3_1ClassName);
 
         Join join3_2 = joins3_1.get(1);
 
@@ -289,7 +263,7 @@ public class PlanModelUnitTest {
         String join3_2ClassName = join3_2.getJoinerClass();
 
         assertNotNull(join3_2ClassName);
-        assertEquals("joiner.Class2", join3_2ClassName);
+        assertEquals("jClass2", join3_2ClassName);
 
         // ********************************************** Query3: Insert *********************************************//
         Stream insert3_1 = query3.getInsert();
