@@ -26,7 +26,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 import static org.apache.kafka.streams.StreamsConfig.APPLICATION_ID_CONFIG;
 import static org.junit.Assert.assertEquals;
@@ -150,28 +149,6 @@ public class KafkaBootstraperChangeConfigIntegrationTest {
 
         assertEquals(Collections.singletonList(expectedDataKv1), receivedMessagesFromOutput1);
 
-        log.info("\n" +
-                "\n" +
-                "\n\n" +
-                "\n" +
-                "\n\n" +
-                "\n" +
-                "\n\n" +
-                "\n" +
-                "\n\n" +
-                "\n" +
-                "\n\n" +
-                "\n" +
-                "\nSECOND CONFIGURATION--------------------------------------\n" +
-                "\n" +
-                "\n\n" +
-                "\n" +
-                "\n\n" +
-                "\n" +
-                "\n\n" +
-                "\n" +
-                "\n");
-
         // Second configuration
 
         file = new File(classLoader.getResource("kafka-bootstraper-integration-test-2.json").getFile());
@@ -189,8 +166,6 @@ public class KafkaBootstraperChangeConfigIntegrationTest {
         List<KeyValue<String, String>> receivedMessagesFromConfig2 = IntegrationTestUtils.waitUntilMinValuesRecordsReceived(consumerConfig, BOOTSTRAP_TOPIC, 1);
 
         assertEquals(Collections.singletonList(jsonConfig2), receivedMessagesFromConfig2);
-
-        TimeUnit.SECONDS.sleep(15);
 
         Map<String, Object> message4 = new HashMap<>();
         message4.put("a", 1);
@@ -233,12 +208,11 @@ public class KafkaBootstraperChangeConfigIntegrationTest {
 
         consumerConfig.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
 
-        TimeUnit.SECONDS.sleep(15);
-
         List<KeyValue<String, Map>> receivedMessagesFromOutput2 = IntegrationTestUtils.waitUntilMinKeyValueRecordsReceived(consumerConfig, OUTPUT_TOPIC, 1);
 
         assertEquals(Collections.singletonList(expectedDataKv2), receivedMessagesFromOutput2);
 
+        builder.close();
     }
 
 

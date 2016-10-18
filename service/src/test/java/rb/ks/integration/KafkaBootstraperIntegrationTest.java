@@ -121,6 +121,8 @@ public class KafkaBootstraperIntegrationTest {
 
         KeyValue<String, Map<String, Object>> kvStream3 = new KeyValue<>("KEY_A", message3);
 
+        producerConfig.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+
         IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_TABLE_1_TOPIC, Arrays.asList(kvStream2), producerConfig);
 
         IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_TABLE_2_TOPIC, Arrays.asList(kvStream3), producerConfig);
@@ -141,7 +143,7 @@ public class KafkaBootstraperIntegrationTest {
 
         assertEquals(Collections.singletonList(expectedDataKv), receivedMessagesFromOutput);
 
-
+        builder.close();
     }
 
     @AfterClass
