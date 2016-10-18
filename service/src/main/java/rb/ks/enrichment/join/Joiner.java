@@ -1,6 +1,7 @@
 package rb.ks.enrichment.join;
 
 import org.apache.kafka.streams.kstream.ValueJoiner;
+
 import java.util.Map;
 
 public abstract class Joiner<V1, V2> implements

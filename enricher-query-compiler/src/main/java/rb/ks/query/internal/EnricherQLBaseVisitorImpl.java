@@ -1,6 +1,9 @@
 package rb.ks.query.internal;
 
-import rb.ks.query.antlr4.*;
+import rb.ks.query.antlr4.Join;
+import rb.ks.query.antlr4.Query;
+import rb.ks.query.antlr4.Select;
+import rb.ks.query.antlr4.Stream;
 import rb.ks.query.compiler.EnricherQLBaseVisitor;
 import rb.ks.query.compiler.EnricherQLParser;
 
