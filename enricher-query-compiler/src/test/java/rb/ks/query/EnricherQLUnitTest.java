@@ -25,7 +25,20 @@ public class EnricherQLUnitTest {
     }
 
     @Test
-    public void JoinShouldWork() {
+    public void JoinWithByKeyShouldWork() {
+        String query = "JOIN SELECT * FROM TABLE rb_input BY rb_key USING jClass";
+
+        ANTLRInputStream inputStream = new ANTLRInputStream(query);
+        EnricherQLLexer lexer = new EnricherQLLexer(inputStream);
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
+        EnricherQLParser parser = new EnricherQLParser(tokens);
+
+        assertEquals(query.replaceAll("\\s+", ""), parser.query_join().getText());
+
+    }
+
+    @Test
+    public void JoinWithoutByKeyShouldWork() {
 
         String query = "JOIN SELECT * FROM STREAM rb_input USING jClass";
 
