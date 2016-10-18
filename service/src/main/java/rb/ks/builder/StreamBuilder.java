@@ -95,7 +95,7 @@ public class StreamBuilder {
 
             List<String> dimensions = selectQuery.getDimensions();
             if (!dimensions.contains("*")) {
-                stream = stream.map((key, value) -> {
+                stream = stream.mapValues(value -> {
                     Map<String, Object> filterValue = new HashMap<>();
 
                     dimensions.forEach(dim -> {
@@ -104,7 +104,7 @@ public class StreamBuilder {
                         }
                     });
 
-                    return new KeyValue<>(key, filterValue);
+                    return filterValue;
                 });
             }
 
