@@ -1,5 +1,5 @@
 {
-  "application.id": "ks-normalizer-app-id",
+  "application.id": "ks-enricher-app-id",
   "bootstrap.servers": "localhost:9092",
   "zookeeper.connect": "localhost:2181",
   "num.stream.threads": 1,

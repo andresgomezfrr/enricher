@@ -37,6 +37,14 @@
             </includes>
         </fileSet>
 
+        <fileSet>
+            <directory>${project.parent.basedir}/extensions/target/dependencies</directory>
+            <outputDirectory>lib</outputDirectory>
+            <includes>
+                <include>*.jar</include>
+            </includes>
+        </fileSet>
+
     </fileSets>
 
     <files>
