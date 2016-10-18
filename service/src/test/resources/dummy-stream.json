@@ -1,0 +1,11 @@
+{
+  "joiners":[
+    {"name":"dummyName", "className":"dummy.Class"}
+  ],
+  "enrichers":[
+    {"name":"dummyName", "className":"dummy.Class"}
+  ],
+  "queries": {
+    "query1": "SELECT * FROM STREAM dummy_topic INSERT INTO TABLE dummy_topic"
+  }
+}
