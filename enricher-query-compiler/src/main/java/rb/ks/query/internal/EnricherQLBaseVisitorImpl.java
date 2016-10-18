@@ -34,8 +34,16 @@ public class EnricherQLBaseVisitorImpl extends EnricherQLBaseVisitor {
 
             String className = joinContext.className().getText();
             String joinStream = joinContext.id().getText();
+            String key;
 
-            return new Join(new Stream(joinStream, table), className, joinDimensions);
+            EnricherQLParser.KeyContext keyContext = joinContext.key();
+
+            if(keyContext != null)
+                key = keyContext.getText();
+            else
+                key = "__KEY";
+
+            return new Join(new Stream(joinStream, table), className, joinDimensions, key);
         }).collect(Collectors.toList());
 
         List<String> enrichWiths = ctx.query_enrich_with().stream().map(enrichContext -> new String(enrichContext.className().getText())).collect(Collectors.toList());
