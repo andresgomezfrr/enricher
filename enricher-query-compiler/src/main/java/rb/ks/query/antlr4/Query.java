@@ -1,6 +1,5 @@
 package rb.ks.query.antlr4;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
