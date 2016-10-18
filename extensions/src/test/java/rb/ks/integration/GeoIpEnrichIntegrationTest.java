@@ -114,9 +114,7 @@ public class GeoIpEnrichIntegrationTest {
         jsonMap.put("enrichers", Collections.singletonList(geoIpEnricher));
         jsonMap.put("queries", queries);
 
-        String jsonConfig = mapper.writeValueAsString(jsonMap);
-
-        KeyValue<String, String> jsonConfigKv = new KeyValue<>(appId, jsonConfig);
+        KeyValue<String, String> jsonConfigKv = new KeyValue<>(appId, mapper.writeValueAsString(jsonMap));
 
         producerConfig.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
 
