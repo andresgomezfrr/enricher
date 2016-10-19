@@ -14,4 +14,4 @@ do
     CLASSPATH=${CLASSPATH}:${file}
 done
 
-java -cp ${CLASSPATH} rb.ks.Enricher $1
+java -cp ${CLASSPATH} zz.ks.Enricher $1
