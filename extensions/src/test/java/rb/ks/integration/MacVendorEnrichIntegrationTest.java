@@ -93,7 +93,7 @@ public class MacVendorEnrichIntegrationTest {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 
         Map<String, Object> macVendorProperties = new HashMap<>();
-        macVendorProperties.put("oui.file.path", ClassLoader.getSystemResource("mac_vendors").getPath());
+        macVendorProperties.put("oui.file.path", classLoader.getSystemResource("mac_vendors").getPath());
 
 
         Map<String, Object> geoIpEnricher = new HashMap<>();
