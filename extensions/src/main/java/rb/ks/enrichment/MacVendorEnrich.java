@@ -21,7 +21,8 @@ public class MacVendorEnrich extends BaseEnrich {
 
     @Override
     public void prepare(Map<String, Object> properties, MetricsManager metricsManager) {
-        ouiFilePath = properties.containsKey("oui.file.path") ? String.valueOf(properties.get("oui.file.path")) : "/opt/rb/etc/objects/mac_vendors";
+
+        ouiFilePath = String.valueOf(properties.getOrDefault("oui.file.path", "/opt/etc/objects/mac_vendors"));
         ouiMap = new HashMap<>();
 
         InputStream in = null;
