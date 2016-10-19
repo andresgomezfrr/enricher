@@ -11,7 +11,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static rb.ks.query.utils.Constants.__KEY;
+import static zz.ks.query.utils.Constants.__KEY;
 
 public class EnricherQLBaseVisitorImpl extends EnricherQLBaseVisitor {
 
