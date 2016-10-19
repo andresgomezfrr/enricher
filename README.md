@@ -1,0 +1,2 @@
+# enricher
+Kafka Streams Enricher
