@@ -3,8 +3,8 @@
   "bootstrap.servers": "localhost:9092",
   "zookeeper.connect": "localhost:2181",
   "num.stream.threads": 1,
-  "bootstraper.classname": "rb.ks.builder.bootstrap.KafkaBootstraper",
+  "bootstraper.classname": "zz.ks.builder.bootstrap.KafkaBootstraper",
   "metric.enable": true,
-  "metric.listeners": ["rb.ks.metrics.ConsoleMetricListener"],
+  "metric.listeners": ["zz.ks.metrics.ConsoleMetricListener"],
   "metric.interval": 60000
 }
