@@ -5,20 +5,29 @@ import java.util.List;
 
 import static com.cookingfox.guava_preconditions.Preconditions.checkNotNull;
 
+import static zz.ks.query.utils.Constants.__KEY;
+
 public class Join {
 
     List<String> dimensions;
     Stream topic;
     String joinerName;
+    String partitionKey;
 
     public Join(Stream topic, String joinerName) {
         this(topic, joinerName, Collections.EMPTY_LIST);
     }
 
     public Join(Stream topic, String joinerName, List<String> dimensions) {
+        this(topic, joinerName, dimensions, __KEY);
+    }
+
+    public Join(Stream topic, String joinerName, List<String> dimensions, String partitionKey) {
         this.topic = checkNotNull(topic, "<topic> attribute is required");
         this.joinerName = checkNotNull(joinerName, "<joinerName> attribute is required");
-        this.dimensions = checkNotNull(dimensions, "<dimensions> is required");    }
+        this.dimensions = checkNotNull(dimensions, "<dimensions> is required");
+        this.partitionKey = checkNotNull(partitionKey, "<partitionKey> is required");
+    }
 
     public void setStream(Stream stream) {
         topic = stream;
@@ -42,6 +51,14 @@ public class Join {
 
     public String getJoinerName() {
         return joinerName;
+    }
+
+    public void setPartitionKey(String newPartitionKey) {
+        partitionKey = newPartitionKey;
+    }
+
+    public String getPartitionKey() {
+        return partitionKey;
     }
 
     public void validate() {
