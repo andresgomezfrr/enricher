@@ -128,7 +128,7 @@ public class StreamBuilder {
                 if (!join.getStream().isTable()) {
                     log.warn("Join beetween stream isn't supported yet! The join is changed to use stream-table join");
                 }
-                KTable<String, Map<String, Object>> table = builder.table(tableName);
+                KTable<String, Map<String, Object>> table = builder.table(tableName, String.format("%s_%s", appId, tableName));
 
                 List<String> dimensions = join.getDimensions();
                 if (!dimensions.contains("*")) {

@@ -1,12 +1,13 @@
 package zz.ks.integration;
 
+import kafka.utils.MockTime;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.StreamsConfig;
-import org.apache.kafka.streams.integration.utils.EmbeddedSingleNodeKafkaCluster;
+import org.apache.kafka.streams.integration.utils.EmbeddedKafkaCluster;
 import org.apache.kafka.streams.integration.utils.IntegrationTestUtils;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -29,11 +30,11 @@ import static org.junit.Assert.assertEquals;
 import static zz.ks.builder.config.Config.ConfigProperties.BOOTSTRAPER_CLASSNAME;
 
 public class QueryableJoinsIntegrationTest {
-
+    private final static int NUM_BROKERS = 1;
 
     @ClassRule
-    public static final EmbeddedSingleNodeKafkaCluster CLUSTER = new EmbeddedSingleNodeKafkaCluster();
-
+    public static EmbeddedKafkaCluster CLUSTER = new EmbeddedKafkaCluster(NUM_BROKERS);
+    private final static MockTime MOCK_TIME = CLUSTER.time;
     private static final int REPLICATION_FACTOR = 1;
 
     private static final String INPUT_FLOW_TOPIC = "flow";
@@ -105,9 +106,9 @@ public class QueryableJoinsIntegrationTest {
 
         KeyValue<String, Map<String, Object>> kvLocMessage = new KeyValue<>("MAC_A", locMessage);
 
-        IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_LOCATION_TOPIC, Collections.singletonList(kvLocMessage), producerConfig);
+        IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_LOCATION_TOPIC, Collections.singletonList(kvLocMessage), producerConfig, MOCK_TIME);
 
-        IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_FLOW_TOPIC, Collections.singletonList(kvIpMessage), producerConfig);
+        IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_FLOW_TOPIC, Collections.singletonList(kvIpMessage), producerConfig, MOCK_TIME);
 
         Map<String, Object> expectedData = new HashMap<>();
         expectedData.put("ip", "1.2.3.4");
@@ -137,11 +138,11 @@ public class QueryableJoinsIntegrationTest {
 
         KeyValue<String, Map<String, Object>> kvRepMessage = new KeyValue<>("MAC_A", repMessage);
 
-        IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_REPUTATION_TOPIC, Collections.singletonList(kvRepMessage), producerConfig);
+        IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_REPUTATION_TOPIC, Collections.singletonList(kvRepMessage), producerConfig, MOCK_TIME);
 
-        IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_LOCATION_TOPIC, Collections.singletonList(kvLocMessage), producerConfig);
+        IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_LOCATION_TOPIC, Collections.singletonList(kvLocMessage), producerConfig, MOCK_TIME);
 
-        IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_FLOW_TOPIC, Collections.singletonList(kvIpMessage), producerConfig);
+        IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_FLOW_TOPIC, Collections.singletonList(kvIpMessage), producerConfig, MOCK_TIME);
 
         receivedMessagesFromOutput = IntegrationTestUtils.waitUntilMinKeyValueRecordsReceived(consumerConfig, OUTPUT_TOPIC, 1);
 

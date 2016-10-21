@@ -1,11 +1,12 @@
 package zz.ks.integration;
 
+import kafka.utils.MockTime;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.StreamsConfig;
-import org.apache.kafka.streams.integration.utils.EmbeddedSingleNodeKafkaCluster;
+import org.apache.kafka.streams.integration.utils.EmbeddedKafkaCluster;
 import org.apache.kafka.streams.integration.utils.IntegrationTestUtils;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -22,10 +23,10 @@ import static org.junit.Assert.assertTrue;
 import static zz.ks.builder.config.Config.ConfigProperties.BOOTSTRAPER_CLASSNAME;
 
 public class KafkaMetricListenerIntegrationTest {
-
+    private final static int NUM_BROKERS = 1;
 
     @ClassRule
-    public static final EmbeddedSingleNodeKafkaCluster CLUSTER = new EmbeddedSingleNodeKafkaCluster();
+    public static EmbeddedKafkaCluster CLUSTER = new EmbeddedKafkaCluster(NUM_BROKERS);
 
     private static final int REPLICATION_FACTOR = 1;
 
