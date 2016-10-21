@@ -1,0 +1,10 @@
+{
+  "joiners":[
+    {"name":"joinerStream", "className":"zz.ks.enrichment.join.impl.StreamPreferredJoiner"},
+    {"name":"joinerTable", "className":"zz.ks.enrichment.join.impl.TablePreferredJoiner"}
+  ],
+  "queries": {
+    "query1": "SELECT a,b,c FROM STREAM stream1 JOIN SELECT u,v FROM TABLE stream2 BY b USING joinerStream INSERT INTO STREAM output1",
+    "query2": "SELECT * FROM STREAM output1 JOIN SELECT k FROM TABLE table1 BY u USING joinerStream INSERT INTO STREAM output2"
+  }
+}
