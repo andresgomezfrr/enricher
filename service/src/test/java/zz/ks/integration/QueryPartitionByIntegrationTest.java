@@ -122,30 +122,22 @@ public class QueryPartitionByIntegrationTest {
         IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_STREAM_2_TOPIC, Collections.singletonList(kvStream2), producerConfig);
 
         List<KeyValue<String, Map>> receivedMessage = IntegrationTestUtils.waitUntilMinKeyValueRecordsReceived(consumerConfig, INPUT_STREAM_2_TOPIC, 1);
-        System.out.println(receivedMessage);
 
         assertEquals(Collections.singletonList(kvStream2), receivedMessage);
-
-
 
 
         IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_TABLE_1_TOPIC, Collections.singletonList(kvStream3), producerConfig);
 
         receivedMessage = IntegrationTestUtils.waitUntilMinKeyValueRecordsReceived(consumerConfig, INPUT_TABLE_1_TOPIC, 1);
-        System.out.println(receivedMessage);
 
         assertEquals(Collections.singletonList(kvStream3), receivedMessage);
-
-
 
 
         IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_STREAM_1_TOPIC, Collections.singletonList(kvStream1), producerConfig);
 
         receivedMessage = IntegrationTestUtils.waitUntilMinKeyValueRecordsReceived(consumerConfig, INPUT_STREAM_1_TOPIC, 1);
-        System.out.println(receivedMessage);
 
         assertEquals(Collections.singletonList(kvStream1), receivedMessage);
-
 
 
         Map<String, Object> expectedData1 = new HashMap<>();
@@ -159,7 +151,6 @@ public class QueryPartitionByIntegrationTest {
 
 
         receivedMessage = IntegrationTestUtils.waitUntilMinKeyValueRecordsReceived(consumerConfig, OUTPUT_1_TOPIC, 1);
-        System.out.println(receivedMessage);
 
         assertEquals(Collections.singletonList(expectedKvMessage1), receivedMessage);
 
@@ -173,7 +164,6 @@ public class QueryPartitionByIntegrationTest {
         expectedData2.put("k", "VALUE_K");
 
         receivedMessage = IntegrationTestUtils.waitUntilMinKeyValueRecordsReceived(consumerConfig, OUTPUT_2_TOPIC, 1);
-        System.out.println(receivedMessage);
 
         KeyValue<String, Map<String, Object>> expectedKvMessage2 = new KeyValue<>("VALUE_U", expectedData2);
 
