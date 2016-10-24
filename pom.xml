@@ -10,6 +10,11 @@
 
     <packaging>pom</packaging>
 
+    <scm>
+        <developerConnection>scm:git:git@github.com:wizzie-io/enricher.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+
     <modules>
         <module>service</module>
         <module>enricher-query-compiler</module>
