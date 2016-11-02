@@ -8,7 +8,7 @@
 
     <parent>
         <artifactId>enricher</artifactId>
-        <groupId>zz.ks</groupId>
+        <groupId>zz.ks.enricher</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
