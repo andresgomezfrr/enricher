@@ -4,9 +4,22 @@
 
     <groupId>zz.ks</groupId>
     <artifactId>enricher</artifactId>
-    <version>0.0.1-rc2-SNAPSHOT</version>
+    <version>0.0.1-SNAPSHOT</version>
 
     <packaging>pom</packaging>
+
+    <distributionManagement>
+        <repository>
+            <id>wizzie-release</id>
+            <name>Wizzie Release Repository</name>
+            <url>s3://wizzie-mvn-repo/release</url>
+        </repository>
+        <snapshotRepository>
+            <id>wizzie-snapshot</id>
+            <name>Wizzie Snapshot Repository</name>
+            <url>s3://wizzie-mvn-repo/snapshot</url>
+        </snapshotRepository>
+    </distributionManagement>
 
     <scm>
         <developerConnection>scm:git:git@github.com:wizzie-io/enricher.git</developerConnection>
@@ -40,6 +53,14 @@
     </profiles>
 
     <build>
+        <extensions>
+            <extension>
+                <groupId>org.springframework.build</groupId>
+                <artifactId>aws-maven</artifactId>
+                <version>5.0.0.RELEASE</version>
+            </extension>
+        </extensions>
+
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
