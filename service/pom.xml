@@ -109,7 +109,7 @@
                             <appendAssemblyId>false</appendAssemblyId>
                             <archive>
                                 <manifest>
-                                    <mainClass>io.wizzie.ks.Enricher</mainClass>
+                                    <mainClass>io.wizzie.ks.enricher.Enricher</mainClass>
                                 </manifest>
                             </archive>
                         </configuration>

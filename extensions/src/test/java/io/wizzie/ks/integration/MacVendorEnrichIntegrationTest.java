@@ -1,11 +1,11 @@
-package io.wizzie.ks.integration;
+package io.wizzie.ks.enricher.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.wizzie.ks.builder.Builder;
-import io.wizzie.ks.builder.config.Config;
-import io.wizzie.ks.serializers.JsonDeserializer;
-import io.wizzie.ks.serializers.JsonSerde;
-import io.wizzie.ks.serializers.JsonSerializer;
+import io.wizzie.ks.enricher.builder.Builder;
+import io.wizzie.ks.enricher.builder.config.Config;
+import io.wizzie.ks.enricher.serializers.JsonDeserializer;
+import io.wizzie.ks.enricher.serializers.JsonSerde;
+import io.wizzie.ks.enricher.serializers.JsonSerializer;
 import kafka.utils.MockTime;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -27,9 +27,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
-import static io.wizzie.ks.builder.config.Config.ConfigProperties.BOOTSTRAPER_CLASSNAME;
-import static io.wizzie.ks.enrichment.utils.Constants.__CLIENT_MAC;
-import static io.wizzie.ks.enrichment.utils.Constants.__CLIENT_MAC_VENDOR;
+import static io.wizzie.ks.enricher.builder.config.Config.ConfigProperties.BOOTSTRAPER_CLASSNAME;
+import static io.wizzie.ks.enricher.enrichment.utils.Constants.__CLIENT_MAC;
+import static io.wizzie.ks.enricher.enrichment.utils.Constants.__CLIENT_MAC_VENDOR;
 import static org.apache.kafka.streams.StreamsConfig.APPLICATION_ID_CONFIG;
 import static org.junit.Assert.assertEquals;
 
@@ -91,7 +91,7 @@ public class MacVendorEnrichIntegrationTest {
         streamsConfiguration.put(StreamsConfig.NUM_STREAM_THREADS_CONFIG, 1);
 
         Config configuration = new Config(streamsConfiguration);
-        configuration.put(BOOTSTRAPER_CLASSNAME, "io.wizzie.ks.builder.bootstrap.KafkaBootstraper");
+        configuration.put(BOOTSTRAPER_CLASSNAME, "io.wizzie.ks.enricher.builder.bootstrap.KafkaBootstraper");
 
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 
@@ -101,7 +101,7 @@ public class MacVendorEnrichIntegrationTest {
 
         Map<String, Object> geoIpEnricher = new HashMap<>();
         geoIpEnricher.put("name", "macVendor");
-        geoIpEnricher.put("className", "io.wizzie.ks.enrichment.MacVendorEnrich");
+        geoIpEnricher.put("className", "io.wizzie.ks.enricher.enrichment.MacVendorEnrich");
         geoIpEnricher.put("properties", macVendorProperties);
 
         Map<String, Object> queries = new HashMap<>();

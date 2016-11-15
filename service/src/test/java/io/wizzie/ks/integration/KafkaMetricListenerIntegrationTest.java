@@ -1,9 +1,9 @@
-package io.wizzie.ks.integration;
+package io.wizzie.ks.enricher.integration;
 
-import io.wizzie.ks.builder.Builder;
-import io.wizzie.ks.builder.config.Config;
-import io.wizzie.ks.serializers.JsonDeserializer;
-import io.wizzie.ks.serializers.JsonSerde;
+import io.wizzie.ks.enricher.builder.Builder;
+import io.wizzie.ks.enricher.builder.config.Config;
+import io.wizzie.ks.enricher.serializers.JsonDeserializer;
+import io.wizzie.ks.enricher.serializers.JsonSerde;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -18,7 +18,7 @@ import org.junit.Test;
 
 import java.util.*;
 
-import static io.wizzie.ks.builder.config.Config.ConfigProperties.BOOTSTRAPER_CLASSNAME;
+import static io.wizzie.ks.enricher.builder.config.Config.ConfigProperties.BOOTSTRAPER_CLASSNAME;
 import static org.junit.Assert.assertTrue;
 
 public class KafkaMetricListenerIntegrationTest {
@@ -56,10 +56,10 @@ public class KafkaMetricListenerIntegrationTest {
 
         Config config = new Config(streamsConfiguration);
         config.put("metric.interval", 2000);
-        config.put("metric.listeners", Collections.singletonList("io.wizzie.ks.metrics.KafkaMetricListener"));
+        config.put("metric.listeners", Collections.singletonList("io.wizzie.ks.enricher.metrics.KafkaMetricListener"));
         config.put("metric.enable", true);
         config.put("file.bootstraper.path", Thread.currentThread().getContextClassLoader().getResource("dummy-stream.json").getFile());
-        config.put(BOOTSTRAPER_CLASSNAME, "io.wizzie.ks.builder.bootstrap.FileBootstraper");
+        config.put(BOOTSTRAPER_CLASSNAME, "io.wizzie.ks.enricher.builder.bootstrap.FileBootstraper");
 
         Builder builder = new Builder(config);
 
