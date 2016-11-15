@@ -1,6 +1,6 @@
 FROM java:openjdk-8-jre
 
-MAINTAINER info@redborder.com
+MAINTAINER agomez@wizzie.io
 
 RUN apt-get update
 RUN apt-get install -y gettext-base
