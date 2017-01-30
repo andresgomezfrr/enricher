@@ -1,4 +1,4 @@
-package io.wizzie.ks.integration;
+package io.wizzie.ks.enricher.integration;
 
 import io.wizzie.ks.enricher.builder.Builder;
 import io.wizzie.ks.enricher.builder.config.Config;
