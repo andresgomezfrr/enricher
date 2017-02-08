@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
-envsubst < /alloc/var/enricher/config/config_env.json > /alloc/var/enricher/config/config.json
-/alloc/var/enricher/bin/enricher-start.sh /alloc/var/enricher/config/config.json
+envsubst < /opt/enricher/config/config_env.json > /opt/enricher/config/config.json
+/opt/enricher/bin/enricher-start.sh /opt/enricher/config/config.json
