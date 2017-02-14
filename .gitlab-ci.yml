@@ -1,0 +1,9 @@
+image: java-runner-docker
+stages:
+  - test
+mvn-test:
+  stage: test
+  script:
+    - mvn clean package
+  tags:
+    - java
