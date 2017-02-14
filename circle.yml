@@ -9,3 +9,5 @@ test:
   post:
     - mvn package -Dmaven.test.skip=true -P dist
     - cp distribution/target/enricher-dist.tar.gz $CIRCLE_ARTIFACTS/
+    - mkdir -p $CIRCLE_TEST_REPORTS/junit/
+    - find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
