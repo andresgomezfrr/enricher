@@ -1,4 +1,4 @@
-package rb.ks.join;
+package rb.ks.enrichment.join;
 
 import org.apache.kafka.streams.kstream.ValueJoiner;
 import org.omg.CORBA.Object;
