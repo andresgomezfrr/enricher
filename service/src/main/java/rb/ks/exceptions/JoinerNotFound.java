@@ -1,4 +1,4 @@
-package rb.ks.query.exception;
+package rb.ks.exceptions;
 
 public class JoinerNotFound extends StreamBuilderException {
     public JoinerNotFound(String message) {
