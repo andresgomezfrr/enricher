@@ -29,12 +29,14 @@ public class PlanModelUnitTest {
     }
 
     @Test
-    public void planModelShouldBeBuiltCorrectly() throws IOException {
+    public void planModelShouldBeBuiltCorrectly() throws IOException, PlanBuilderException {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         File file = new File(classLoader.getResource("plan-builder.json").getFile());
         PlanModel planModel = mapper.readValue(file, PlanModel.class);
 
         assertNotNull(planModel);
+
+        planModel.validate();
 
         Map<String, Query> queries = planModel.getQueries();
 
@@ -92,6 +94,16 @@ public class PlanModelUnitTest {
 
         assertNotNull(join1_1ClassName);
         assertEquals("joiner", join1_1ClassName);
+
+        // ********************************************** Query1: Enrich *********************************************//
+
+        List<String> enrichers = query1.getEnrichWiths();
+
+        assertNotNull(enrichers);
+
+        String enricher = enrichers.get(0);
+        assertNotNull(enricher);
+        assertEquals("enricher", enricher);
 
         // ********************************************** Query1: Insert *********************************************//
         Stream insert1_1 = query1.getInsert();
@@ -192,7 +204,17 @@ public class PlanModelUnitTest {
         String join2_3ClassName = join2_3.getJoinerName();
 
         assertNotNull(join2_3ClassName);
-        assertEquals("joiner.Class3", join2_3ClassName);
+        assertEquals("jClass3", join2_3ClassName);
+
+        // ********************************************** Query2: Enrich *********************************************//
+
+        List<String> enrichers2 = query2.getEnrichWiths();
+
+        assertNotNull(enrichers2);
+
+        String enricher2_1 = enrichers2.get(0);
+        assertNotNull(enricher2_1);
+        assertEquals("enricher1", enricher2_1);
 
         // ********************************************** Query2: Insert *********************************************//
         Stream insert2_1 = query2.getInsert();
@@ -265,6 +287,17 @@ public class PlanModelUnitTest {
 
         assertNotNull(join3_2ClassName);
         assertEquals("jClass2", join3_2ClassName);
+
+        // ********************************************** Query1: Enrich *********************************************//
+
+        List<String> enrichers3 = query3.getEnrichWiths();
+
+        assertNotNull(enrichers3);
+
+        String enricher3_1 = enrichers3.get(0);
+        assertNotNull(enricher3_1);
+        assertEquals("enricherPkg1Class2", enricher3_1);
+
 
         // ********************************************** Query3: Insert *********************************************//
         Stream insert3_1 = query3.getInsert();

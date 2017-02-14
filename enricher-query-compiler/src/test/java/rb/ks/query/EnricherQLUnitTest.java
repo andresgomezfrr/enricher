@@ -27,7 +27,7 @@ public class EnricherQLUnitTest {
     @Test
     public void JoinShouldWork() {
 
-        String query = "JOIN SELECT * FROM STREAM rb_input USING joiner.package.Class";
+        String query = "JOIN SELECT * FROM STREAM rb_input USING jClass";
 
         ANTLRInputStream inputStream = new ANTLRInputStream(query);
         EnricherQLLexer lexer = new EnricherQLLexer(inputStream);
@@ -40,7 +40,7 @@ public class EnricherQLUnitTest {
 
     @Test
     public void EnricherWithShouldWork() {
-        String query = "ENRICH WITH pkg1.pkg2.class1";
+        String query = "ENRICH WITH pclass1";
 
         ANTLRInputStream inputStream = new ANTLRInputStream(query);
         EnricherQLLexer lexer = new EnricherQLLexer(inputStream);
@@ -54,7 +54,7 @@ public class EnricherQLUnitTest {
     public void SimpleSelectShouldWork() {
 
         String query = "SELECT * FROM STREAM rb_input " +
-                "JOIN SELECT a,b FROM STREAM rb_input2 USING joiner.package.Class " +
+                "JOIN SELECT a,b FROM STREAM rb_input2 USING jpackageClass " +
                 "INSERT INTO STREAM rb_output";
 
         ANTLRInputStream inputStream = new ANTLRInputStream(query);
@@ -70,9 +70,9 @@ public class EnricherQLUnitTest {
     public void ComplexSelectShouldWork() {
 
         String query = "SELECT * FROM STREAM rb_input " +
-                "JOIN SELECT a,b,c FROM STREAM rb_input2 USING joiner.package.Class1 " +
-                "JOIN SELECT * FROM TABLE rb_input3 USING joiner.pkg1.pkg2.Class2 "+
-                "JOIN SELECT x,y FROM STREAM rb_input4 USING joiner.Class3 " +
+                "JOIN SELECT a,b,c FROM STREAM rb_input2 USING jClass1 " +
+                "JOIN SELECT * FROM TABLE rb_input3 USING jClass2 "+
+                "JOIN SELECT x,y FROM STREAM rb_input4 USING jClass3 " +
                 "INSERT INTO TABLE rb_output";
 
         ANTLRInputStream inputStream = new ANTLRInputStream(query);

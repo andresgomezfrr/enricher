@@ -15,7 +15,7 @@ public class EnricherModel {
 
     @JsonCreator
     public EnricherModel(@JsonProperty("name") String name,
-                         @JsonProperty("class") String className,
+                         @JsonProperty("className") String className,
                          @JsonProperty("properties") Map<String, Object> properties) {
         checkNotNull(name, "name cannot be null");
         checkNotNull(className, "className cannot be null");

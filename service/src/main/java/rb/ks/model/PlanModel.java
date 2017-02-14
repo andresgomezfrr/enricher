@@ -4,9 +4,11 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import rb.ks.exceptions.PlanBuilderException;
 import rb.ks.query.EnricherCompiler;
+import rb.ks.query.antlr4.Join;
 import rb.ks.query.antlr4.Query;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.cookingfox.guava_preconditions.Preconditions.checkNotNull;
 
@@ -49,6 +51,32 @@ public class PlanModel {
     }
 
     public void validate() throws PlanBuilderException {
+
+        List<String> definedJoiners = this.joiners.stream().map(joiner -> joiner.name).collect(Collectors.toList());
+        List<String> definedEnrichers = this.enrichers.stream().map(enricher -> enricher.name).collect(Collectors.toList());
+
+        for(Map.Entry<String, Query> queryEntry : queries.entrySet()) {
+            List<String> enrichers = queryEntry.getValue().getEnrichWiths();
+            List<Join> joiners = queryEntry.getValue().getJoins();
+
+            if(enrichers != null) {
+                for(String enricher: enrichers) {
+                    if(!definedEnrichers.contains(enricher)) {
+                        throw new PlanBuilderException(String.format("Enricher[%s]: Not defined", enricher));
+                    }
+                }
+            }
+
+            if(joiners != null) {
+                for(Join joiner : joiners) {
+                    String joinerName = joiner.getJoinerName();
+                    if(!definedJoiners.contains(joinerName)) {
+                        throw new PlanBuilderException(String.format("Joiner[%s]: Not defined", joinerName));
+                    }
+                }
+            }
+
+        }
     }
 
     public String printExecutionPlan() {
