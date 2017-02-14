@@ -9,9 +9,9 @@ import rb.ks.exceptions.PlanBuilderException;
 import rb.ks.join.Joiner;
 import rb.ks.metrics.MetricsManager;
 import rb.ks.model.PlanModel;
-import rb.ks.model.antlr4.Join;
-import rb.ks.model.antlr4.Select;
-import rb.ks.model.antlr4.Stream;
+import rb.ks.query.antlr4.Join;
+import rb.ks.query.antlr4.Select;
+import rb.ks.query.antlr4.Stream;
 
 import java.util.HashMap;
 import java.util.List;

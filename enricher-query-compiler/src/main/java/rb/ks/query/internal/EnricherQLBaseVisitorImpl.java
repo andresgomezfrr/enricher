@@ -1,10 +1,9 @@
 package rb.ks.query.internal;
 
-import rb.ks.model.PlanModel;
-import rb.ks.model.antlr4.Join;
-import rb.ks.model.antlr4.Query;
-import rb.ks.model.antlr4.Select;
-import rb.ks.model.antlr4.Stream;
+import rb.ks.query.antlr4.Join;
+import rb.ks.query.antlr4.Query;
+import rb.ks.query.antlr4.Select;
+import rb.ks.query.antlr4.Stream;
 import rb.ks.query.compiler.EnricherQLBaseVisitor;
 import rb.ks.query.compiler.EnricherQLParser;
 
@@ -22,7 +21,7 @@ public class EnricherQLBaseVisitorImpl extends EnricherQLBaseVisitor {
         if(selectDimensions.isEmpty())
             selectDimensions = Collections.singletonList("*");
 
-        List<Stream> selectInputStreams = ctx.streams().id().stream().map(id -> new Stream(id.getText(), ctx.type().toString().matches("TABLE"))).collect(Collectors.toList());
+        List<Stream> selectInputStreams = ctx.streams().id().stream().map(id -> new Stream(id.getText(), ctx.type().getText().equals("TABLE"))).collect(Collectors.toList());
 
         List<Join> joins = ctx.query_join().stream().map(joinContext -> {
             boolean table = joinContext.type().getText().equals("TABLE");
