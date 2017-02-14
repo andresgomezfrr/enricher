@@ -42,7 +42,7 @@ public class Builder {
             metricsManager.clean();
             streamBuilder.close();
             streams.close();
-            log.info("Clean Normalizer process");
+            log.info("Clean Enricher process");
         }
 
         ObjectMapper objectMapper = new ObjectMapper();
@@ -57,7 +57,7 @@ public class Builder {
             if (!exception.getMessage().contains("Topic not found")) {
                 log.error(exception.getMessage(), exception);
             } else {
-                log.warn("Creating topics, try execute Normalizer again!");
+                log.warn("Creating topics, try execute Enricher again!");
             }
 
             metricsManager.interrupt();
@@ -66,7 +66,7 @@ public class Builder {
         });
         streams.start();
 
-        log.info("Started Normalizer with conf {}", config.getProperties());
+        log.info("Started Enricher with conf {}", config.getProperties());
     }
 
     public void close() {
