@@ -1,4 +1,4 @@
-package io.wizzie.ks.enricher.integration;
+package io.wizzie.ks.integration;
 
 import io.wizzie.ks.enricher.builder.Builder;
 import io.wizzie.ks.enricher.builder.config.Config;
@@ -19,17 +19,13 @@ import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Test;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.*;
 
 import static io.wizzie.ks.enricher.builder.config.Config.ConfigProperties.BOOTSTRAPER_CLASSNAME;
 import static org.apache.kafka.streams.StreamsConfig.APPLICATION_ID_CONFIG;
 import static org.junit.Assert.assertEquals;
 
-public class QueryableJoinsIntegrationTest {
+public class QueryableBackJoinsIntegrationTest {
     private final static int NUM_BROKERS = 1;
 
     @ClassRule
@@ -91,7 +87,7 @@ public class QueryableJoinsIntegrationTest {
         consumerConfig.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
 
         Config configuration = new Config(streamsConfiguration);
-        configuration.put("file.bootstraper.path", Thread.currentThread().getContextClassLoader().getResource("queryable-joins-integration-test.json").getFile());
+        configuration.put("file.bootstraper.path", Thread.currentThread().getContextClassLoader().getResource("queryableback-joins-integration-test.json").getFile());
         configuration.put(BOOTSTRAPER_CLASSNAME, "io.wizzie.ks.enricher.builder.bootstrap.FileBootstraper");
 
         Builder builder = new Builder(configuration);
@@ -116,12 +112,11 @@ public class QueryableJoinsIntegrationTest {
 
         KeyValue<String, Map<String, Object>> expectedOutputKv = new KeyValue<>("MAC_A", expectedData);
 
-        List<KeyValue<String, Map>> receivedMessagesFromOutput = IntegrationTestUtils.waitUntilMinKeyValueRecordsReceived(consumerConfig, OUTPUT_TOPIC, 1);
-
-        // STEP 1: CHECK THAT RECEIVED MESSAGE NOT CONTAINS REPUTATION INFORMATION (ONLY FLOW AND LOCATION)
-        assertEquals(Collections.singletonList(expectedOutputKv), receivedMessagesFromOutput);
+        // STEP 1: CHECK THAT NOT RECEIVED OUTPUT MESSAGE
+        IntegrationTestUtils.waitUntilMinKeyValueRecordsReceived(consumerConfig, OUTPUT_TOPIC, 0);
 
         List<KeyValue<String, Map>> receivedQueryableMessage = IntegrationTestUtils.waitUntilMinKeyValueRecordsReceived(consumerConfig, QUERYABLE_TOPIC, 1);
+        List<KeyValue<String, Map>> receivedQueryableBackMessage = IntegrationTestUtils.waitUntilMinKeyValueRecordsReceived(consumerConfig, INPUT_FLOW_TOPIC, 1);
 
         Map<String, Object> expectedQueryableMessage = new HashMap<>();
         expectedQueryableMessage.put("joiner", "streamQueryablePreferred");
@@ -131,8 +126,9 @@ public class QueryableJoinsIntegrationTest {
 
         KeyValue<String, Map<String, Object>> expectedQueryableKv = new KeyValue<>("MAC_A", expectedQueryableMessage);
 
-        // STEP 2: CHECK THAT __enricher_queryable RECEIVED MESSAGE
-        assertEquals(Collections.singletonList(expectedQueryableKv), receivedQueryableMessage);
+        // STEP 2: CHECK THAT __enricher_queryable and INPUT TOPIC RECEIVED MESSAGE
+        assertEquals(receivedQueryableMessage.get(0), Collections.singletonList(expectedQueryableKv).get(0));
+        IntegrationTestUtils.waitUntilMinKeyValueRecordsReceived(consumerConfig, INPUT_FLOW_TOPIC, 1);
 
         Map<String, Object> repMessage = new HashMap<>();
         repMessage.put("rep", 15);
@@ -143,17 +139,16 @@ public class QueryableJoinsIntegrationTest {
 
         IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_LOCATION_TOPIC, Collections.singletonList(kvLocMessage), producerConfig, MOCK_TIME);
 
-        IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_FLOW_TOPIC, Collections.singletonList(kvIpMessage), producerConfig, MOCK_TIME);
-
-        receivedMessagesFromOutput = IntegrationTestUtils.waitUntilMinKeyValueRecordsReceived(consumerConfig, OUTPUT_TOPIC, 1);
+        List<KeyValue<String, Map>> receivedMessagesFromOutput = IntegrationTestUtils.waitUntilMinKeyValueRecordsReceived(consumerConfig, OUTPUT_TOPIC, 1);
 
         expectedData.put("rep", 15);
 
         // STEP 3: CHECK THAT RECEIVED MESSAGE CONTAINS COMPLETE INFORMATION (FLOW, LOCATION and REPUTATION)
         assertEquals(Collections.singletonList(expectedOutputKv), receivedMessagesFromOutput);
 
-        // STEP 4: CHECK THAT __enricher_queryable NOT RECEIVED ANY MESSAGE
+        // STEP 4: CHECK THAT __enricher_queryable and INPUT TOPIC NOT RECEIVED ANY MESSAGE
         IntegrationTestUtils.waitUntilMinKeyValueRecordsReceived(consumerConfig, QUERYABLE_TOPIC, 0);
+        IntegrationTestUtils.waitUntilMinKeyValueRecordsReceived(consumerConfig, INPUT_FLOW_TOPIC, 0);
 
         builder.close();
     }

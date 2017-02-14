@@ -1,5 +1,8 @@
 package io.wizzie.ks.enricher.builder;
 
+import io.wizzie.ks.enricher.enrichment.join.QueryableBackJoiner;
+
+
 import io.wizzie.ks.enricher.builder.config.Config;
 import io.wizzie.ks.enricher.enrichment.join.BaseJoiner;
 import io.wizzie.ks.enricher.enrichment.join.Joiner;
@@ -175,7 +178,7 @@ public class StreamBuilder {
                     KStream<String, Map<String, Object>> joinStream = stream.leftJoin(table, (QueryableJoiner) joiner);
 
                     joinStream
-                            .branch((key, value) -> value.containsKey("type") && value.get("type").equals("joiner-query"))[0]
+                            .branch((key, value) -> !((Boolean) value.get("joiner-status")))[0]
                             .mapValues(value -> {
                                 Map<String, Object> newValue = new HashMap<>(value);
                                 newValue.remove("message");
@@ -185,6 +188,34 @@ public class StreamBuilder {
                             .to("__enricher_queryable");
 
                     stream = joinStream.mapValues(message -> (Map<String, Object>) message.get("message"));
+                } else if (joiner instanceof QueryableBackJoiner) {
+                    KStream<String, Map<String, Object>> joinStream = stream.leftJoin(table, (QueryableBackJoiner) joiner);
+
+                    joinStream
+                            .branch((key, value) -> !((Boolean) value.get("joiner-status")))[0]
+                            .mapValues(value -> {
+                                Map<String, Object> newValue = new HashMap<>(value);
+                                newValue.remove("message");
+                                newValue.put("table", tableName);
+                                return newValue;
+                            })
+                            .to("__enricher_queryable");
+
+                    List<String> topics = model.getQueries().get(entry.getKey()).getSelect().getStreams().stream()
+                            .filter(s -> !s.isTable())
+                            .map(Stream::getName)
+                            .collect(Collectors.toList());
+
+                    //Workaround: Select the first topic to send back the data.
+                    joinStream
+                            .branch((key, value) -> !((Boolean) value.get("joiner-status")))[0]
+                            .mapValues(message -> (Map<String, Object>) message.get("message"))
+                            .to(topics.get(0));
+
+                    stream = joinStream
+                            .filter((key, value) -> (Boolean) value.get("joiner-status"))
+                            .mapValues(message -> (Map<String, Object>) message.get("message"));
+
                 }
                 streams.put(entry.getKey(), stream);
             });

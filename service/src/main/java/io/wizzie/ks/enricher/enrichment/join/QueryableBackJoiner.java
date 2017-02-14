@@ -5,7 +5,7 @@ import org.apache.kafka.streams.kstream.ValueJoiner;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class QueryableJoiner<V2> implements Joiner<Map<String, Object>, V2>,
+public abstract class QueryableBackJoiner<V2> implements Joiner<Map<String, Object>, V2>,
         ValueJoiner<Map<String, Object>, V2, Map<String, Object>> {
     String name;
 
