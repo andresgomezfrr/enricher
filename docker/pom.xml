@@ -14,6 +14,10 @@
     <name>docker</name>
     <description>Docker packaging manager</description>
 
+    <properties>
+        <docker.registry>862098823673.dkr.ecr.us-east-1.amazonaws.com</docker.registry>
+    </properties>
+
     <build>
         <plugins>
             <plugin>
@@ -22,6 +26,9 @@
                 <version>0.4.13</version>
 
                 <configuration>
+                    <useConfigFile>true</useConfigFile>
+                    <forceTags>true</forceTags>
+
                     <imageName>${project.parent.artifactId}</imageName>
 
                     <imageTags>
@@ -58,7 +65,7 @@
                         </goals>
                         <configuration>
                             <image>${project.parent.artifactId}:${project.version}</image>
-                            <newName>resources.redborder.lan:5000/${project.parent.artifactId}:${project.version}</newName>
+                            <newName>${docker.registry}/${project.parent.artifactId}:${project.version}</newName>
                         </configuration>
                     </execution>
 
@@ -70,7 +77,7 @@
                         </goals>
                         <configuration>
                             <image>${project.parent.artifactId}:latest</image>
-                            <newName>resources.redborder.lan:5000/${project.parent.artifactId}:latest</newName>
+                            <newName>${docker.registry}/${project.parent.artifactId}:latest</newName>
                         </configuration>
                     </execution>
 
@@ -81,7 +88,7 @@
                             <goal>push</goal>
                         </goals>
                         <configuration>
-                            <imageName>resources.redborder.lan:5000/${project.parent.artifactId}:${project.version}</imageName>
+                            <imageName>${docker.registry}/${project.parent.artifactId}:${project.version}</imageName>
                         </configuration>
                     </execution>
 
@@ -92,7 +99,7 @@
                             <goal>push</goal>
                         </goals>
                         <configuration>
-                            <imageName>resources.redborder.lan:5000/${project.parent.artifactId}:latest</imageName>
+                            <imageName>${docker.registry}/${project.parent.artifactId}:latest</imageName>
                         </configuration>
                     </execution>
                 </executions>
