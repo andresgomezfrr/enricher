@@ -2,7 +2,9 @@ package rb.ks.model;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
+import rb.ks.exceptions.PlanBuilderException;
 import rb.ks.query.antlr4.Join;
 import rb.ks.query.antlr4.Query;
 import rb.ks.query.antlr4.Select;
@@ -19,10 +21,10 @@ import static org.junit.Assert.*;
 
 public class PlanModelUnitTest {
 
-    private ObjectMapper mapper;
+    private static ObjectMapper mapper;
 
-    @Before
-    public void init() {
+    @BeforeClass
+    public static void initTest() throws IOException, PlanBuilderException {
         mapper = new ObjectMapper();
     }
 
@@ -30,7 +32,6 @@ public class PlanModelUnitTest {
     public void planModelShouldBeBuiltCorrectly() throws IOException {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         File file = new File(classLoader.getResource("plan-builder.json").getFile());
-
         PlanModel planModel = mapper.readValue(file, PlanModel.class);
 
         assertNotNull(planModel);
