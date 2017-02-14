@@ -4,7 +4,7 @@
 
     <groupId>zz.ks.enricher</groupId>
     <artifactId>enricher</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1-rc1</version>
 
     <packaging>pom</packaging>
 
@@ -23,15 +23,27 @@
 
     <scm>
         <developerConnection>scm:git:git@github.com:wizzie-io/enricher.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>enricher-0.0.1-rc1</tag>
     </scm>
 
+    <repositories>
+        <repository>
+            <id>wizzie-release</id>
+            <name>Wizzie Release Repository</name>
+            <url>s3://wizzie-mvn-repo/release</url>
+        </repository>
+        <repository>
+            <id>wizzie-snapshot</id>
+            <name>Wizzie Snapshot Repository</name>
+            <url>s3://wizzie-mvn-repo/snapshot</url>
+        </repository>
+    </repositories>
+
     <modules>
-        <module>service</module>
         <module>enricher-query-compiler</module>
+        <module>service</module>
         <module>extensions</module>
     </modules>
-
 
     <profiles>
         <profile>

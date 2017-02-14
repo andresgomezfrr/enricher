@@ -3,7 +3,7 @@
     <parent>
         <artifactId>enricher</artifactId>
         <groupId>zz.ks.enricher</groupId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.0.1-rc1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -15,9 +15,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>zz.ks</groupId>
+            <groupId>zz.ks.enricher</groupId>
             <artifactId>enricher-service</artifactId>
-            <version>${project.parent.version}</version>
+            <version>0.0.1-rc1</version>
         </dependency>
 
         <!-- GeoIP -->
