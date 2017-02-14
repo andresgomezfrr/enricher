@@ -1,0 +1,8 @@
+{
+  "joiners":[
+    {"name":"joiner", "className":"joiner.package.Class"}
+  ],
+  "queries": {
+    "query1": "SELECT a,b,c FROM STREAM stream1 JOIN SELECT u,v FROM STREAM table1 USING joiner INSERT INTO TABLE output"
+  }
+}
