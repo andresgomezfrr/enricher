@@ -1,12 +1,13 @@
 package zz.ks.integration;
 
+import kafka.utils.MockTime;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.StreamsConfig;
-import org.apache.kafka.streams.integration.utils.EmbeddedSingleNodeKafkaCluster;
+import org.apache.kafka.streams.integration.utils.EmbeddedKafkaCluster;
 import org.apache.kafka.streams.integration.utils.IntegrationTestUtils;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -17,21 +18,17 @@ import zz.ks.builder.config.Config;
 import zz.ks.serializers.JsonDeserializer;
 import zz.ks.serializers.JsonSerde;
 import zz.ks.serializers.JsonSerializer;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.*;
 
 import static org.apache.kafka.streams.StreamsConfig.APPLICATION_ID_CONFIG;
 import static org.junit.Assert.assertEquals;
 
 public class QueryPartitionByIntegrationTest {
-
+    private final static int NUM_BROKERS = 1;
 
     @ClassRule
-    public static final EmbeddedSingleNodeKafkaCluster CLUSTER = new EmbeddedSingleNodeKafkaCluster();
+    public static EmbeddedKafkaCluster CLUSTER = new EmbeddedKafkaCluster(NUM_BROKERS);
+    private final static MockTime MOCK_TIME = CLUSTER.time;
 
     private static final int REPLICATION_FACTOR = 1;
 
@@ -119,21 +116,21 @@ public class QueryPartitionByIntegrationTest {
 
         KeyValue<String, Map<String, Object>> kvStream3 = new KeyValue<>("VALUE_U", message3);
 
-        IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_STREAM_2_TOPIC, Collections.singletonList(kvStream2), producerConfig);
+        IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_STREAM_2_TOPIC, Collections.singletonList(kvStream2), producerConfig, MOCK_TIME);
 
         List<KeyValue<String, Map>> receivedMessage = IntegrationTestUtils.waitUntilMinKeyValueRecordsReceived(consumerConfig, INPUT_STREAM_2_TOPIC, 1);
 
         assertEquals(Collections.singletonList(kvStream2), receivedMessage);
 
 
-        IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_TABLE_1_TOPIC, Collections.singletonList(kvStream3), producerConfig);
+        IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_TABLE_1_TOPIC, Collections.singletonList(kvStream3), producerConfig, MOCK_TIME);
 
         receivedMessage = IntegrationTestUtils.waitUntilMinKeyValueRecordsReceived(consumerConfig, INPUT_TABLE_1_TOPIC, 1);
 
         assertEquals(Collections.singletonList(kvStream3), receivedMessage);
 
 
-        IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_STREAM_1_TOPIC, Collections.singletonList(kvStream1), producerConfig);
+        IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_STREAM_1_TOPIC, Collections.singletonList(kvStream1), producerConfig, MOCK_TIME);
 
         receivedMessage = IntegrationTestUtils.waitUntilMinKeyValueRecordsReceived(consumerConfig, INPUT_STREAM_1_TOPIC, 1);
 
