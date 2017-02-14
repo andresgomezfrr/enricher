@@ -14,4 +14,4 @@ do
     CLASSPATH=${CLASSPATH}:${file}
 done
 
-java -cp ${CLASSPATH} io.wizzie.ks.enricher.Enricher $1
+java ${JVM_OPTIONS} -cp ${CLASSPATH} io.wizzie.ks.enricher.Enricher $1

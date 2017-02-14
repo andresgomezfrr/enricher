@@ -2,9 +2,9 @@
   "application.id": "${APPLICATION_ID}",
   "bootstrap.servers": "${KAFKA_BOOTSTRAP_SERVER}",
   "zookeeper.connect": "${ZOOKEEPER_CONNECT}",
-  "num.stream.threads": 1,
+  "num.stream.threads": ${NUM_STREAM_THREADS},
   "bootstraper.classname": "io.wizzie.ks.enricher.builder.bootstrap.KafkaBootstraper",
-  "metric.enable": true,
+  "metric.enable": ${METRIC_ENABLE},
   "metric.listeners": ["io.wizzie.ks.enricher.metrics.KafkaMetricListener"],
-  "metric.interval": 60000
+  "metric.interval": ${METRIC_INTERVAL}
 }
