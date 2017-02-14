@@ -6,5 +6,6 @@
   "bootstraper.classname": "io.wizzie.ks.enricher.builder.bootstrap.KafkaBootstraper",
   "metric.enable": ${METRIC_ENABLE},
   "metric.listeners": ["io.wizzie.ks.enricher.metrics.KafkaMetricListener"],
-  "metric.interval": ${METRIC_INTERVAL}
+  "metric.interval": ${METRIC_INTERVAL},
+  "multi.id": ${MULTI_ID}
 }

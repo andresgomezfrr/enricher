@@ -100,6 +100,12 @@ public class StreamBuilder {
                     .map(Stream::getName)
                     .collect(Collectors.toList());
 
+            if (config.getOrDefault(Config.ConfigProperties.MULTI_ID, false)) {
+                topicStreams = topicStreams.stream()
+                        .map(topic -> String.format("%s_%s", appId, topic))
+                        .collect(Collectors.toList());
+            }
+
             KStream<String, Map<String, Object>> stream =
                     builder.stream(topicStreams.toArray(new String[topicStreams.size()]));
 
@@ -127,11 +133,20 @@ public class StreamBuilder {
             List<Join> joins = entry.getValue().getJoins();
 
             joins.forEach(join -> {
-                String tableName = join.getStream().getName();
+
                 if (!join.getStream().isTable()) {
                     log.warn("Join beetween stream isn't supported yet! The join is changed to use stream-table join");
                 }
-                KTable<String, Map<String, Object>> table = builder.table(tableName, String.format("%s_%s", appId, tableName));
+
+                String tableName;
+
+                if (config.getOrDefault(Config.ConfigProperties.MULTI_ID, false)) {
+                    tableName = String.format("%s_%s", appId, join.getStream().getName());
+                } else {
+                    tableName = join.getStream().getName();
+                }
+
+                KTable<String, Map<String, Object>> table = builder.table(tableName, String.format("__%s_%s", appId, tableName));
 
                 List<String> dimensions = join.getDimensions();
                 if (!dimensions.contains("*")) {
@@ -247,7 +262,14 @@ public class StreamBuilder {
         model.getQueries().entrySet().forEach(entry -> {
             Stream insert = entry.getValue().getInsert();
             KStream<String, Map<String, Object>> stream = streams.get(entry.getKey());
-            stream.to(insert.getName());
+
+            String outputStream = insert.getName();
+
+            if (config.getOrDefault(Config.ConfigProperties.MULTI_ID, false)) {
+                outputStream = String.format("%s_%s", appId, outputStream);
+            }
+
+            stream.to(outputStream);
         });
     }
 
