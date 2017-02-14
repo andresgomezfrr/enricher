@@ -175,8 +175,8 @@ public class EnricherCompilerUnitTest {
 
         String stringQuery = "SELECT * FROM STREAM rb_input " +
                 "JOIN SELECT a,b FROM STREAM rb_input2 USING joiner.package.Class " +
-                "ENRICH WITH function.configA " +
-                "ENRICH WITH function.configB " +
+                "ENRICH WITH pkg1.pkg2.classA " +
+                "ENRICH WITH pkg1.classB " +
                 "INSERT INTO TABLE rb_output";
 
         Query query = EnricherCompiler.parse(stringQuery);
@@ -223,25 +223,23 @@ public class EnricherCompilerUnitTest {
         assertEquals("joiner.package.Class", joinerClass);
 
         // Enrich with tests
-        List<EnrichWith> enrichWiths = query.getEnrichWiths();
+        List<String> enrichWiths = query.getEnrichWiths();
 
         assertNotNull(enrichWiths);
 
         assertEquals(2, enrichWiths.size());
 
-        EnrichWith enrichWith1 = enrichWiths.get(0);
+        String enrichWith1 = enrichWiths.get(0);
 
         assertNotNull(enrichWith1);
 
-        assertEquals("function", enrichWith1.getFunctionName());
-        assertEquals("configA", enrichWith1.getConfigKey());
+        assertEquals("pkg1.pkg2.classA", enrichWith1);
 
-        EnrichWith enrichWith2 = enrichWiths.get(1);
+        String enrichWith2 = enrichWiths.get(1);
 
         assertNotNull(enrichWith2);
 
-        assertEquals("function", enrichWith2.getFunctionName());
-        assertEquals("configB", enrichWith2.getConfigKey());
+        assertEquals("pkg1.classB", enrichWith2);
 
         // Insert tests
         Stream insertObject = query.getInsert();

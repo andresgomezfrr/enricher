@@ -35,7 +35,7 @@ public class EnricherQLBaseVisitorImpl extends EnricherQLBaseVisitor {
             return new Join(new Stream(joinStream, table), className, joinDimensions);
         }).collect(Collectors.toList());
 
-        List<EnrichWith> enrichWiths = ctx.query_enrich_with().stream().map(enrichContext -> new EnrichWith(enrichContext.id(0).getText(), enrichContext.id(1).getText())).collect(Collectors.toList());
+        List<String> enrichWiths = ctx.query_enrich_with().stream().map(enrichContext -> new String(enrichContext.className().getText())).collect(Collectors.toList());
 
         Stream output = new Stream(ctx.query_output().id().getText(), ctx.query_output().type().getText().matches("TABLE"));
 
