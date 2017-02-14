@@ -5,15 +5,22 @@ MAINTAINER agomez@wizzie.io
 RUN apt-get update
 RUN apt-get install -y gettext-base
 
-RUN mkdir -p /alloc/var/ /alloc/log/ks-enricher /app
+RUN mkdir -p /var/log/enricher
 
-ADD enricher-dist.tar.gz /alloc/var/
-RUN rm -f /alloc/var/enricher/config/*
+ADD enricher-dist.tar.gz /opt/
+RUN rm -f /opt/enricher/config/*
 
-ADD log4j.xml /alloc/var/enricher/config/
-ADD config_env.json /alloc/var/enricher/config/
-ADD enricher-start.sh /app
+ADD log4j.xml /opt/enricher/config/
+ADD config_env.json /opt/enricher/config/
+ADD enricher-start.sh /bin
 
-CMD /app/enricher-start.sh
+ENV METRIC_ENABLE true
+ENV METRIC_INTERVAL 60000
+ENV MULTI_ID false
+ENV NUM_STREAM_THREADS 1
+
+ENV JVM_OPTIONS -Xmx512m -Xms512m
+
+CMD /bin/enricher-start.sh
 
 
