@@ -24,10 +24,10 @@ public class PlanModel {
     public PlanModel(@JsonProperty("joiners") List<JoinerModel> joiners,
                      @JsonProperty("queries") Map<String, String> queries,
                      @JsonProperty("enrichers") List<EnricherModel> enrichers) {
-        checkNotNull(joiners, "joiners cannot be null");
         checkNotNull(queries, "queries cannot be null");
 
-        this.joiners.addAll(joiners);
+        if(joiners != null)
+            this.joiners.addAll(joiners);
 
         queries.forEach((name, queryString) -> {
             Query query = EnricherCompiler.parse(queryString);
