@@ -15,3 +15,13 @@ test:
     - cp distribution/target/enricher-dist.tar.gz $CIRCLE_ARTIFACTS/
     - mkdir -p $CIRCLE_TEST_REPORTS/junit/
     - find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
+
+deployment:
+  master:
+    branch: master
+    commands:
+      - mvn deploy -Dmaven.test.skip=true -P dist
+  release:
+    tag: /enricher-.*/
+    commands:
+      - mvn deploy -Dmaven.test.skip=true -P dist
