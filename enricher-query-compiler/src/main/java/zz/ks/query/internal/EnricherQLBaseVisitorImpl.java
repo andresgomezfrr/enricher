@@ -11,6 +11,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static zz.ks.query.utils.Constants.__KEY;
+
 public class EnricherQLBaseVisitorImpl extends EnricherQLBaseVisitor {
 
     @Override
@@ -35,7 +37,11 @@ public class EnricherQLBaseVisitorImpl extends EnricherQLBaseVisitor {
             String className = joinContext.className().getText();
             String joinStream = joinContext.id().getText();
 
-            return new Join(new Stream(joinStream, table), className, joinDimensions);
+            EnricherQLParser.PartitionKeyContext partitionKeyContext;
+
+            String partitionKey = ( partitionKeyContext = joinContext.partitionKey()) != null ? partitionKeyContext.getText() : __KEY;
+
+            return new Join(new Stream(joinStream, table), className, joinDimensions, partitionKey);
         }).collect(Collectors.toList());
 
         List<String> enrichWiths = ctx.query_enrich_with().stream().map(enrichContext -> new String(enrichContext.className().getText())).collect(Collectors.toList());
