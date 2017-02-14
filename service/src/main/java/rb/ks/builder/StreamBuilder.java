@@ -1,21 +1,22 @@
 package rb.ks.builder;
 
-import org.apache.kafka.streams.KeyValue;
-import org.apache.kafka.streams.kstream.*;
+import org.apache.kafka.streams.kstream.KStream;
+import org.apache.kafka.streams.kstream.KStreamBuilder;
+import org.apache.kafka.streams.kstream.KTable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import rb.ks.builder.config.Config;
+import rb.ks.enrichment.join.Joiner;
 import rb.ks.enrichment.simple.BaseEnrich;
 import rb.ks.enrichment.simple.Enrich;
 import rb.ks.exceptions.EnricherNotFound;
+import rb.ks.exceptions.JoinerNotFound;
 import rb.ks.exceptions.PlanBuilderException;
-import rb.ks.enrichment.join.Joiner;
 import rb.ks.metrics.MetricsManager;
 import rb.ks.model.PlanModel;
 import rb.ks.query.antlr4.Join;
 import rb.ks.query.antlr4.Select;
 import rb.ks.query.antlr4.Stream;
-import rb.ks.exceptions.JoinerNotFound;
 
 import java.util.HashMap;
 import java.util.List;

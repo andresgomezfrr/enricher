@@ -1,7 +1,6 @@
 package rb.ks.model;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import rb.ks.exceptions.PlanBuilderException;
