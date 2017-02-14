@@ -1,5 +1,6 @@
 package zz.ks.builder;
 
+import org.apache.kafka.common.utils.Utils;
 import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.KStreamBuilder;
 import org.apache.kafka.streams.kstream.KTable;
@@ -19,6 +20,7 @@ import zz.ks.model.PlanModel;
 import zz.ks.query.antlr4.Join;
 import zz.ks.query.antlr4.Select;
 import zz.ks.query.antlr4.Stream;
+import zz.ks.utils.Constants;
 
 import java.util.HashMap;
 import java.util.List;
@@ -143,6 +145,21 @@ public class StreamBuilder {
                 }
 
                 KStream<String, Map<String, Object>> stream = streams.get(entry.getKey());
+
+                if (!join.getPartitionKey().equals(Constants.__KEY)) {
+                    stream = stream.through(
+                            (key, value, numPartitions) -> {
+                                String newKey;
+                                if (value.containsKey(join.getPartitionKey())) {
+                                    newKey = value.get(join.getPartitionKey()).toString();
+                                } else {
+                                    newKey = key;
+                                }
+
+                                return Utils.abs(Utils.murmur2(newKey.getBytes())) % numPartitions;
+                            },
+                            String.format("__%s_enricher_%s_partition_by_%s", appId, entry.getKey(), join.getPartitionKey()));
+                }
 
                 Joiner joiner = joiners.get(join.getJoinerName());
                 if (joiner == null) throw new JoinerNotFound("BaseJoiner " + join.getJoinerName() + " not found!");
