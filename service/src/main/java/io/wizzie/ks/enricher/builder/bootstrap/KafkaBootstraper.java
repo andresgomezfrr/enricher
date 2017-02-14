@@ -60,7 +60,7 @@ public class KafkaBootstraper extends ThreadBootstraper {
 
         while (offset < endOffset) {
             for (ConsumerRecord<String, String> record : restoreConsumer.poll(100).records(storePartition)) {
-                if (record.key().equals(appId)) jsonStreamConfig = record.value();
+                if (record.key() != null && record.key().equals(appId)) jsonStreamConfig = record.value();
             }
             offset = restoreConsumer.position(storePartition);
             log.info("Recover from kafka offset[{}], endOffset[{}]", offset, endOffset);
