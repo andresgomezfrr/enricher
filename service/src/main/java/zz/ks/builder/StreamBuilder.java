@@ -1,6 +1,7 @@
 package zz.ks.builder;
 
 import org.apache.kafka.common.utils.Utils;
+import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.KStreamBuilder;
 import org.apache.kafka.streams.kstream.KTable;
@@ -147,8 +148,8 @@ public class StreamBuilder {
                 KStream<String, Map<String, Object>> stream = streams.get(entry.getKey());
 
                 if (!join.getPartitionKey().equals(Constants.__KEY)) {
-                    stream = stream.through(
-                            (key, value, numPartitions) -> {
+                    stream = stream
+                            .map((key, value) -> {
                                 String newKey;
                                 if (value.containsKey(join.getPartitionKey())) {
                                     newKey = value.get(join.getPartitionKey()).toString();
@@ -156,9 +157,13 @@ public class StreamBuilder {
                                     newKey = key;
                                 }
 
-                                return Utils.abs(Utils.murmur2(newKey.getBytes())) % numPartitions;
-                            },
-                            String.format("__%s_enricher_%s_partition_by_%s", appId, entry.getKey(), join.getPartitionKey()));
+                                return new KeyValue<>(newKey, value);
+                            })
+                            .through(
+                                    (key, value, numPartitions) -> Utils.abs(Utils.murmur2(key.getBytes())) % numPartitions,
+                                    String.format("__%s_enricher_%s_partition_by_%s",
+                                            appId, entry.getKey(), join.getPartitionKey())
+                            );
                 }
 
                 Joiner joiner = joiners.get(join.getJoinerName());
