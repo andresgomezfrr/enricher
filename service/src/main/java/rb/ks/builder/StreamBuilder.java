@@ -5,11 +5,13 @@ import org.apache.kafka.streams.kstream.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import rb.ks.builder.config.Config;
+import rb.ks.enrichment.join.Joiner;
+import rb.ks.enrichment.join.QueryableJoiner;
 import rb.ks.enrichment.simple.BaseEnrich;
 import rb.ks.enrichment.simple.Enrich;
 import rb.ks.exceptions.EnricherNotFound;
 import rb.ks.exceptions.PlanBuilderException;
-import rb.ks.enrichment.join.Joiner;
+import rb.ks.enrichment.join.BaseJoiner;
 import rb.ks.metrics.MetricsManager;
 import rb.ks.model.PlanModel;
 import rb.ks.query.antlr4.Join;
@@ -72,6 +74,7 @@ public class StreamBuilder {
         model.getJoiners().forEach(joinerModel -> {
             try {
                 Joiner joiner = makeInstance(joinerModel.getClassName());
+                joiner.init(joinerModel.getName());
                 joiners.put(joinerModel.getName(), joiner);
             } catch (ClassNotFoundException e) {
                 log.error("Couldn't find the class associated with the function {}", joinerModel.getClassName());
@@ -136,9 +139,27 @@ public class StreamBuilder {
                 }
 
                 KStream<String, Map<String, Object>> stream = streams.get(entry.getKey());
+
                 Joiner joiner = joiners.get(join.getJoinerName());
-                if (joiner == null) throw new JoinerNotFound("Joiner " + join.getJoinerName() + " not found!");
-                stream = stream.leftJoin(table, joiner);
+                if (joiner == null) throw new JoinerNotFound("BaseJoiner " + join.getJoinerName() + " not found!");
+
+                if (joiner instanceof BaseJoiner) {
+                    stream = stream.leftJoin(table, (BaseJoiner) joiner);
+                } else if (joiner instanceof QueryableJoiner) {
+                    KStream<String, Map<String, Object>> joinStream = stream.leftJoin(table, (QueryableJoiner) joiner);
+
+                    joinStream
+                            .branch((key, value) -> value.containsKey("type") && value.get("type").equals("joiner-query"))[0]
+                            .mapValues(value -> {
+                                Map<String, Object> newValue = new HashMap<>(value);
+                                newValue.remove("message");
+                                newValue.put("table", tableName);
+                                return newValue;
+                            })
+                            .to("__enricher_queryable");
+
+                    stream = joinStream.mapValues(message -> (Map<String, Object>) message.get("message"));
+                }
                 streams.put(entry.getKey(), stream);
             });
         });
