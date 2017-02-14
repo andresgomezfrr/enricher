@@ -2,6 +2,10 @@ machine:
   java:
     version: openjdk8
 
+dependencies:
+  override:
+    - mvn -Dmaven.test.skip=true install
+
 test:
   override:
     - sudo mkdir -p /var/log/ks-enricher/ && sudo chown -R ubuntu:ubuntu /var/log/ks-enricher/
