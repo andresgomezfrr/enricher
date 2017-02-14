@@ -4,7 +4,7 @@ machine:
 
 test:
   override:
-    - sudo mkdir -p /var/log/ks-enricher/
+    - sudo mkdir -p /var/log/ks-enricher/ && sudo chown -R ubuntu:ubuntu /var/log/ks-enricher/
     - mvn clean test
   post:
     - mvn package -Dmaven.test.skip=true -P dist
