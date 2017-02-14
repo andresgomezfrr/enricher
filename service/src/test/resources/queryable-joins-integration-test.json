@@ -1,7 +1,7 @@
 {
   "joiners":[
-    {"name":"streamQueryablePreferred", "className":"zz.ks.enrichment.join.impl.queryable.StreamPreferredJoiner"},
-    {"name":"streamPreferred", "className":"zz.ks.enrichment.join.impl.StreamPreferredJoiner"}
+    {"name":"streamQueryablePreferred", "className":"io.wizzie.ks.enrichment.join.impl.queryable.StreamPreferredJoiner"},
+    {"name":"streamPreferred", "className":"io.wizzie.ks.enrichment.join.impl.StreamPreferredJoiner"}
 
   ],
   "queries": {
