@@ -6,6 +6,7 @@ import io.wizzie.ks.enricher.serializers.JsonDeserializer;
 import io.wizzie.ks.enricher.serializers.JsonSerde;
 import io.wizzie.ks.enricher.serializers.JsonSerializer;
 import kafka.utils.MockTime;
+import kafka.utils.Time;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.Serdes;
@@ -34,7 +35,6 @@ public class QueryableJoinsIntegrationTest {
 
     @ClassRule
     public static EmbeddedKafkaCluster CLUSTER = new EmbeddedKafkaCluster(NUM_BROKERS);
-    private final static MockTime MOCK_TIME = CLUSTER.time;
     private static final int REPLICATION_FACTOR = 1;
 
     private static final String INPUT_FLOW_TOPIC = "flow";
@@ -106,9 +106,9 @@ public class QueryableJoinsIntegrationTest {
 
         KeyValue<String, Map<String, Object>> kvLocMessage = new KeyValue<>("MAC_A", locMessage);
 
-        IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_LOCATION_TOPIC, Collections.singletonList(kvLocMessage), producerConfig, MOCK_TIME);
+        IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_LOCATION_TOPIC, Collections.singletonList(kvLocMessage), producerConfig, CLUSTER.time);
 
-        IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_FLOW_TOPIC, Collections.singletonList(kvIpMessage), producerConfig, MOCK_TIME);
+        IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_FLOW_TOPIC, Collections.singletonList(kvIpMessage), producerConfig, CLUSTER.time);
 
         Map<String, Object> expectedData = new HashMap<>();
         expectedData.put("ip", "1.2.3.4");
@@ -139,11 +139,11 @@ public class QueryableJoinsIntegrationTest {
 
         KeyValue<String, Map<String, Object>> kvRepMessage = new KeyValue<>("MAC_A", repMessage);
 
-        IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_REPUTATION_TOPIC, Collections.singletonList(kvRepMessage), producerConfig, MOCK_TIME);
+        IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_REPUTATION_TOPIC, Collections.singletonList(kvRepMessage), producerConfig, CLUSTER.time);
 
-        IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_LOCATION_TOPIC, Collections.singletonList(kvLocMessage), producerConfig, MOCK_TIME);
+        IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_LOCATION_TOPIC, Collections.singletonList(kvLocMessage), producerConfig, CLUSTER.time);
 
-        IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_FLOW_TOPIC, Collections.singletonList(kvIpMessage), producerConfig, MOCK_TIME);
+        IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_FLOW_TOPIC, Collections.singletonList(kvIpMessage), producerConfig, CLUSTER.time);
 
         receivedMessagesFromOutput = IntegrationTestUtils.waitUntilMinKeyValueRecordsReceived(consumerConfig, OUTPUT_TOPIC, 1);
 

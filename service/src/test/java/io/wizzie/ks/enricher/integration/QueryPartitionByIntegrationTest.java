@@ -6,6 +6,7 @@ import io.wizzie.ks.enricher.serializers.JsonDeserializer;
 import io.wizzie.ks.enricher.serializers.JsonSerde;
 import io.wizzie.ks.enricher.serializers.JsonSerializer;
 import kafka.utils.MockTime;
+import kafka.utils.Time;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.Serdes;
@@ -29,7 +30,6 @@ public class QueryPartitionByIntegrationTest {
 
     @ClassRule
     public static EmbeddedKafkaCluster CLUSTER = new EmbeddedKafkaCluster(NUM_BROKERS);
-    private final static MockTime MOCK_TIME = CLUSTER.time;
 
     private static final int REPLICATION_FACTOR = 1;
 
@@ -117,21 +117,21 @@ public class QueryPartitionByIntegrationTest {
 
         KeyValue<String, Map<String, Object>> kvStream3 = new KeyValue<>("VALUE_U", message3);
 
-        IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_STREAM_2_TOPIC, Collections.singletonList(kvStream2), producerConfig, MOCK_TIME);
+        IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_STREAM_2_TOPIC, Collections.singletonList(kvStream2), producerConfig, CLUSTER.time);
 
         List<KeyValue<String, Map>> receivedMessage = IntegrationTestUtils.waitUntilMinKeyValueRecordsReceived(consumerConfig, INPUT_STREAM_2_TOPIC, 1);
 
         assertEquals(Collections.singletonList(kvStream2), receivedMessage);
 
 
-        IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_TABLE_1_TOPIC, Collections.singletonList(kvStream3), producerConfig, MOCK_TIME);
+        IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_TABLE_1_TOPIC, Collections.singletonList(kvStream3), producerConfig, CLUSTER.time);
 
         receivedMessage = IntegrationTestUtils.waitUntilMinKeyValueRecordsReceived(consumerConfig, INPUT_TABLE_1_TOPIC, 1);
 
         assertEquals(Collections.singletonList(kvStream3), receivedMessage);
 
 
-        IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_STREAM_1_TOPIC, Collections.singletonList(kvStream1), producerConfig, MOCK_TIME);
+        IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_STREAM_1_TOPIC, Collections.singletonList(kvStream1), producerConfig, CLUSTER.time);
 
         receivedMessage = IntegrationTestUtils.waitUntilMinKeyValueRecordsReceived(consumerConfig, INPUT_STREAM_1_TOPIC, 1);
 

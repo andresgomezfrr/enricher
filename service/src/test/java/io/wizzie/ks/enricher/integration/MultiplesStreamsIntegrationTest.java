@@ -6,6 +6,7 @@ import io.wizzie.ks.enricher.serializers.JsonDeserializer;
 import io.wizzie.ks.enricher.serializers.JsonSerde;
 import io.wizzie.ks.enricher.serializers.JsonSerializer;
 import kafka.utils.MockTime;
+import kafka.utils.Time;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.Serdes;
@@ -34,7 +35,6 @@ public class MultiplesStreamsIntegrationTest {
 
     @ClassRule
     public static EmbeddedKafkaCluster CLUSTER = new EmbeddedKafkaCluster(NUM_BROKERS);
-    private final static MockTime MOCK_TIME = CLUSTER.time;
 
     private static final int REPLICATION_FACTOR = 1;
 
@@ -115,11 +115,11 @@ public class MultiplesStreamsIntegrationTest {
 
         KeyValue<String, Map<String, Object>> kvStream3 = new KeyValue<>("KEY_A", message3);
 
-        IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_TABLE_1_TOPIC, Arrays.asList(kvStream3), producerConfig, MOCK_TIME);
+        IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_TABLE_1_TOPIC, Arrays.asList(kvStream3), producerConfig, CLUSTER.time);
 
-        IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_STREAM_1_TOPIC, Arrays.asList(kvStream1), producerConfig, MOCK_TIME);
+        IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_STREAM_1_TOPIC, Arrays.asList(kvStream1), producerConfig, CLUSTER.time);
 
-        IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_STREAM_2_TOPIC, Arrays.asList(kvStream2), producerConfig, MOCK_TIME);
+        IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_STREAM_2_TOPIC, Arrays.asList(kvStream2), producerConfig, CLUSTER.time);
 
         Map<String, Object> expectedData1 = new HashMap<>();
         expectedData1.put("a", 1);
