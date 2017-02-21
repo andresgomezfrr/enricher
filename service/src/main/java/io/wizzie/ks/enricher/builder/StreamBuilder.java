@@ -1,11 +1,9 @@
 package io.wizzie.ks.enricher.builder;
 
-import io.wizzie.ks.enricher.enrichment.join.QueryableBackJoiner;
-
-
 import io.wizzie.ks.enricher.builder.config.Config;
 import io.wizzie.ks.enricher.enrichment.join.BaseJoiner;
 import io.wizzie.ks.enricher.enrichment.join.Joiner;
+import io.wizzie.ks.enricher.enrichment.join.QueryableBackJoiner;
 import io.wizzie.ks.enricher.enrichment.join.QueryableJoiner;
 import io.wizzie.ks.enricher.enrichment.simple.BaseEnrich;
 import io.wizzie.ks.enricher.enrichment.simple.Enrich;
@@ -73,7 +71,7 @@ public class StreamBuilder {
     private static final Logger log = LoggerFactory.getLogger(StreamBuilder.class);
 
     public KStreamBuilder builder(PlanModel model) throws PlanBuilderException {
-        model.validate();
+        model.validate(config.clone());
         clean();
 
         KStreamBuilder builder = new KStreamBuilder();

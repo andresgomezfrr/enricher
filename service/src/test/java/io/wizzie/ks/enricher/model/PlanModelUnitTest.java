@@ -1,6 +1,8 @@
 package io.wizzie.ks.enricher.model;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.wizzie.ks.enricher.builder.config.Config;
+import io.wizzie.ks.enricher.exceptions.MaxOutputKafkaTopics;
 import io.wizzie.ks.enricher.exceptions.PlanBuilderException;
 import io.wizzie.ks.enricher.query.antlr4.Join;
 import io.wizzie.ks.enricher.query.antlr4.Query;
@@ -35,7 +37,7 @@ public class PlanModelUnitTest {
 
         assertNotNull(planModel);
 
-        planModel.validate();
+        planModel.validate(new Config());
 
         Map<String, Query> queries = planModel.getQueries();
 
@@ -303,8 +305,24 @@ public class PlanModelUnitTest {
         assertNotNull(insert3_1);
         assertEquals("rb_output", insert3_1.getName());
         assertFalse(insert3_1.isTable());
+    }
 
+    @Test(expected = MaxOutputKafkaTopics.class)
+    public void throwExceptionMaxOutputKafkaTopicsMultipleStreams() throws PlanBuilderException {
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        File file = new File(classLoader.getResource("plan-builder.json").getFile());
+        ObjectMapper objectMapper = new ObjectMapper();
 
+        PlanModel model = null;
 
+        try {
+            model = objectMapper.readValue(file, PlanModel.class);
+        } catch (IOException e) {
+            fail("Exception : " + e.getMessage());
+        }
+
+        Config config = new Config();
+        config.put(Config.ConfigProperties.MAX_KAFKA_OUTPUT_TOPICS, 1);
+        model.validate(config);
     }
 }

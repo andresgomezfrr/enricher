@@ -78,6 +78,7 @@ public class Config {
         public static final String METRIC_LISTENERS = "metric.listeners";
         public static final String METRIC_INTERVAL = "metric.interval";
         public static final String MULTI_ID = "multi.id";
+        public static final String MAX_KAFKA_OUTPUT_TOPICS = "max.kafka.output.topics";
     }
 
     public Config clone() {

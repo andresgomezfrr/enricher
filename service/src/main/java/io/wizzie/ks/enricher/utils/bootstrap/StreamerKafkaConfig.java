@@ -2,6 +2,7 @@ package io.wizzie.ks.enricher.utils.bootstrap;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.wizzie.ks.enricher.builder.bootstrap.KafkaBootstraper;
+import io.wizzie.ks.enricher.builder.config.Config;
 import io.wizzie.ks.enricher.exceptions.PlanBuilderException;
 import io.wizzie.ks.enricher.model.PlanModel;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -43,7 +44,7 @@ public class StreamerKafkaConfig {
             String streamConfig = stringBuffer.toString();
             ObjectMapper objectMapper = new ObjectMapper();
             PlanModel model = objectMapper.readValue(streamConfig, PlanModel.class);
-            model.validate();
+            model.validate(new Config());
 
             KafkaProducer<String, String> producer = new KafkaProducer<>(properties);
             producer.send(new ProducerRecord<>(KafkaBootstraper.BOOTSTRAP_TOPIC, 0, args[1], streamConfig),
@@ -105,7 +106,7 @@ public class StreamerKafkaConfig {
                         args[1], jsonOffset));
                 ObjectMapper objectMapper = new ObjectMapper();
                 PlanModel model = objectMapper.readValue(jsonStreamConfig, PlanModel.class);
-                model.validate();
+                model.validate(new Config());
 
                 System.out.println("Current executing plan: ");
                 System.out.println(model.printExecutionPlan());
