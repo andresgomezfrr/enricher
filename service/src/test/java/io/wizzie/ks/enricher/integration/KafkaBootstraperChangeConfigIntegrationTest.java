@@ -6,6 +6,7 @@ import io.wizzie.ks.enricher.serializers.JsonDeserializer;
 import io.wizzie.ks.enricher.serializers.JsonSerde;
 import io.wizzie.ks.enricher.serializers.JsonSerializer;
 import kafka.utils.MockTime;
+import kafka.utils.Time;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.Serdes;
@@ -38,7 +39,6 @@ public class KafkaBootstraperChangeConfigIntegrationTest {
 
     @ClassRule
     public static EmbeddedKafkaCluster CLUSTER = new EmbeddedKafkaCluster(NUM_BROKERS);
-    private final static MockTime MOCK_TIME = CLUSTER.time;
 
     private static final int REPLICATION_FACTOR = 1;
 
@@ -105,7 +105,7 @@ public class KafkaBootstraperChangeConfigIntegrationTest {
 
         producerConfig.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
 
-        IntegrationTestUtils.produceKeyValuesSynchronously(BOOTSTRAP_TOPIC, Collections.singletonList(jsonConfigKv), producerConfig, MOCK_TIME);
+        IntegrationTestUtils.produceKeyValuesSynchronously(BOOTSTRAP_TOPIC, Collections.singletonList(jsonConfigKv), producerConfig, CLUSTER.time);
 
         consumerConfig.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
 
@@ -131,11 +131,11 @@ public class KafkaBootstraperChangeConfigIntegrationTest {
 
         producerConfig.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
 
-        IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_TABLE_1_TOPIC, Arrays.asList(kvStream2), producerConfig, MOCK_TIME);
+        IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_TABLE_1_TOPIC, Arrays.asList(kvStream2), producerConfig, CLUSTER.time);
 
-        IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_TABLE_2_TOPIC, Arrays.asList(kvStream3), producerConfig, MOCK_TIME);
+        IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_TABLE_2_TOPIC, Arrays.asList(kvStream3), producerConfig, CLUSTER.time);
 
-        IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_STREAM_TOPIC, Arrays.asList(kvStream1), producerConfig, MOCK_TIME);
+        IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_STREAM_TOPIC, Arrays.asList(kvStream1), producerConfig, CLUSTER.time);
 
         Map<String, Object> expectedData1 = new HashMap<>();
         expectedData1.put("a", 1);
@@ -161,7 +161,7 @@ public class KafkaBootstraperChangeConfigIntegrationTest {
 
         producerConfig.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
 
-        IntegrationTestUtils.produceKeyValuesSynchronously(BOOTSTRAP_TOPIC, Collections.singletonList(jsonConfig2Kv), producerConfig, MOCK_TIME);
+        IntegrationTestUtils.produceKeyValuesSynchronously(BOOTSTRAP_TOPIC, Collections.singletonList(jsonConfig2Kv), producerConfig, CLUSTER.time);
 
         consumerConfig.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
 
@@ -192,11 +192,11 @@ public class KafkaBootstraperChangeConfigIntegrationTest {
 
         producerConfig.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
 
-        IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_TABLE_1_TOPIC, Arrays.asList(kvStream5), producerConfig, MOCK_TIME);
+        IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_TABLE_1_TOPIC, Arrays.asList(kvStream5), producerConfig, CLUSTER.time);
 
-        IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_TABLE_2_TOPIC, Arrays.asList(kvStream6), producerConfig, MOCK_TIME);
+        IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_TABLE_2_TOPIC, Arrays.asList(kvStream6), producerConfig, CLUSTER.time);
 
-        IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_STREAM_TOPIC, Arrays.asList(kvStream4), producerConfig, MOCK_TIME);
+        IntegrationTestUtils.produceKeyValuesSynchronously(INPUT_STREAM_TOPIC, Arrays.asList(kvStream4), producerConfig, CLUSTER.time);
 
         Map<String, Object> expectedData2 = new HashMap<>();
         expectedData2.put("a", 1);
