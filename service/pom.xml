@@ -12,7 +12,7 @@
     <description>enricher-service</description>
 
     <properties>
-        <kafka.version>0.10.1.0</kafka.version>
+        <kafka.version>0.10.1.1</kafka.version>
         <dropwizard.version>3.1.0</dropwizard.version>
         <joda.version>2.9.4</joda.version>
     </properties>
@@ -94,6 +94,12 @@
             <artifactId>junit</artifactId>
             <version>4.12</version>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka_2.11</artifactId>
+            <version>${kafka.version}</version>
         </dependency>
     </dependencies>
 
