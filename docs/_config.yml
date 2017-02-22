@@ -23,6 +23,8 @@ sections: [
     ['getting', 'Getting Started'],
     ['conf', 'Configuration'],
     ['bootstrapper', 'Bootstrapper'],
+    ['joiners', 'Joiners']
+    ['enrichers', 'enrichers']
     ['metrics', 'Metrics'],
     ['internals', 'Internals'],
     ['customize', 'Customize'],
