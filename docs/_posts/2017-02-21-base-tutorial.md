@@ -5,7 +5,7 @@ category: getting
 date: 2017-02-21 10:59:23
 ---
 
-On this page, we can to try an enrichment stream example using a real Kafka cluster and the enricher jar artifact. We are going to suppose that you have built the enricher distribution how we explain on the [Building]() section.
+On this page, we can to try an enrichment stream example using a real Kafka cluster and the enricher jar artifact. We are going to suppose that you have built the enricher distribution how we explain on the [Building](https://github.com/wizzie-io/enricher#compiling-sources) section.
 
 ### Explication
 First of all, we need define an enrichment stream for launch an enrich application.
