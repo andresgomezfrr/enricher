@@ -3,6 +3,7 @@ layout: page
 title: "Queryable Joiners"
 category: joiners
 date: 2017-02-21 10:43:32
+order: 2
 ---
 
 The queryable joiner works like base joiner. The difference is that a queryable joiner will notify to `__enricher_queryable` topic, if received message cannot be join it with other message with same key.
