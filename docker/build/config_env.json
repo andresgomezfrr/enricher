@@ -8,5 +8,5 @@
   "metric.listeners": ["io.wizzie.ks.enricher.metrics.KafkaMetricListener"],
   "metric.interval": ${METRIC_INTERVAL},
   "multi.id": ${MULTI_ID},
-  "max.output.kafka.topics": ${MAX_OUTPUT_KAFKA_TOPICS
+  "max.output.kafka.topics": ${MAX_OUTPUT_KAFKA_TOPICS}
 }
