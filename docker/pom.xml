@@ -15,7 +15,7 @@
     <description>Docker packaging manager</description>
 
     <properties>
-        <docker.registry>862098823673.dkr.ecr.us-east-1.amazonaws.com</docker.registry>
+        <docker.registry>gcr.io/wizzie-registry</docker.registry>
     </properties>
 
     <build>
