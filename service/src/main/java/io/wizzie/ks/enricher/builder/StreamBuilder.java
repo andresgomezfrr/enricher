@@ -15,11 +15,6 @@ import io.wizzie.ks.enricher.model.PlanModel;
 import io.wizzie.ks.enricher.query.antlr4.Join;
 import io.wizzie.ks.enricher.query.antlr4.Select;
 import io.wizzie.ks.enricher.query.antlr4.Stream;
-import kafka.admin.TopicCommand;
-import kafka.utils.ZKStringSerializer$;
-import kafka.utils.ZkUtils;
-import org.I0Itec.zkclient.ZkClient;
-import org.I0Itec.zkclient.ZkConnection;
 import org.apache.kafka.common.utils.Utils;
 import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.kstream.KStream;
@@ -31,7 +26,6 @@ import org.slf4j.LoggerFactory;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import static io.wizzie.ks.enricher.utils.Constants.__KEY;
@@ -45,27 +39,11 @@ public class StreamBuilder {
     Map<String, Joiner> joiners = new HashMap<>();
     Map<String, Enrich> enrichers = new HashMap<>();
 
-    ZkUtils zkUtils;
-    ZkClient zkClient;
-
-    final String ZK_CONNECT;
-    final String PARTITIONS = "4";
-    final String REPLICATION_FACTOR = "1";
-
-    final int ZK_TIMEOUT = (int) TimeUnit.SECONDS.toMillis(30);
-
     public StreamBuilder(Config config, MetricsManager metricsManager) {
-        ZK_CONNECT = config.get("zookeeper.connect");
-
         this.appId = config.get(APPLICATION_ID_CONFIG);
         this.config = config;
         this.metricsManager = metricsManager;
         this.streams = new HashMap<>();
-
-        if(ZK_CONNECT != null) {
-            zkClient = createZkClient();
-            zkUtils = new ZkUtils(zkClient, new ZkConnection(ZK_CONNECT),false);
-        }
     }
 
     private static final Logger log = LoggerFactory.getLogger(StreamBuilder.class);
@@ -83,28 +61,6 @@ public class StreamBuilder {
         addInserts(model);
 
         return builder;
-    }
-
-    private ZkClient createZkClient(){
-        return new ZkClient(ZK_CONNECT, ZK_TIMEOUT, ZK_TIMEOUT, ZKStringSerializer$.MODULE$);
-    }
-
-    private void createTopicIfNotExists(String topic) {
-        if(zkClient != null && zkUtils != null) {
-            String[] topicArgs = {
-                    "--zookeeper", ZK_CONNECT,
-                    "--partitions", PARTITIONS,
-                    "--replication-factor", REPLICATION_FACTOR,
-                    "--create",
-                    "--topic", topic,
-                    "--if-not-exists"
-            };
-
-            TopicCommand.TopicCommandOptions options = new TopicCommand.TopicCommandOptions(topicArgs);
-            options.checkArgs();
-
-            TopicCommand.createTopic(zkUtils, options);
-        }
     }
 
     private void buildInstances(PlanModel model) {
@@ -148,8 +104,6 @@ public class StreamBuilder {
                         .collect(Collectors.toList());
             }
 
-            topicStreams.forEach(topic -> createTopicIfNotExists(topic));
-
             KStream<String, Map<String, Object>> stream =
                     builder.stream(topicStreams.toArray(new String[topicStreams.size()]));
 
@@ -189,8 +143,6 @@ public class StreamBuilder {
                 } else {
                     tableName = join.getStream().getName();
                 }
-
-                createTopicIfNotExists(tableName);
 
                 KTable<String, Map<String, Object>> table = builder.table(tableName, String.format("__%s_%s", appId, tableName));
 
@@ -314,8 +266,6 @@ public class StreamBuilder {
             if (config.getOrDefault(Config.ConfigProperties.MULTI_ID, false)) {
                 outputStream = String.format("%s_%s", appId, outputStream);
             }
-
-            createTopicIfNotExists(outputStream);
 
             stream.to(outputStream);
         });

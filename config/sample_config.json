@@ -1,7 +1,6 @@
 {
   "application.id": "ks-enricher-app-id",
   "bootstrap.servers": "localhost:9092",
-  "zookeeper.connect": "localhost:2181",
   "num.stream.threads": 1,
   "bootstraper.classname": "io.wizzie.ks.enricher.builder.bootstrap.KafkaBootstraper",
   "metric.enable": true,

@@ -1,7 +1,6 @@
 {
   "application.id": "${APPLICATION_ID}",
   "bootstrap.servers": "${KAFKA_BOOTSTRAP_SERVER}",
-  "zookeeper.connect": "${ZOOKEEPER_CONNECT}",
   "num.stream.threads": ${NUM_STREAM_THREADS},
   "bootstraper.classname": "io.wizzie.ks.enricher.builder.bootstrap.KafkaBootstraper",
   "metric.enable": ${METRIC_ENABLE},

@@ -75,7 +75,6 @@ We need to modify the config file that is inside the folder `config/sample_confi
 {
   "application.id": "my-first-enricher-app",
   "bootstrap.servers": "localhost:9092",
-  "zookeeper.connect": "localhost:2181",
   "num.stream.threads": 1,
   "bootstraper.classname": "io.wizzie.ks.enricher.builder.bootstrap.FileBootstraper",
   "file.bootstraper.path": "/etc/enricher/my-enrichment-tutorial.json",

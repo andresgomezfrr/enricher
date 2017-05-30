@@ -17,9 +17,9 @@ public class EnricherCompilerUnitTest {
     @Test
     public void ShouldParseSimpleQueryCorrectly() {
 
-        String stringQuery = "SELECT * FROM STREAM rb_input " +
-                "JOIN SELECT a,b FROM STREAM rb_input2 USING jClass " +
-                "INSERT INTO TABLE rb_output";
+        String stringQuery = "SELECT * FROM STREAM input " +
+                "JOIN SELECT a,b FROM STREAM input2 USING jClass " +
+                "INSERT INTO TABLE output";
 
         Query query = EnricherCompiler.parse(stringQuery);
 
@@ -40,7 +40,7 @@ public class EnricherCompilerUnitTest {
 
         assertNotNull(selectStreams);
         assertEquals(1, selectStreams.size());
-        assertEquals("rb_input", selectStreams.get(0).getName());
+        assertEquals("input", selectStreams.get(0).getName());
         assertFalse(selectStreams.get(0).isTable());
 
         // Joins tests
@@ -56,7 +56,7 @@ public class EnricherCompilerUnitTest {
         Stream joinStream = joins.get(0).getStream();
 
         assertNotNull(joinStream);
-        assertEquals("rb_input2", joinStream.getName());
+        assertEquals("input2", joinStream.getName());
         assertFalse(joinStream.isTable());
 
         String joinerClass = joins.get(0).getJoinerName();
@@ -68,7 +68,7 @@ public class EnricherCompilerUnitTest {
         Stream insertObject = query.getInsert();
 
         assertNotNull(insertObject);
-        assertEquals("rb_output", insertObject.getName());
+        assertEquals("output", insertObject.getName());
         assertTrue(insertObject.isTable());
 
     }
@@ -76,11 +76,11 @@ public class EnricherCompilerUnitTest {
     @Test
     public void ShouldParseComplexQueryCorrectly() {
 
-        String stringQuery = "SELECT * FROM STREAM rb_input " +
-                "JOIN SELECT a,b,c FROM STREAM rb_input2 USING jClass1 " +
-                "JOIN SELECT * FROM TABLE rb_input3 USING jClass2 " +
-                "JOIN SELECT x,y FROM STREAM rb_input4 USING jClass3 " +
-                "INSERT INTO TABLE rb_output";
+        String stringQuery = "SELECT * FROM STREAM input " +
+                "JOIN SELECT a,b,c FROM STREAM input2 USING jClass1 " +
+                "JOIN SELECT * FROM TABLE input3 USING jClass2 " +
+                "JOIN SELECT x,y FROM STREAM input4 USING jClass3 " +
+                "INSERT INTO TABLE output";
 
         Query query = EnricherCompiler.parse(stringQuery);
 
@@ -101,7 +101,7 @@ public class EnricherCompilerUnitTest {
 
         assertNotNull(selectStreams);
         assertEquals(1, selectStreams.size());
-        assertEquals("rb_input", selectStreams.get(0).getName());
+        assertEquals("input", selectStreams.get(0).getName());
         assertFalse(selectStreams.get(0).isTable());
 
         // Joins tests
@@ -119,7 +119,7 @@ public class EnricherCompilerUnitTest {
         Stream joinStream1 = joins.get(0).getStream();
 
         assertNotNull(joinStream1);
-        assertEquals("rb_input2", joinStream1.getName());
+        assertEquals("input2", joinStream1.getName());
         assertFalse(joinStream1.isTable());
 
         String joinerClass1 = joins.get(0).getJoinerName();
@@ -137,7 +137,7 @@ public class EnricherCompilerUnitTest {
         Stream joinStream2 = joins.get(1).getStream();
 
         assertNotNull(joinStream2);
-        assertEquals("rb_input3", joinStream2.getName());
+        assertEquals("input3", joinStream2.getName());
         assertTrue(joinStream2.isTable());
 
         String joinerClass2 = joins.get(1).getJoinerName();
@@ -156,7 +156,7 @@ public class EnricherCompilerUnitTest {
         Stream joinStream3 = joins.get(2).getStream();
 
         assertNotNull(joinStream3);
-        assertEquals("rb_input4", joinStream3.getName());
+        assertEquals("input4", joinStream3.getName());
         assertFalse(joinStream3.isTable());
 
         String joinerClass3 = joins.get(2).getJoinerName();
@@ -168,7 +168,7 @@ public class EnricherCompilerUnitTest {
         Stream insertObject = query.getInsert();
 
         assertNotNull(insertObject);
-        assertEquals("rb_output", insertObject.getName());
+        assertEquals("output", insertObject.getName());
         assertTrue(insertObject.isTable());
 
     }
@@ -176,11 +176,11 @@ public class EnricherCompilerUnitTest {
     @Test
     public void ShouldParseQueryWithEnrichWithCorrectly() {
 
-        String stringQuery = "SELECT * FROM STREAM rb_input " +
-                "JOIN SELECT a,b FROM STREAM rb_input2 USING jClass " +
+        String stringQuery = "SELECT * FROM STREAM input " +
+                "JOIN SELECT a,b FROM STREAM input2 USING jClass " +
                 "ENRICH WITH pkg2classA " +
                 "ENRICH WITH pkg1classB " +
-                "INSERT INTO TABLE rb_output";
+                "INSERT INTO TABLE output";
 
         Query query = EnricherCompiler.parse(stringQuery);
 
@@ -201,7 +201,7 @@ public class EnricherCompilerUnitTest {
 
         assertNotNull(selectStreams);
         assertEquals(1, selectStreams.size());
-        assertEquals("rb_input", selectStreams.get(0).getName());
+        assertEquals("input", selectStreams.get(0).getName());
         assertFalse(selectStreams.get(0).isTable());
 
         // Joins tests
@@ -217,7 +217,7 @@ public class EnricherCompilerUnitTest {
         Stream joinStream = joins.get(0).getStream();
 
         assertNotNull(joinStream);
-        assertEquals("rb_input2", joinStream.getName());
+        assertEquals("input2", joinStream.getName());
         assertFalse(joinStream.isTable());
 
         String joinerClass = joins.get(0).getJoinerName();
@@ -248,7 +248,7 @@ public class EnricherCompilerUnitTest {
         Stream insertObject = query.getInsert();
 
         assertNotNull(insertObject);
-        assertEquals("rb_output", insertObject.getName());
+        assertEquals("output", insertObject.getName());
         assertTrue(insertObject.isTable());
 
     }
