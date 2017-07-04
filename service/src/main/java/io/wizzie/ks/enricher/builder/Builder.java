@@ -53,17 +53,7 @@ public class Builder {
         log.info("--------  TOPOLOGY BUILD END  --------");
 
         streams = new KafkaStreams(builder, config.getProperties());
-        streams.setUncaughtExceptionHandler((thread, exception) -> {
-            if (!exception.getMessage().contains("Topic not found")) {
-                log.error(exception.getMessage(), exception);
-            } else {
-                log.warn("Creating topics, try execute Enricher again!");
-            }
-
-            metricsManager.interrupt();
-            threadBootstraper.interrupt();
-            streamBuilder.close();
-        });
+        streams.setUncaughtExceptionHandler((thread, exception) -> log.error(exception.getMessage(), exception));
         streams.start();
 
         log.info("Started Enricher with conf {}", config.getProperties());

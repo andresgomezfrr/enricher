@@ -173,22 +173,16 @@ public class StreamBuilder {
                 KStream<String, Map<String, Object>> stream = streams.get(entry.getKey());
 
                 if (!join.getPartitionKey().equals(__KEY)) {
-                    stream = stream
-                            .map((key, value) -> {
-                                String newKey;
-                                if (value.containsKey(join.getPartitionKey())) {
-                                    newKey = value.get(join.getPartitionKey()).toString();
-                                } else {
-                                    newKey = key;
-                                }
+                    stream = stream.selectKey((key, value) -> {
+                        String newKey;
+                        if (value.containsKey(join.getPartitionKey())) {
+                            newKey = value.get(join.getPartitionKey()).toString();
+                        } else {
+                            newKey = key;
+                        }
 
-                                return new KeyValue<>(newKey, value);
-                            })
-                            .through(
-                                    (key, value, numPartitions) -> Utils.abs(Utils.murmur2(key.getBytes())) % numPartitions,
-                                    String.format("__%s_enricher_%s_partition_by_%s",
-                                            appId, entry.getKey(), join.getPartitionKey())
-                            );
+                        return newKey;
+                    });
                 }
 
                 Joiner joiner = joiners.get(join.getJoinerName());
