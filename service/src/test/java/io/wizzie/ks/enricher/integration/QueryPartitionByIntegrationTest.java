@@ -35,12 +35,10 @@ public class QueryPartitionByIntegrationTest {
     private static final String INPUT_STREAM_2_TOPIC = "stream2";
     private static final String INPUT_TABLE_1_TOPIC = "table1";
 
-
     private static final String OUTPUT_1_TOPIC = "output1";
     private static final String OUTPUT_2_TOPIC = "output2";
 
     private static final String appId = UUID.randomUUID().toString();
-
 
     private static Properties producerConfig = new Properties();
 
@@ -54,9 +52,6 @@ public class QueryPartitionByIntegrationTest {
 
         CLUSTER.createTopic(OUTPUT_1_TOPIC, 2, REPLICATION_FACTOR);
         CLUSTER.createTopic(OUTPUT_2_TOPIC, 2, REPLICATION_FACTOR);
-        CLUSTER.createTopic(String.format("__%s_enricher_query1_partition_by_b", appId), 2, REPLICATION_FACTOR);
-        CLUSTER.createTopic(String.format("__%s_enricher_query2_partition_by_u", appId), 2, REPLICATION_FACTOR);
-
 
         producerConfig.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, CLUSTER.bootstrapServers());
         producerConfig.put(ProducerConfig.ACKS_CONFIG, "all");
