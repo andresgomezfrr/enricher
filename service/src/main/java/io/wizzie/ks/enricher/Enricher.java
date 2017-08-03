@@ -1,7 +1,7 @@
 package io.wizzie.ks.enricher;
 
 import io.wizzie.ks.enricher.builder.Builder;
-import io.wizzie.ks.enricher.builder.config.Config;
+import io.wizzie.bootstrapper.builder.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,7 +14,11 @@ public class Enricher {
             Builder builder = new Builder(config.clone());
 
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-                builder.close();
+                try {
+                    builder.close();
+                } catch (Exception e) {
+                    log.error(e.getMessage(), e);
+                }
                 log.info("Stopped Enricher process.");
             }));
 

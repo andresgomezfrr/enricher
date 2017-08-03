@@ -2,7 +2,8 @@ package io.wizzie.ks.enricher.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.wizzie.ks.enricher.builder.config.Config;
+import io.wizzie.bootstrapper.builder.*;
+import io.wizzie.ks.enricher.builder.config.ConfigProperties;
 import io.wizzie.ks.enricher.exceptions.MaxOutputKafkaTopics;
 import io.wizzie.ks.enricher.exceptions.PlanBuilderException;
 import io.wizzie.ks.enricher.query.EnricherCompiler;
@@ -91,7 +92,7 @@ public class PlanModel {
                 .count();
 
         Integer maxKafkaOutputs = config.getOrDefault(
-                Config.ConfigProperties.MAX_KAFKA_OUTPUT_TOPICS, Integer.MAX_VALUE
+                ConfigProperties.MAX_KAFKA_OUTPUT_TOPICS, Integer.MAX_VALUE
         );
 
         if (kafkaOutputs > maxKafkaOutputs) {

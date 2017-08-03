@@ -2,7 +2,7 @@ package io.wizzie.ks.enricher.metrics;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.wizzie.ks.enricher.builder.config.Config;
+import io.wizzie.bootstrapper.builder.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -18,6 +18,11 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>io.wizzie</groupId>
+            <artifactId>config-bootstrapper</artifactId>
+            <version>0.0.1</version>
+        </dependency>
 
         <dependency>
             <groupId>io.wizzie.ks.enricher</groupId>

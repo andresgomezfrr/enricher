@@ -1,6 +1,6 @@
 package io.wizzie.ks.enricher.metrics;
 
-import io.wizzie.ks.enricher.builder.config.Config;
+import io.wizzie.bootstrapper.builder.*;
 import org.junit.Test;
 
 import java.util.Collections;

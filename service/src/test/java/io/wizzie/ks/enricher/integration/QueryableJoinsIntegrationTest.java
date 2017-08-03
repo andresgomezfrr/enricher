@@ -1,7 +1,7 @@
 package io.wizzie.ks.enricher.integration;
 
+import io.wizzie.bootstrapper.builder.Config;
 import io.wizzie.ks.enricher.builder.Builder;
-import io.wizzie.ks.enricher.builder.config.Config;
 import io.wizzie.ks.enricher.serializers.JsonDeserializer;
 import io.wizzie.ks.enricher.serializers.JsonSerde;
 import io.wizzie.ks.enricher.serializers.JsonSerializer;
@@ -20,7 +20,7 @@ import org.junit.Test;
 
 import java.util.*;
 
-import static io.wizzie.ks.enricher.builder.config.Config.ConfigProperties.BOOTSTRAPER_CLASSNAME;
+import static io.wizzie.ks.enricher.builder.config.ConfigProperties.BOOTSTRAPER_CLASSNAME;
 import static org.apache.kafka.streams.StreamsConfig.APPLICATION_ID_CONFIG;
 import static org.junit.Assert.assertEquals;
 
@@ -85,7 +85,7 @@ public class QueryableJoinsIntegrationTest {
 
         Config configuration = new Config(streamsConfiguration);
         configuration.put("file.bootstraper.path", Thread.currentThread().getContextClassLoader().getResource("queryable-joins-integration-test.json").getFile());
-        configuration.put(BOOTSTRAPER_CLASSNAME, "io.wizzie.ks.enricher.builder.bootstrap.FileBootstraper");
+        configuration.put(BOOTSTRAPER_CLASSNAME, "io.wizzie.bootstrapper.bootstrappers.impl.FileBootstrapper");
 
         Builder builder = new Builder(configuration);
 
