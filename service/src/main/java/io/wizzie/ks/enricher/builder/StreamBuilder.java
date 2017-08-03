@@ -1,6 +1,7 @@
 package io.wizzie.ks.enricher.builder;
 
-import io.wizzie.ks.enricher.builder.config.Config;
+import io.wizzie.bootstrapper.builder.*;
+import io.wizzie.ks.enricher.builder.config.ConfigProperties;
 import io.wizzie.ks.enricher.enrichment.join.BaseJoiner;
 import io.wizzie.ks.enricher.enrichment.join.Joiner;
 import io.wizzie.ks.enricher.enrichment.join.QueryableBackJoiner;
@@ -100,7 +101,7 @@ public class StreamBuilder {
                     .map(Stream::getName)
                     .collect(Collectors.toList());
 
-            if (config.getOrDefault(Config.ConfigProperties.MULTI_ID, false)) {
+            if (config.getOrDefault(ConfigProperties.MULTI_ID, false)) {
                 topicStreams = topicStreams.stream()
                         .map(topic -> String.format("%s_%s", appId, topic))
                         .collect(Collectors.toList());
@@ -140,7 +141,7 @@ public class StreamBuilder {
 
                 String tableName;
 
-                if (config.getOrDefault(Config.ConfigProperties.MULTI_ID, false)) {
+                if (config.getOrDefault(ConfigProperties.MULTI_ID, false)) {
                     tableName = String.format("%s_%s", appId, join.getStream().getName());
                 } else {
                     tableName = join.getStream().getName();
@@ -266,7 +267,7 @@ public class StreamBuilder {
 
             String outputStream = insert.getName();
 
-            if (config.getOrDefault(Config.ConfigProperties.MULTI_ID, false)) {
+            if (config.getOrDefault(ConfigProperties.MULTI_ID, false)) {
                 outputStream = String.format("%s_%s", appId, outputStream);
             }
 

@@ -2,10 +2,11 @@
   "application.id": "${APPLICATION_ID}",
   "bootstrap.servers": "${KAFKA_BOOTSTRAP_SERVER}",
   "num.stream.threads": ${NUM_STREAM_THREADS},
-  "bootstraper.classname": "io.wizzie.ks.enricher.builder.bootstrap.KafkaBootstraper",
+  "bootstraper.classname": "io.wizzie.bootstrapper.bootstrappers.impl.KafkaBootstrapper",
   "metric.enable": ${METRIC_ENABLE},
   "metric.listeners": ["io.wizzie.ks.enricher.metrics.KafkaMetricListener"],
   "metric.interval": ${METRIC_INTERVAL},
   "multi.id": ${MULTI_ID},
-  "max.output.kafka.topics": ${MAX_OUTPUT_KAFKA_TOPICS}
+  "max.output.kafka.topics": ${MAX_OUTPUT_KAFKA_TOPICS},
+  "bootstrap.kafka.topics":["__enricher_bootstrap"]
 }

@@ -1,5 +1,6 @@
 package io.wizzie.ks.enricher.builder.config;
 
+import io.wizzie.bootstrapper.builder.Config;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -22,7 +23,7 @@ public class ConfigUnitTest {
         expectedConfig.put("property-3", 50.0);
         expectedConfig.put("property-4", true);
 
-        assertEquals(expectedConfig, myConfiguration.config);
+        assertEquals(expectedConfig, myConfiguration.getMapConf());
     }
 
     @Test
@@ -41,7 +42,7 @@ public class ConfigUnitTest {
         expectedConfig.put("property-3", 50.0);
         expectedConfig.put("property-4", true);
 
-        assertEquals(expectedConfig, myConfiguration.config);
+        assertEquals(expectedConfig, myConfiguration.getMapConf());
     }
 
     @Test
@@ -54,7 +55,7 @@ public class ConfigUnitTest {
         Map<String, Object> expectedConfiguration = new HashMap<>();
         expectedConfiguration.put("property-1", "value-1");
 
-        assertEquals(expectedConfiguration, myConfiguration.config);
+        assertEquals(expectedConfiguration, myConfiguration.getMapConf());
 
         assertEquals("value-1", myConfiguration.<String>get("property-1"));
         assertNull(myConfiguration.<Integer>get("property-2"));
@@ -79,7 +80,7 @@ public class ConfigUnitTest {
         expectedConfiguration.put("property-3", 50.0);
         expectedConfiguration.put("property-4", true);
 
-        assertEquals(expectedConfiguration, myConfiguration.config);
+        assertEquals(expectedConfiguration, myConfiguration.getMapConf());
 
         assertEquals("value-1", myConfiguration.<String>get("property-1"));
         assertEquals(new Integer(100), myConfiguration.<Integer>get("property-2"));

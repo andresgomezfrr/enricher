@@ -1,11 +1,14 @@
 package io.wizzie.ks.enricher.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.wizzie.bootstrapper.bootstrappers.impl.KafkaBootstrapper;
 import io.wizzie.ks.enricher.builder.Builder;
-import io.wizzie.ks.enricher.builder.config.Config;
+import io.wizzie.bootstrapper.builder.*;
+import io.wizzie.ks.enricher.builder.config.ConfigProperties;
 import io.wizzie.ks.enricher.serializers.JsonDeserializer;
 import io.wizzie.ks.enricher.serializers.JsonSerde;
 import io.wizzie.ks.enricher.serializers.JsonSerializer;
+import kafka.Kafka;
 import kafka.utils.MockTime;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -87,7 +90,8 @@ public class GeoIpEnrichIntegrationTest {
         streamsConfiguration.put(StreamsConfig.NUM_STREAM_THREADS_CONFIG, 1);
 
         Config configuration = new Config(streamsConfiguration);
-        configuration.put(Config.ConfigProperties.BOOTSTRAPER_CLASSNAME, "io.wizzie.ks.enricher.builder.bootstrap.KafkaBootstraper");
+        configuration.put(ConfigProperties.BOOTSTRAPER_CLASSNAME, "io.wizzie.bootstrapper.bootstrappers.impl.KafkaBootstrapper");
+        configuration.put(KafkaBootstrapper.BOOTSTRAP_TOPICS_CONFIG, Arrays.asList(BOOTSTRAP_TOPIC));
 
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 

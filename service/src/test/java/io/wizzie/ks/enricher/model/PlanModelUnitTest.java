@@ -1,7 +1,8 @@
 package io.wizzie.ks.enricher.model;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.wizzie.ks.enricher.builder.config.Config;
+import io.wizzie.bootstrapper.builder.*;
+import io.wizzie.ks.enricher.builder.config.ConfigProperties;
 import io.wizzie.ks.enricher.exceptions.MaxOutputKafkaTopics;
 import io.wizzie.ks.enricher.exceptions.PlanBuilderException;
 import io.wizzie.ks.enricher.query.antlr4.Join;
@@ -322,7 +323,7 @@ public class PlanModelUnitTest {
         }
 
         Config config = new Config();
-        config.put(Config.ConfigProperties.MAX_KAFKA_OUTPUT_TOPICS, 1);
+        config.put(ConfigProperties.MAX_KAFKA_OUTPUT_TOPICS, 1);
         model.validate(config);
     }
 }
