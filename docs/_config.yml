@@ -25,6 +25,7 @@ sections: [
     ['bootstrapper', 'Bootstrapper'],
     ['joiners', 'Joiners'],
     ['enrichers', 'Enrichers'],
+    ['docker', 'Dockers'],
     ['metrics', 'Metrics'],
     ['internals', 'Internals'],
     ['customize', 'Customize'],
