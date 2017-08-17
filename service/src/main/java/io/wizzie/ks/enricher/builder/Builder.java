@@ -5,6 +5,8 @@ import io.wizzie.bootstrapper.builder.*;
 import io.wizzie.ks.enricher.exceptions.PlanBuilderException;
 import io.wizzie.ks.enricher.metrics.MetricsManager;
 import io.wizzie.ks.enricher.model.PlanModel;
+import io.wizzie.ks.enricher.serializers.JsonSerde;
+import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.KafkaStreams;
 import org.apache.kafka.streams.kstream.KStreamBuilder;
 import org.slf4j.Logger;
@@ -25,6 +27,10 @@ public class Builder implements Listener {
 
     public Builder(Config config) throws Exception {
         this.config = config;
+
+        config.put("key.serde", Serdes.StringSerde.class);
+        config.put("value.serde", JsonSerde.class);
+
         metricsManager = new MetricsManager(config.clone());
         metricsManager.start();
 
