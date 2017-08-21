@@ -35,7 +35,7 @@ You can found more information about `wurstmeister/kafka` image [here](https://h
 
 #### Start Enricher
 
-Once kafka broker is up, we can start a Enricher container and link it to the kafka broker, and configuring the APPLICATION_ID environment variable with us custom app name:
+Once kafka broker is up, we can start a Enricher container and link it to the kafka broker, and configuring the APPLICATION_ID environment variable with our custom app name:
 
 ```
 $ docker run --rm --name my-enricher --net=host -e APPLICATION_ID=my-enricher-app -e KAFKA_BOOTSTRAP_SERVER=localhost:9092 gcr.io/wizzie-registry/enricher:0.1.0
