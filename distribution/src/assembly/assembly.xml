@@ -60,6 +60,12 @@
             <outputDirectory>config</outputDirectory>
         </file>
 
+        <file>
+            <source>${project.parent.basedir}/extensions/target/${project.parent.artifactId}-extensions-${project.version}.jar</source>
+            <outputDirectory>lib</outputDirectory>
+            <destName>${project.parent.artifactId}-extensions-${project.version}.jar</destName>
+        </file>
+
     </files>
 
 </assembly>
