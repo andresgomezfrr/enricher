@@ -37,10 +37,13 @@ ENRICH: E N R I C H;
 WITH: W I T H;
 BY: B Y;
 
-ID : [a-zA-Z_] [a-zA-Z_0-9]*;
+ID : ([a-zA-Z]|UNDERSCORE) ([a-zA-Z0-9]|HYPHEN|UNDERSCORE)*;
+
 
 WS: [ \r\n\t] -> skip;
 
+fragment HYPHEN: '-';
+fragment UNDERSCORE: '_';
 fragment A : [aA];
 fragment B : [bB];
 fragment C : [cC];

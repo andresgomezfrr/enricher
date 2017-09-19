@@ -252,4 +252,150 @@ public class EnricherCompilerUnitTest {
         assertTrue(insertObject.isTable());
 
     }
+
+    @Test
+    public void ShouldParseQueryWithHyphensInStreamIDsCorrectly() {
+
+        String stringQuery = "SELECT * FROM STREAM my-input-stream " +
+                "JOIN SELECT a,b FROM STREAM my-input-stream-2 USING jClass " +
+                "ENRICH WITH pkg2classA " +
+                "INSERT INTO TABLE my-output-stream";
+
+        Query query = EnricherCompiler.parse(stringQuery);
+
+        assertNotNull(query);
+
+        // Select tests
+        Select selectObject = query.getSelect();
+
+        assertNotNull(selectObject);
+
+        List<String> selectDimensions = selectObject.getDimensions();
+
+        assertNotNull(selectDimensions);
+        assertEquals(1, selectDimensions.size());
+        assertEquals(Collections.singletonList("*"), selectDimensions);
+
+        List<Stream> selectStreams = selectObject.getStreams();
+
+        assertNotNull(selectStreams);
+        assertEquals(1, selectStreams.size());
+        assertEquals("my-input-stream", selectStreams.get(0).getName());
+        assertFalse(selectStreams.get(0).isTable());
+
+        // Joins tests
+        List<Join> joins = query.getJoins();
+
+        assertEquals(1, joins.size());
+
+        List<String> joinDimensions = joins.get(0).getDimensions();
+        assertNotNull(joinDimensions);
+        assertEquals(2, joinDimensions.size());
+        assertEquals(Arrays.asList("a", "b"), joinDimensions);
+
+        Stream joinStream = joins.get(0).getStream();
+
+        assertNotNull(joinStream);
+        assertEquals("my-input-stream-2", joinStream.getName());
+        assertFalse(joinStream.isTable());
+
+        String joinerClass = joins.get(0).getJoinerName();
+
+        assertNotNull(joinerClass);
+        assertEquals("jClass", joinerClass);
+
+        // Enrich with tests
+        List<String> enrichWiths = query.getEnrichWiths();
+
+        assertNotNull(enrichWiths);
+
+        assertEquals(1, enrichWiths.size());
+
+        String enrichWith1 = enrichWiths.get(0);
+
+        assertNotNull(enrichWith1);
+
+        assertEquals("pkg2classA", enrichWith1);
+
+        // Insert tests
+        Stream insertObject = query.getInsert();
+
+        assertNotNull(insertObject);
+        assertEquals("my-output-stream", insertObject.getName());
+        assertTrue(insertObject.isTable());
+
+    }
+
+    @Test
+    public void ShouldParseQueryWithUnderscoreInStreamIDsCorrectly() {
+
+        String stringQuery = "SELECT * FROM STREAM my_input_stream " +
+                "JOIN SELECT a,b FROM STREAM my_input_stream_2 USING jClass " +
+                "ENRICH WITH pkg2classA " +
+                "INSERT INTO TABLE my_output_stream";
+
+        Query query = EnricherCompiler.parse(stringQuery);
+
+        assertNotNull(query);
+
+        // Select tests
+        Select selectObject = query.getSelect();
+
+        assertNotNull(selectObject);
+
+        List<String> selectDimensions = selectObject.getDimensions();
+
+        assertNotNull(selectDimensions);
+        assertEquals(1, selectDimensions.size());
+        assertEquals(Collections.singletonList("*"), selectDimensions);
+
+        List<Stream> selectStreams = selectObject.getStreams();
+
+        assertNotNull(selectStreams);
+        assertEquals(1, selectStreams.size());
+        assertEquals("my_input_stream", selectStreams.get(0).getName());
+        assertFalse(selectStreams.get(0).isTable());
+
+        // Joins tests
+        List<Join> joins = query.getJoins();
+
+        assertEquals(1, joins.size());
+
+        List<String> joinDimensions = joins.get(0).getDimensions();
+        assertNotNull(joinDimensions);
+        assertEquals(2, joinDimensions.size());
+        assertEquals(Arrays.asList("a", "b"), joinDimensions);
+
+        Stream joinStream = joins.get(0).getStream();
+
+        assertNotNull(joinStream);
+        assertEquals("my_input_stream_2", joinStream.getName());
+        assertFalse(joinStream.isTable());
+
+        String joinerClass = joins.get(0).getJoinerName();
+
+        assertNotNull(joinerClass);
+        assertEquals("jClass", joinerClass);
+
+        // Enrich with tests
+        List<String> enrichWiths = query.getEnrichWiths();
+
+        assertNotNull(enrichWiths);
+
+        assertEquals(1, enrichWiths.size());
+
+        String enrichWith1 = enrichWiths.get(0);
+
+        assertNotNull(enrichWith1);
+
+        assertEquals("pkg2classA", enrichWith1);
+
+        // Insert tests
+        Stream insertObject = query.getInsert();
+
+        assertNotNull(insertObject);
+        assertEquals("my_output_stream", insertObject.getName());
+        assertTrue(insertObject.isTable());
+
+    }
 }

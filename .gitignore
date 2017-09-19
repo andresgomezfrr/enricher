@@ -70,3 +70,5 @@ dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
 
+# ANTLR Generated resources folder
+gen
