@@ -3,6 +3,7 @@ package io.wizzie.ks.enricher.enrichment.geoip;
 import com.maxmind.geoip.Location;
 import com.maxmind.geoip.LookupService;
 import io.wizzie.ks.enricher.enrichment.simple.BaseEnrich;
+import io.wizzie.ks.enricher.enrichment.utils.Constants;
 import io.wizzie.ks.enricher.metrics.MetricsManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
+
+import static io.wizzie.ks.enricher.enrichment.utils.Constants.*;
 
 public class GeoIpEnrich extends BaseEnrich {
     private static final Logger log = LoggerFactory.getLogger(GeoIpEnrich.class);
@@ -58,17 +61,17 @@ public class GeoIpEnrich extends BaseEnrich {
     LookupService asn6;
 
     public void prepare(Map<String, Object> properties, MetricsManager metricsManager) {
-        SRC_COUNTRY_CODE = (String) properties.getOrDefault("src.country.code.dim", "src_country_code");
-        DST_COUNTRY_CODE = (String) properties.getOrDefault("dst.country.code.dim", "dst_country_code");
-        SRC_IP = (String) properties.getOrDefault("src.dim", "src");
-        DST_IP = (String) properties.getOrDefault("dst.dim", "dst");
-        SRC_AS_NAME = (String) properties.getOrDefault("src.as.name.dim", "src_as_name");
-        DST_AS_NAME = (String) properties.getOrDefault("dst.as.name.dim", "dst_as_name");
+        SRC_COUNTRY_CODE = (String) properties.getOrDefault(SRC_COUNTRY_CODE_DIM, "src_country_code");
+        DST_COUNTRY_CODE = (String) properties.getOrDefault(DST_COUNTRY_CODE_DIM, "dst_country_code");
+        SRC_IP = (String) properties.getOrDefault(SRC_DIM, "src");
+        DST_IP = (String) properties.getOrDefault(DST_DIM, "dst");
+        SRC_AS_NAME = (String) properties.getOrDefault(SRC_AS_NAME_DIM, "src_as_name");
+        DST_AS_NAME = (String) properties.getOrDefault(DST_AS_NAME_DIM, "dst_as_name");
 
-        String ASN_V6_DB_PATH = (String) properties.getOrDefault("asn6.db.path", "/opt/share/GeoIP/asnv6.dat");
-        String ASN_DB_PATH = (String) properties.getOrDefault("asn.db.path", "/opt/share/GeoIP/asn.dat");
-        String CITY_V6_DB_PATH = (String) properties.getOrDefault("city6.db.path", "/opt/share/GeoIP/cityv6.dat");
-        String CITY_DB_PATH = (String) properties.getOrDefault("city.db.path", "/opt/share/GeoIP/city.dat");
+        String ASN_V6_DB_PATH = (String) properties.getOrDefault(ASN6_DB_PATH, "/opt/share/GeoIP/asnv6.dat");
+        String ASN_DB_PATH = (String) properties.getOrDefault(Constants.ASN_DB_PATH, "/opt/share/GeoIP/asn.dat");
+        String CITY_V6_DB_PATH = (String) properties.getOrDefault(CITY6_DB_PATH, "/opt/share/GeoIP/cityv6.dat");
+        String CITY_DB_PATH = (String) properties.getOrDefault(Constants.CITY_DB_PATH, "/opt/share/GeoIP/city.dat");
 
         try {
             city = new LookupService(CITY_DB_PATH, LookupService.GEOIP_MEMORY_CACHE);

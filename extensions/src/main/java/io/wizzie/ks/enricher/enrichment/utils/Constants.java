@@ -1,6 +1,20 @@
 package io.wizzie.ks.enricher.enrichment.utils;
 
 public class Constants {
-    public final static String __CLIENT_MAC = "client_mac";
-    public final static String __CLIENT_MAC_VENDOR = "client_mac_vendor";
+    // GeoIpEnrich properties
+    public final static String SRC_COUNTRY_CODE_DIM = "src.country.code.dim";
+    public final static String DST_COUNTRY_CODE_DIM = "dst.country.code.dim";
+    public final static String SRC_DIM = "src.dim";
+    public final static String DST_DIM = "dst.dim";
+    public final static String SRC_AS_NAME_DIM = "src.as.name.dim";
+    public final static String DST_AS_NAME_DIM = "dst.as.name.dim";
+    public final static String ASN6_DB_PATH = "asn6.db.path";
+    public final static String ASN_DB_PATH = "asn.db.path";
+    public final static String CITY6_DB_PATH = "city6.db.path";
+    public final static String CITY_DB_PATH = "city.db.path";
+
+    // MacVendorEnrich properties
+    public final static String MAC_DIM = "mac.dim";
+    public final static String MAC_VENDOR_DIM = "mac.vendor.dim";
+    public final static String OUI_FILE_PATH = "oui.file.path";
 }

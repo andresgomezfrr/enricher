@@ -30,6 +30,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
+import static io.wizzie.ks.enricher.enrichment.utils.Constants.*;
 import static org.apache.kafka.streams.StreamsConfig.APPLICATION_ID_CONFIG;
 import static org.junit.Assert.assertEquals;
 
@@ -96,16 +97,16 @@ public class GeoIpEnrichIntegrationTest {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 
         Map<String, Object> geoIpProperties = new HashMap<>();
-        geoIpProperties.put("asn.db.path", classLoader.getResource("asn.dat").getPath());
-        geoIpProperties.put("asn6.db.path", classLoader.getResource("asnv6.dat").getPath());
-        geoIpProperties.put("city.db.path", classLoader.getResource("city.dat").getPath());
-        geoIpProperties.put("city6.db.path", classLoader.getResource("cityv6.dat").getPath());
-        geoIpProperties.put("src.country.code.dim", "src_country_code");
-        geoIpProperties.put("dst.country.code.dim", "dst_country_code");
-        geoIpProperties.put("src.dim", "src");
-        geoIpProperties.put("dst.dim", "dst");
-        geoIpProperties.put("src.as.name.dim", "src_as_name");
-        geoIpProperties.put("dst.as.name.dim", "dst_as_name");
+        geoIpProperties.put(ASN_DB_PATH, classLoader.getResource("asn.dat").getPath());
+        geoIpProperties.put(ASN6_DB_PATH, classLoader.getResource("asnv6.dat").getPath());
+        geoIpProperties.put(CITY_DB_PATH, classLoader.getResource("city.dat").getPath());
+        geoIpProperties.put(CITY6_DB_PATH, classLoader.getResource("cityv6.dat").getPath());
+        geoIpProperties.put(SRC_COUNTRY_CODE_DIM, "src_country_code");
+        geoIpProperties.put(DST_COUNTRY_CODE_DIM, "dst_country_code");
+        geoIpProperties.put(SRC_DIM, "src");
+        geoIpProperties.put(DST_DIM, "dst");
+        geoIpProperties.put(SRC_AS_NAME_DIM, "src_as_name");
+        geoIpProperties.put(DST_AS_NAME_DIM, "dst_as_name");
 
         Map<String, Object> geoIpEnricher = new HashMap<>();
         geoIpEnricher.put("name", "geoipEnrich");
