@@ -29,8 +29,7 @@ import java.io.IOException;
 import java.util.*;
 
 import static io.wizzie.ks.enricher.builder.config.ConfigProperties.BOOTSTRAPER_CLASSNAME;
-import static io.wizzie.ks.enricher.enrichment.utils.Constants.__CLIENT_MAC;
-import static io.wizzie.ks.enricher.enrichment.utils.Constants.__CLIENT_MAC_VENDOR;
+import static io.wizzie.ks.enricher.enrichment.utils.Constants.*;
 import static org.apache.kafka.streams.StreamsConfig.APPLICATION_ID_CONFIG;
 import static org.junit.Assert.assertEquals;
 
@@ -54,6 +53,10 @@ public class MacVendorEnrichIntegrationTest {
     private static Properties consumerConfig = new Properties();
 
     private static ObjectMapper mapper;
+
+    private static final String __CLIENT_MAC = "client_mac";
+
+    private static final String __CLIENT_MAC_VENDOR = "mac_vendor";
 
     @BeforeClass
     public static void startKafkaCluster() throws Exception {
@@ -97,7 +100,9 @@ public class MacVendorEnrichIntegrationTest {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 
         Map<String, Object> macVendorProperties = new HashMap<>();
-        macVendorProperties.put("oui.file.path", classLoader.getSystemResource("mac_vendors").getPath());
+        macVendorProperties.put(OUI_FILE_PATH, classLoader.getSystemResource("mac_vendors").getPath());
+        macVendorProperties.put(MAC_DIM, __CLIENT_MAC);
+        macVendorProperties.put(MAC_VENDOR_DIM, __CLIENT_MAC_VENDOR);
 
 
         Map<String, Object> geoIpEnricher = new HashMap<>();

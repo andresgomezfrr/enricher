@@ -7,6 +7,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import static io.wizzie.ks.enricher.enrichment.utils.Constants.*;
 import static org.junit.Assert.assertEquals;
 
 public class GeoIpEnrichUnitTest {
@@ -21,16 +22,16 @@ public class GeoIpEnrichUnitTest {
         File cityv6 = new File(classLoader.getResource("cityv6.dat").getFile());
 
         Map<String, Object> properties = new HashMap<>();
-        properties.put("asn.db.path", asn.getAbsolutePath());
-        properties.put("asn6.db.path", asnv6.getAbsolutePath());
-        properties.put("city.db.path", city.getAbsolutePath());
-        properties.put("city6.db.path", cityv6.getAbsolutePath());
-        properties.put("src.country.code.dim", "src_country_code");
-        properties.put("dst.country.code.dim", "dst_country_code");
-        properties.put("src.dim", "src");
-        properties.put("dst.dim", "dst");
-        properties.put("src.as.name.dim", "src_as_name");
-        properties.put("dst.as.name.dim", "dst_as_name");
+        properties.put(ASN_DB_PATH, asn.getAbsolutePath());
+        properties.put(ASN6_DB_PATH, asnv6.getAbsolutePath());
+        properties.put(CITY_DB_PATH, city.getAbsolutePath());
+        properties.put(CITY6_DB_PATH, cityv6.getAbsolutePath());
+        properties.put(SRC_COUNTRY_CODE_DIM, "src_country_code");
+        properties.put(DST_COUNTRY_CODE_DIM, "dst_country_code");
+        properties.put(SRC_DIM, "src");
+        properties.put(DST_DIM, "dst");
+        properties.put(SRC_AS_NAME_DIM, "src_as_name");
+        properties.put(DST_AS_NAME_DIM, "dst_as_name");
         geoIpEnrich.init(properties, null);
 
         Map<String, Object> message = new HashMap<>();
@@ -49,5 +50,41 @@ public class GeoIpEnrichUnitTest {
         assertEquals(expected, result);
 
         geoIpEnrich.stop();
+    }
+
+    @Test
+    public void defaultPropertiesShouldWorkCorrectly() {
+        GeoIpEnrich geoIpEnrich = new GeoIpEnrich();
+        Map<String, Object> properties = new HashMap<>();
+
+        geoIpEnrich.init(properties, null);
+
+        assertEquals("dst", geoIpEnrich.DST_IP);
+        assertEquals("src", geoIpEnrich.SRC_IP);
+        assertEquals("dst_country_code", geoIpEnrich.DST_COUNTRY_CODE);
+        assertEquals("src_country_code", geoIpEnrich.SRC_COUNTRY_CODE);
+        assertEquals("dst_as_name", geoIpEnrich.DST_AS_NAME);
+        assertEquals("src_as_name", geoIpEnrich.SRC_AS_NAME);
+    }
+
+    @Test
+    public void dimensionNameShouldBeCorrectly(){
+        GeoIpEnrich geoIpEnrich = new GeoIpEnrich();
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(SRC_COUNTRY_CODE_DIM, "my_src_country_code_dim");
+        properties.put(DST_COUNTRY_CODE_DIM, "my_dst_country_code_dim");
+        properties.put(SRC_DIM, "my_src_dim");
+        properties.put(DST_DIM, "my_dst_dim");
+        properties.put(SRC_AS_NAME_DIM, "my_src_as_name_dim");
+        properties.put(DST_AS_NAME_DIM, "my_dst_as_name_dim");
+
+        geoIpEnrich.init(properties, null);
+
+        assertEquals("my_dst_dim", geoIpEnrich.DST_IP);
+        assertEquals("my_src_dim", geoIpEnrich.SRC_IP);
+        assertEquals("my_dst_country_code_dim", geoIpEnrich.DST_COUNTRY_CODE);
+        assertEquals("my_src_country_code_dim", geoIpEnrich.SRC_COUNTRY_CODE);
+        assertEquals("my_dst_as_name_dim", geoIpEnrich.DST_AS_NAME);
+        assertEquals("my_src_as_name_dim", geoIpEnrich.SRC_AS_NAME);
     }
 }

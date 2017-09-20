@@ -9,20 +9,25 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
-import static io.wizzie.ks.enricher.enrichment.utils.Constants.__CLIENT_MAC;
-import static io.wizzie.ks.enricher.enrichment.utils.Constants.__CLIENT_MAC_VENDOR;
+import static io.wizzie.ks.enricher.enrichment.utils.Constants.*;
 
 public class MacVendorEnrich extends BaseEnrich {
 
     private static final Logger log = LoggerFactory.getLogger(MacVendorEnrich.class);
 
-    public static String ouiFilePath;
+    String ouiFilePath;
+    String mac;
+    String macVendor;
+
     public Map<String, String> ouiMap;
 
     @Override
     public void prepare(Map<String, Object> properties, MetricsManager metricsManager) {
 
-        ouiFilePath = String.valueOf(properties.getOrDefault("oui.file.path", "/opt/etc/objects/mac_vendors"));
+        ouiFilePath = (String) properties.getOrDefault(OUI_FILE_PATH, "/opt/etc/objects/mac_vendors");
+        mac = (String) properties.getOrDefault(MAC_DIM, "mac");
+        macVendor = (String) properties.getOrDefault(MAC_VENDOR_DIM, "mac_vendor");
+
         ouiMap = new HashMap<>();
 
         InputStream in = null;
@@ -60,13 +65,12 @@ public class MacVendorEnrich extends BaseEnrich {
         Map<String, Object> vendorMap = new HashMap<>();
         vendorMap.putAll(message);
 
-        String clientMac = String.valueOf(message.get(__CLIENT_MAC));
+        String clientMac = (String) message.get(mac);
 
         if (clientMac != null) {
             String oui = buildOui(clientMac);
-
             if (ouiMap.get(oui) != null) {
-                vendorMap.put(__CLIENT_MAC_VENDOR, ouiMap.get(oui));
+                vendorMap.put(macVendor, ouiMap.get(oui));
             }
 
         }
