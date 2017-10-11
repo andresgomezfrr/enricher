@@ -4,6 +4,8 @@ public class Constants {
     // GeoIpEnrich properties
     public final static String SRC_COUNTRY_CODE_DIM = "src.country.code.dim";
     public final static String DST_COUNTRY_CODE_DIM = "dst.country.code.dim";
+    public final static String SRC_CITY_DIM = "src.city.dim";
+    public final static String DST_CITY_DIM = "dst.city.dim";
     public final static String SRC_DIM = "src.dim";
     public final static String DST_DIM = "dst.dim";
     public final static String SRC_AS_NAME_DIM = "src.as.name.dim";
