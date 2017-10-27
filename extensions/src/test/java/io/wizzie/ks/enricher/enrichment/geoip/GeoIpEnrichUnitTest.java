@@ -45,6 +45,7 @@ public class GeoIpEnrichUnitTest {
         expected.put("src_country_code", "US");
         expected.put("dst_as_name", "Google Inc.");
         expected.put("src_as_name", "Google Inc.");
+        expected.put("src_city", "Mountain View");
 
         Map<String, Object> result = geoIpEnrich.enrich(message);
         assertEquals(expected, result);

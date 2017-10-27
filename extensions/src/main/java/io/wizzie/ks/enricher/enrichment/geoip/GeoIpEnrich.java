@@ -21,6 +21,8 @@ public class GeoIpEnrich extends BaseEnrich {
     private static final Logger log = LoggerFactory.getLogger(GeoIpEnrich.class);
     String SRC_COUNTRY_CODE = "src_country_code";
     String DST_COUNTRY_CODE = "dst_country_code";
+    String SRC_CITY = "src_city";
+    String DST_CITY = "dst_city";
     String SRC_IP = "src";
     String DST_IP = "dst";
     String SRC_AS_NAME = "src_as_name";
@@ -63,6 +65,8 @@ public class GeoIpEnrich extends BaseEnrich {
     public void prepare(Map<String, Object> properties, MetricsManager metricsManager) {
         SRC_COUNTRY_CODE = (String) properties.getOrDefault(SRC_COUNTRY_CODE_DIM, "src_country_code");
         DST_COUNTRY_CODE = (String) properties.getOrDefault(DST_COUNTRY_CODE_DIM, "dst_country_code");
+        SRC_CITY = (String) properties.getOrDefault(SRC_CITY_DIM, "src_city");
+        DST_CITY = (String) properties.getOrDefault(DST_CITY_DIM, "dst_city");
         SRC_IP = (String) properties.getOrDefault(SRC_DIM, "src");
         DST_IP = (String) properties.getOrDefault(DST_DIM, "dst");
         SRC_AS_NAME = (String) properties.getOrDefault(SRC_AS_NAME_DIM, "src_as_name");
@@ -94,30 +98,36 @@ public class GeoIpEnrich extends BaseEnrich {
         String src = (String) message.get(SRC_IP);
         String dst = (String) message.get(DST_IP);
 
-        if (src != null) {
-            String country_code = null;
+        Map<String, Object> srcData = getDataByIpAndSite(src, SRC_COUNTRY_CODE, SRC_CITY, SRC_AS_NAME);
+        Map<String, Object> dstData =getDataByIpAndSite(dst, DST_COUNTRY_CODE, DST_CITY, DST_AS_NAME);
+
+        if(srcData != null) geoIPMap.putAll(srcData);
+        if(dstData != null) geoIPMap.putAll(dstData);
+
+
+        return geoIPMap;
+    }
+
+    public Map<String, Object> getDataByIpAndSite(String ip, String countryCodeDim, String cityDim, String asNameDim){
+        Map<String, Object> geoIPMap = null;
+
+        if (ip != null) {
+            geoIPMap = new HashMap<>();
+            Map<String, Object> locations = new HashMap<>();
             String asn_name = null;
 
             if (VALID_IPV4_PATTERN != null) {
-                country_code = getCountryCode(src);
-                asn_name = getAsnName(src);
+                locations = getCountryCode(ip);
+                asn_name = getAsnName(ip);
             }
 
-            if (country_code != null) geoIPMap.put(SRC_COUNTRY_CODE, country_code);
-            if (asn_name != null) geoIPMap.put(SRC_AS_NAME, asn_name);
-        }
+            String countryCode = (String) locations.get("country_code");
+            if (countryCode != null) geoIPMap.put(countryCodeDim, countryCode);
 
-        if (dst != null) {
-            String country_code = null;
-            String asn_name = null;
+            String city = (String) locations.get("city");
+            if (city != null) geoIPMap.put(cityDim, city);
 
-            if (VALID_IPV4_PATTERN != null) {
-                country_code = getCountryCode(dst);
-                asn_name = getAsnName(dst);
-            }
-
-            if (country_code != null) geoIPMap.put(DST_COUNTRY_CODE, country_code);
-            if (asn_name != null) geoIPMap.put(DST_AS_NAME, asn_name);
+            if (asn_name != null) geoIPMap.put(asNameDim, asn_name);
         }
 
         return geoIPMap;
@@ -136,9 +146,9 @@ public class GeoIpEnrich extends BaseEnrich {
      * @param ip This is the address to query the data base.
      * @return The country code, example: US, ES, FR.
      */
-    private String getCountryCode(String ip) {
+    private Map<String, Object> getCountryCode(String ip) {
+        Map<String, Object> locations = new HashMap<>();
         Matcher match = VALID_IPV4_PATTERN.matcher(ip);
-        String countryCode = null;
         Location location;
 
         if (match.matches()) {
@@ -148,10 +158,11 @@ public class GeoIpEnrich extends BaseEnrich {
         }
 
         if (location != null) {
-            countryCode = location.countryCode;
+            locations.put("country_code", location.countryCode);
+            locations.put("city", location.city);
         }
 
-        return countryCode;
+        return locations;
     }
 
     /**
