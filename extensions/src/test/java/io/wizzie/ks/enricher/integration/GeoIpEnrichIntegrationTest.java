@@ -145,6 +145,7 @@ public class GeoIpEnrichIntegrationTest {
         expectedData.put("src_country_code", "US");
         expectedData.put("dst_as_name", "Google Inc.");
         expectedData.put("src_as_name", "Google Inc.");
+        expectedData.put("src_city", "Mountain View");
 
         KeyValue<String, Map<String, Object>> expectedDataKv = new KeyValue<>("KEY_A", expectedData);
 
