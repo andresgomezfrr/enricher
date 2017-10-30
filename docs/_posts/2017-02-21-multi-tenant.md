@@ -24,3 +24,7 @@ On this mode when you define a stream definition, for example:
 
 You define the topic `topic1` and `topic2` but actually you read from Kafka topic `${APP_ID}_topic1` and `${APP_ID}_topic2` and when you produce to the `output` topic, you really send data to the topic `${APP_ID}_output`. On this mode we define the `APP_ID == TENANT_ID`. To enable this mode you can configure the property `multi.id` to `true`.
 
+## Global topics
+
+For the topics defined at the property `global.topics` the application.id is not prefixed. This feature allows you the use of the topics without application.id prefix you defined at this property.
+This may be used when different enricher instances read from a common topic and you don't want to have one topic to read the enrichment events for each one.

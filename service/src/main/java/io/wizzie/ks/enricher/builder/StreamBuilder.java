@@ -16,8 +16,6 @@ import io.wizzie.ks.enricher.model.PlanModel;
 import io.wizzie.ks.enricher.query.antlr4.Join;
 import io.wizzie.ks.enricher.query.antlr4.Select;
 import io.wizzie.ks.enricher.query.antlr4.Stream;
-import org.apache.kafka.common.utils.Utils;
-import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.KStreamBuilder;
 import org.apache.kafka.streams.kstream.KTable;
@@ -25,6 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -40,6 +39,7 @@ public class StreamBuilder {
     Map<String, KTable<String, Map<String, Object>>> tables;
     Map<String, Joiner> joiners = new HashMap<>();
     Map<String, Enrich> enrichers = new HashMap<>();
+    List<String> globalTopics = new LinkedList<>();
 
     public StreamBuilder(Config config, MetricsManager metricsManager) {
         this.appId = config.get(APPLICATION_ID_CONFIG);
@@ -47,6 +47,7 @@ public class StreamBuilder {
         this.metricsManager = metricsManager;
         this.streams = new HashMap<>();
         this.tables = new HashMap<>();
+        this.globalTopics = (List)config.getOrDefault(ConfigProperties.GLOBAL_TOPICS, new LinkedList<String>());
     }
 
     private static final Logger log = LoggerFactory.getLogger(StreamBuilder.class);
@@ -58,7 +59,7 @@ public class StreamBuilder {
         KStreamBuilder builder = new KStreamBuilder();
 
         buildInstances(model);
-        addStresms(model, builder);
+        addStreams(model, builder);
         addTables(model, builder);
         addEnriches(model);
         addInserts(model);
@@ -92,7 +93,7 @@ public class StreamBuilder {
         });
     }
 
-    private void addStresms(PlanModel model, KStreamBuilder builder) {
+    private void addStreams(PlanModel model, KStreamBuilder builder) {
         model.getQueries().entrySet().forEach(entry -> {
             Select selectQuery = entry.getValue().getSelect();
 
@@ -103,7 +104,8 @@ public class StreamBuilder {
 
             if (config.getOrDefault(ConfigProperties.MULTI_ID, false)) {
                 topicStreams = topicStreams.stream()
-                        .map(topic -> String.format("%s_%s", appId, topic))
+                        .map(topic -> globalTopics.contains(topic) ?
+                                topic : String.format("%s_%s", appId, topic))
                         .collect(Collectors.toList());
             }
 
@@ -142,7 +144,8 @@ public class StreamBuilder {
                 String tableName;
 
                 if (config.getOrDefault(ConfigProperties.MULTI_ID, false)) {
-                    tableName = String.format("%s_%s", appId, join.getStream().getName());
+                    tableName = globalTopics.contains(join.getStream().getName()) ?
+                            join.getStream().getName() : String.format("%s_%s", appId, join.getStream().getName());
                 } else {
                     tableName = join.getStream().getName();
                 }

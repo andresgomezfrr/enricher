@@ -19,7 +19,8 @@ Example configuration file:
   "metric.enable": true,
   "metric.listeners": ["io.wizzie.ks.enricher.metrics.ConsoleMetricListener"],
   "metric.interval": 60000,
-  "multi.id": false
+  "multi.id": false,
+  "global.topics": ["reputation"]
 }
 ```
 
@@ -34,6 +35,7 @@ Example configuration file:
 | `metric.interval`      | Metric report interval (milliseconds)      |  60000 |
 | `multi.id`      | This property is used when you have multiple enricher instances with different `application.id` and the enricher uses the same topic names. More Info [Multi Tenant](http://wizzie.io/enricher/conf/multi-tenant.html)      |  false |
 | `metric.enable`      | Enable metrics system.      | false |
+| `global.topics`      | This property is used to not prefix application.id to both streams and tables to the topics at this list. More info [Multi Tenant](http://wizzie.io/enricher/conf/multi-tenant.html).   | Empty list. |
 
 **Note:** If you want to configure specific [Kafka Streams properties](http://kafka.apache.org/documentation#streamsconfigs), you can add these properties to this config file. The properties `key.serde` and `value.serde` will be overwritten by enricher.
 
