@@ -55,5 +55,6 @@ You can configure the docker image using these environment properties:
 | `METRIC_INTERVAL`|The interval time to report metrics (milliseconds) | 60000 |
 | `MULTI_ID`| Configure the `multi.id` property [Multi Tenant](http://www.wizzie.io/enricher/conf/multi-tenant.html) | false |
 | `MAX_OUTPUT_KAFKA_TOPICS`| Max limit of output kafka topics | 500 |
+| `GLOBAL_TOPICS`| Configure the `global.topics` property [Multi Tenant](http://www.wizzie.io/enricher/conf/multi-tenant.html) | [] |
 
 You can found more information about base configuration [here](http://www.wizzie.io/enricher/conf/base-configuration.html)
