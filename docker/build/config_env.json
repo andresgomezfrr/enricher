@@ -8,5 +8,6 @@
   "metric.interval": ${METRIC_INTERVAL},
   "multi.id": ${MULTI_ID},
   "max.output.kafka.topics": ${MAX_OUTPUT_KAFKA_TOPICS},
-  "bootstrap.kafka.topics":["__enricher_bootstrap"]
+  "bootstrap.kafka.topics":["__enricher_bootstrap"],
+  "global.topics": ${GLOBAL_TOPICS}
 }
