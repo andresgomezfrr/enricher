@@ -46,6 +46,10 @@ public class GeoIpEnrichUnitTest {
         expected.put("dst_as_name", "Google Inc.");
         expected.put("src_as_name", "Google Inc.");
         expected.put("src_city", "Mountain View");
+        expected.put("src_longitude", -122.0838f);
+        expected.put("src_latitude", 37.386f);
+        expected.put("dst_longitude", -97.0f);
+        expected.put("dst_latitude", 38.0f);
 
         Map<String, Object> result = geoIpEnrich.enrich(message);
         assertEquals(expected, result);
@@ -66,6 +70,10 @@ public class GeoIpEnrichUnitTest {
         assertEquals("src_country_code", geoIpEnrich.SRC_COUNTRY_CODE);
         assertEquals("dst_as_name", geoIpEnrich.DST_AS_NAME);
         assertEquals("src_as_name", geoIpEnrich.SRC_AS_NAME);
+        assertEquals("src_latitude", geoIpEnrich.SRC_LATITUDE);
+        assertEquals("src_longitude", geoIpEnrich.SRC_LONGITUDE);
+        assertEquals("dst_longitude", geoIpEnrich.DST_LONGITUDE);
+        assertEquals("dst_latitude", geoIpEnrich.DST_LATITUDE);
     }
 
     @Test
@@ -78,6 +86,8 @@ public class GeoIpEnrichUnitTest {
         properties.put(DST_DIM, "my_dst_dim");
         properties.put(SRC_AS_NAME_DIM, "my_src_as_name_dim");
         properties.put(DST_AS_NAME_DIM, "my_dst_as_name_dim");
+        properties.put(DST_LONGITUDE_DIM, "my_dst_long");
+        properties.put(DST_LATITUDE_DIM, "my_dst_latitude");
 
         geoIpEnrich.init(properties, null);
 
@@ -87,5 +97,7 @@ public class GeoIpEnrichUnitTest {
         assertEquals("my_src_country_code_dim", geoIpEnrich.SRC_COUNTRY_CODE);
         assertEquals("my_dst_as_name_dim", geoIpEnrich.DST_AS_NAME);
         assertEquals("my_src_as_name_dim", geoIpEnrich.SRC_AS_NAME);
+        assertEquals("my_dst_long", geoIpEnrich.DST_LONGITUDE);
+        assertEquals("my_dst_latitude", geoIpEnrich.DST_LATITUDE);
     }
 }

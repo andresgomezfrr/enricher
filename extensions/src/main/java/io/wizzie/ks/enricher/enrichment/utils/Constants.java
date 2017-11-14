@@ -10,6 +10,10 @@ public class Constants {
     public final static String DST_DIM = "dst.dim";
     public final static String SRC_AS_NAME_DIM = "src.as.name.dim";
     public final static String DST_AS_NAME_DIM = "dst.as.name.dim";
+    public final static String SRC_LONGITUDE_DIM = "src.longitude.dim";
+    public final static String SRC_LATITUDE_DIM = "src.latitude.dim";
+    public final static String DST_LONGITUDE_DIM = "dst.longitude.dim";
+    public final static String DST_LATITUDE_DIM = "dst.latitude.dim";
     public final static String ASN6_DB_PATH = "asn6.db.path";
     public final static String ASN_DB_PATH = "asn.db.path";
     public final static String CITY6_DB_PATH = "city6.db.path";
