@@ -1,7 +1,7 @@
 package io.wizzie.ks.enricher.enrichment;
 
 import io.wizzie.ks.enricher.enrichment.simple.BaseEnrich;
-import io.wizzie.ks.enricher.metrics.MetricsManager;
+import io.wizzie.metrics.MetricsManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
