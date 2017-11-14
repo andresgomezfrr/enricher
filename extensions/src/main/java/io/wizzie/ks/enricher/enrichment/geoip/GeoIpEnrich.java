@@ -27,6 +27,10 @@ public class GeoIpEnrich extends BaseEnrich {
     String DST_IP = "dst";
     String SRC_AS_NAME = "src_as_name";
     String DST_AS_NAME = "dst_as_name";
+    String SRC_LATITUDE = "src_latitude";
+    String SRC_LONGITUDE = "src_longitude";
+    String DST_LATITUDE = "dst_latitude";
+    String DST_LONGITUDE = "dst_longitude";
 
     /**
      * Pattern to to make the comparison with ips v4.
@@ -71,6 +75,10 @@ public class GeoIpEnrich extends BaseEnrich {
         DST_IP = (String) properties.getOrDefault(DST_DIM, "dst");
         SRC_AS_NAME = (String) properties.getOrDefault(SRC_AS_NAME_DIM, "src_as_name");
         DST_AS_NAME = (String) properties.getOrDefault(DST_AS_NAME_DIM, "dst_as_name");
+        SRC_LATITUDE = (String) properties.getOrDefault(SRC_LATITUDE_DIM, "src_latitude");
+        SRC_LONGITUDE = (String) properties.getOrDefault(SRC_LONGITUDE_DIM, "src_longitude");
+        DST_LATITUDE = (String) properties.getOrDefault(DST_LATITUDE_DIM, "dst_latitude");
+        DST_LONGITUDE = (String) properties.getOrDefault(DST_LONGITUDE_DIM, "dst_longitude");
 
         String ASN_V6_DB_PATH = (String) properties.getOrDefault(ASN6_DB_PATH, "/opt/share/GeoIP/asnv6.dat");
         String ASN_DB_PATH = (String) properties.getOrDefault(Constants.ASN_DB_PATH, "/opt/share/GeoIP/asn.dat");
@@ -98,8 +106,10 @@ public class GeoIpEnrich extends BaseEnrich {
         String src = (String) message.get(SRC_IP);
         String dst = (String) message.get(DST_IP);
 
-        Map<String, Object> srcData = getDataByIpAndSite(src, SRC_COUNTRY_CODE, SRC_CITY, SRC_AS_NAME);
-        Map<String, Object> dstData =getDataByIpAndSite(dst, DST_COUNTRY_CODE, DST_CITY, DST_AS_NAME);
+        Map<String, Object> srcData = getDataByIpAndSite(src, SRC_COUNTRY_CODE, SRC_CITY, SRC_AS_NAME, SRC_LATITUDE,
+                SRC_LONGITUDE);
+        Map<String, Object> dstData = getDataByIpAndSite(dst, DST_COUNTRY_CODE, DST_CITY, DST_AS_NAME, DST_LATITUDE,
+                DST_LONGITUDE);
 
         if(srcData != null) geoIPMap.putAll(srcData);
         if(dstData != null) geoIPMap.putAll(dstData);
@@ -108,7 +118,8 @@ public class GeoIpEnrich extends BaseEnrich {
         return geoIPMap;
     }
 
-    public Map<String, Object> getDataByIpAndSite(String ip, String countryCodeDim, String cityDim, String asNameDim){
+    public Map<String, Object> getDataByIpAndSite(String ip, String countryCodeDim, String cityDim, String asNameDim,
+    String latidudeDim, String longitudeDim){
         Map<String, Object> geoIPMap = null;
 
         if (ip != null) {
@@ -128,6 +139,12 @@ public class GeoIpEnrich extends BaseEnrich {
             if (city != null) geoIPMap.put(cityDim, city);
 
             if (asn_name != null) geoIPMap.put(asNameDim, asn_name);
+
+            Float latitude = (Float) locations.get("latitude");
+            if(latitude != null ) geoIPMap.put(latidudeDim, latitude);
+
+            Float longitude = (Float) locations.get("longitude");
+            if(longitude != null ) geoIPMap.put(longitudeDim, longitude);
         }
 
         return geoIPMap;
@@ -158,6 +175,8 @@ public class GeoIpEnrich extends BaseEnrich {
         }
 
         if (location != null) {
+            locations.put("latitude", location.latitude);
+            locations.put("longitude", location.longitude);
             locations.put("country_code", location.countryCode);
             locations.put("city", location.city);
         }

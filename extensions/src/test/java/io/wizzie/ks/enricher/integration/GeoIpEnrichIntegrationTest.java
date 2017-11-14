@@ -33,6 +33,7 @@ import java.util.*;
 import static io.wizzie.ks.enricher.enrichment.utils.Constants.*;
 import static org.apache.kafka.streams.StreamsConfig.APPLICATION_ID_CONFIG;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class GeoIpEnrichIntegrationTest {
     private final static int NUM_BROKERS = 1;
@@ -146,12 +147,17 @@ public class GeoIpEnrichIntegrationTest {
         expectedData.put("dst_as_name", "Google Inc.");
         expectedData.put("src_as_name", "Google Inc.");
         expectedData.put("src_city", "Mountain View");
+        expectedData.put("src_longitude", -122.0838);
+        expectedData.put("src_latitude", 37.386);
+        expectedData.put("dst_longitude", -97.0);
+        expectedData.put("dst_latitude", 38.0);
 
         KeyValue<String, Map<String, Object>> expectedDataKv = new KeyValue<>("KEY_A", expectedData);
 
         List<KeyValue<String, Map>> receivedMessagesFromOutput = IntegrationTestUtils.waitUntilMinKeyValueRecordsReceived(consumerConfig, OUTPUT_TOPIC, 1);
 
-        assertEquals(Collections.singletonList(expectedDataKv), receivedMessagesFromOutput);
+        assertTrue(receivedMessagesFromOutput.size() > 0);
+        assertEquals(expectedDataKv, receivedMessagesFromOutput.get(0));
 
         builder.close();
     }
