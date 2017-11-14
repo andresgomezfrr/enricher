@@ -1,7 +1,7 @@
 package io.wizzie.ks.enricher.enrichment.simple;
 
-import io.wizzie.ks.enricher.metrics.MetricsManager;
 
+import io.wizzie.metrics.MetricsManager;
 import java.util.Map;
 
 public interface Enrich {

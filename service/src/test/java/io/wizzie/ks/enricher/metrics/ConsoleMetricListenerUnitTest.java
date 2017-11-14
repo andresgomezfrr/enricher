@@ -1,6 +1,8 @@
 package io.wizzie.ks.enricher.metrics;
 
 import io.wizzie.bootstrapper.builder.*;
+import io.wizzie.metrics.MetricsManager;
+import io.wizzie.metrics.listeners.ConsoleMetricListener;
 import org.junit.Test;
 
 import java.util.Collections;
@@ -19,9 +21,9 @@ public class ConsoleMetricListenerUnitTest {
                 .put("metric.interval", 2000)
                 .put("application.id", "testing-metric-manager")
                 .put("num.stream.threads", 1)
-                .put("metric.listeners", Collections.singletonList("io.wizzie.ks.enricher.metrics.ConsoleMetricListener"));
+                .put("metric.listeners", Collections.singletonList("io.wizzie.metrics.listeners.ConsoleMetricListener"));
 
-        MetricsManager metricsManager = new MetricsManager(config);
+        MetricsManager metricsManager = new MetricsManager(config.getMapConf());
 
         assertFalse(metricsManager.listeners.isEmpty());
 

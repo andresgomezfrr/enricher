@@ -83,8 +83,8 @@ public class KafkaBootstraperGetConfigIntegrationTest {
         String appId = UUID.randomUUID().toString();
         streamsConfiguration.put(APPLICATION_ID_CONFIG, appId);
         streamsConfiguration.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, CLUSTER.bootstrapServers());
-        streamsConfiguration.put(StreamsConfig.KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
-        streamsConfiguration.put(StreamsConfig.VALUE_SERDE_CLASS_CONFIG, JsonSerde.class.getName());
+        streamsConfiguration.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
+        streamsConfiguration.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, JsonSerde.class.getName());
         streamsConfiguration.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
         streamsConfiguration.put(StreamsConfig.NUM_STREAM_THREADS_CONFIG, 1);
 
@@ -149,11 +149,6 @@ public class KafkaBootstraperGetConfigIntegrationTest {
         builder.close();
     }
 
-
-    @AfterClass
-    public static void stopKafkaCluster() {
-        CLUSTER.stop();
-    }
 
     public static String getFileContent(File file) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
