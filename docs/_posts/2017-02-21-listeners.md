@@ -10,13 +10,13 @@ The listeners are the processes that listen the reported metrics and do somethin
 
 #### ConsoleMetricListener
 
-This listener `io.wizzie.ks.metrics.ConsoleMetricListener` sends the transform the metrics to JSON and prints them into the log file using the log4j. The metric format is:
+This listener `io.wizzie.metrics.listeners.ConsoleMetricListener` sends the transform the metrics to JSON and prints them into the log file using the log4j. The metric format is:
 ```json
 {"timestamp":123456789, "monitor":"heap-memory", "value":12345}
 ```
 
 #### KafkaMetricListener
-This listener `io.wizzie.ks.enricher.metrics.KafkaMetricListener` sends the transform the metrics to JSON and sends them into the Kafka topic. The metric format is:
+This listener `io.wizzie.metrics.listeners.KafkaMetricListener` sends the transform the metrics to JSON and sends them into the Kafka topic. The metric format is:
 ```json
 {"timestamp":123456789, "monitor":"heap-memory", "value":12345, "app_id":"MY_KAFKA_STREAMS_APP_ID"}
 ```
@@ -24,5 +24,5 @@ This listener `io.wizzie.ks.enricher.metrics.KafkaMetricListener` sends the tran
 This listener adds a new property to specify the metrics Kafka topic `metric.kafka.topic`, by default is `__enricher_metrics`
 
 #### Custom Listeners
-You can make new listeners. To do this you need to implement the [MetricListener Class](https://github.com/wizzie-io/enricher/blob/master/service/src/main/java/io/wizzie/ks/enricher/metrics/MetricListener.java). On this class you receive the metric at the method `void updateMetric(String metricName, Object metricValue);`
+You can make new listeners. To do this you need to implement the [MetricListener Class](https://github.com/wizzie-io/metrics-library/blob/master/src/main/java/io/wizzie/metrics/listeners/MetricListener.java). On this class you receive the metric at the method `void updateMetric(String metricName, Object metricValue);`
 
