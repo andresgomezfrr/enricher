@@ -17,7 +17,7 @@ Example configuration file:
   "num.stream.threads": 1,
   "bootstrapper.classname": "io.wizzie.ks.enricher.builder.bootstrap.KafkaBootstrapper",
   "metric.enable": true,
-  "metric.listeners": ["io.wizzie.ks.enricher.metrics.ConsoleMetricListener"],
+  "metric.listeners": ["io.wizzie.metrics.listeners.ConsoleMetricListener"],
   "metric.interval": 60000,
   "multi.id": false,
   "global.topics": ["reputation"]
@@ -31,7 +31,7 @@ Example configuration file:
 | `num.stream.threads`      | The number of threads to execute stream processing.      | 1 |
 | `bootstrapper.classname`      | The bootstrapper class reference. More info: [Bootstrapper](http://wizzie.io/enricher/bootstrapper/definition-bootstrapper.html)       | - |
 | `metric.enable`      | Enable metrics system.      | false |
-| `metric.listeners`      | Array with metrics listeners. More info: [Metrics](http://wizzie.io/enricher/metrics/listeners.html)      | ["io.wizzie.ks.enricher.metrics.ConsoleMetricListener"] |
+| `metric.listeners`      | Array with metrics listeners. More info: [Metrics](https://github.com/wizzie-io/metrics-library/tree/master/src/main/java/io/wizzie/metrics/listeners)      | ["io.wizzie.metrics.listeners.ConsoleMetricListener"] |
 | `metric.interval`      | Metric report interval (milliseconds)      |  60000 |
 | `multi.id`      | This property is used when you have multiple enricher instances with different `application.id` and the enricher uses the same topic names. More Info [Multi Tenant](http://wizzie.io/enricher/conf/multi-tenant.html)      |  false |
 | `metric.enable`      | Enable metrics system.      | false |

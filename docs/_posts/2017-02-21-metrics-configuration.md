@@ -13,7 +13,7 @@ The metrics service has three properties to configure it:
 | Property   |      Description      |  Default Value |
 |----------|---------------|-------|
 | `metric.enable` |  Enable or disable metrics service | false|
-| `metric.listeners` |    The listener to send the metrics   |   ["io.wizzie.ks.enricher.metrics.ConsoleMetricListener"] |
+| `metric.listeners` |    The listener to send the metrics   |   ["io.wizzie.metrics.listeners.ConsoleMetricListener"] |
 | `metric.interval` | The interval time to report metrics (milliseconds) |  60000  |
 | `metric.verbose.mode`| Enable the verbose metric mode | false |
 
