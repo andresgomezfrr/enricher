@@ -3,7 +3,7 @@
     <parent>
         <artifactId>enricher</artifactId>
         <groupId>io.wizzie.ks.enricher</groupId>
-        <version>0.3.1-SNAPSHOT</version>
+        <version>0.3.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -33,7 +33,7 @@
         <dependency>
             <groupId>io.wizzie.ks.enricher</groupId>
             <artifactId>enricher-query-compiler</artifactId>
-            <version>0.3.1-SNAPSHOT</version>
+            <version>0.3.1</version>
         </dependency>
 
         <dependency>
