@@ -4,7 +4,7 @@
   "num.stream.threads": ${NUM_STREAM_THREADS},
   "bootstraper.classname": "io.wizzie.bootstrapper.bootstrappers.impl.KafkaBootstrapper",
   "metric.enable": ${METRIC_ENABLE},
-  "metric.listeners": ["io.wizzie.ks.enricher.metrics.KafkaMetricListener"],
+  "metric.listeners": ["io.wizzie.metrics.listeners.KafkaMetricListener"],
   "metric.interval": ${METRIC_INTERVAL},
   "multi.id": ${MULTI_ID},
   "max.output.kafka.topics": ${MAX_OUTPUT_KAFKA_TOPICS},
