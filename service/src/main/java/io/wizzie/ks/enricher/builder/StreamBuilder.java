@@ -16,8 +16,8 @@ import io.wizzie.ks.enricher.query.antlr4.Join;
 import io.wizzie.ks.enricher.query.antlr4.Select;
 import io.wizzie.ks.enricher.query.antlr4.Stream;
 import io.wizzie.metrics.MetricsManager;
+import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.kstream.KStream;
-import org.apache.kafka.streams.kstream.KStreamBuilder;
 import org.apache.kafka.streams.kstream.KTable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,16 +47,16 @@ public class StreamBuilder {
         this.metricsManager = metricsManager;
         this.streams = new HashMap<>();
         this.tables = new HashMap<>();
-        this.globalTopics = (List)config.getOrDefault(ConfigProperties.GLOBAL_TOPICS, new LinkedList<String>());
+        this.globalTopics = config.getOrDefault(ConfigProperties.GLOBAL_TOPICS, new LinkedList<String>());
     }
 
     private static final Logger log = LoggerFactory.getLogger(StreamBuilder.class);
 
-    public KStreamBuilder builder(PlanModel model) throws PlanBuilderException {
+    public StreamsBuilder builder(PlanModel model) throws PlanBuilderException {
         model.validate(config.clone());
         clean();
 
-        KStreamBuilder builder = new KStreamBuilder();
+        StreamsBuilder builder = new StreamsBuilder();
 
         buildInstances(model);
         addStreams(model, builder);
@@ -93,7 +93,7 @@ public class StreamBuilder {
         });
     }
 
-    private void addStreams(PlanModel model, KStreamBuilder builder) {
+    private void addStreams(PlanModel model, StreamsBuilder builder) {
         model.getQueries().entrySet().forEach(entry -> {
             Select selectQuery = entry.getValue().getSelect();
 
@@ -110,7 +110,7 @@ public class StreamBuilder {
             }
 
             KStream<String, Map<String, Object>> stream =
-                    builder.stream(topicStreams.toArray(new String[topicStreams.size()]));
+                    builder.stream(topicStreams);
 
             List<String> dimensions = selectQuery.getDimensions();
             if (!dimensions.contains("*")) {
@@ -131,7 +131,7 @@ public class StreamBuilder {
         });
     }
 
-    private void addTables(PlanModel model, KStreamBuilder builder) {
+    private void addTables(PlanModel model, StreamsBuilder builder) {
         model.getQueries().entrySet().forEach(entry -> {
             List<Join> joins = entry.getValue().getJoins();
 
@@ -155,7 +155,7 @@ public class StreamBuilder {
                 if (tables.containsKey(tableName)) {
                     table = tables.get(tableName);
                 } else {
-                    table = builder.table(tableName, String.format("__%s_%s", appId, tableName));
+                    table = builder.table(tableName);
                     tables.put(tableName, table);
                 }
 

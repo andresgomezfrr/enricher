@@ -8,8 +8,8 @@ import io.wizzie.ks.enricher.serializers.JsonSerde;
 import io.wizzie.metrics.MetricsManager;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.KafkaStreams;
+import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.StreamsConfig;
-import org.apache.kafka.streams.kstream.KStreamBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -66,13 +66,13 @@ public class Builder implements Listener {
             PlanModel model = objectMapper.readValue(streamConfig, PlanModel.class);
             log.info("Execution plan: {}", model.printExecutionPlan());
             log.info("-------- TOPOLOGY BUILD START --------");
-            KStreamBuilder builder = streamBuilder.builder(model);
+            StreamsBuilder builder = streamBuilder.builder(model);
             log.info("--------  TOPOLOGY BUILD END  --------");
 
             Config configWithNewAppId = config.clone();
             String appId = configWithNewAppId.get(APPLICATION_ID_CONFIG);
             configWithNewAppId.put(APPLICATION_ID_CONFIG, String.format("%s_%s", appId, "enricher"));
-            streams = new KafkaStreams(builder, configWithNewAppId.getProperties());
+            streams = new KafkaStreams(builder.build(), configWithNewAppId.getProperties());
             streams.setUncaughtExceptionHandler((thread, exception) -> log.error(exception.getMessage(), exception));
             streams.start();
 
