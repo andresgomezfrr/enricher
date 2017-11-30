@@ -15,19 +15,21 @@
         <kafka.version>1.0.0</kafka.version>
         <dropwizard.version>3.1.0</dropwizard.version>
         <joda.version>2.9.4</joda.version>
+        <metrics-library.version>0.0.1</metrics-library.version>
+        <config-bootstrapper.version>0.0.2</config-bootstrapper.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>io.wizzie.metrics</groupId>
             <artifactId>metrics-library</artifactId>
-            <version>0.0.1</version>
+            <version>${metrics-library.version}</version>
         </dependency>
 
         <dependency>
             <groupId>io.wizzie</groupId>
             <artifactId>config-bootstrapper</artifactId>
-            <version>0.0.1</version>
+            <version>${config-bootstrapper.version}</version>
         </dependency>
 
         <dependency>
@@ -56,7 +58,7 @@
 
         <dependency>
             <groupId>org.apache.kafka</groupId>
-            <artifactId>kafka_2.11</artifactId>
+            <artifactId>kafka_2.12</artifactId>
             <version>${kafka.version}</version>
         </dependency>
 
@@ -87,14 +89,14 @@
 
         <dependency>
             <groupId>org.apache.kafka</groupId>
-            <artifactId>kafka_2.11</artifactId>
+            <artifactId>kafka_2.12</artifactId>
             <version>${kafka.version}</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.apache.kafka</groupId>
-            <artifactId>kafka_2.11</artifactId>
+            <artifactId>kafka_2.12</artifactId>
             <version>${kafka.version}</version>
             <classifier>test</classifier>
             <scope>test</scope>
@@ -109,7 +111,7 @@
 
         <dependency>
             <groupId>org.apache.kafka</groupId>
-            <artifactId>kafka_2.11</artifactId>
+            <artifactId>kafka_2.12</artifactId>
             <version>${kafka.version}</version>
         </dependency>
     </dependencies>
