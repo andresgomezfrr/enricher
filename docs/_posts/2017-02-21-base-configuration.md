@@ -20,7 +20,8 @@ Example configuration file:
   "metric.listeners": ["io.wizzie.metrics.listeners.ConsoleMetricListener"],
   "metric.interval": 60000,
   "multi.id": false,
-  "global.topics": ["reputation"]
+  "global.topics": ["reputation"],
+  "bypass.null.keys": true
 }
 ```
 
@@ -36,6 +37,7 @@ Example configuration file:
 | `multi.id`      | This property is used when you have multiple enricher instances with different `application.id` and the enricher uses the same topic names. More Info [Multi Tenant](http://wizzie.io/enricher/conf/multi-tenant.html)      |  false |
 | `metric.enable`      | Enable metrics system.      | false |
 | `global.topics`      | This property is used to not prefix application.id to both streams and tables to the topics at this list. More info [Multi Tenant](http://wizzie.io/enricher/conf/multi-tenant.html).   | Empty list. |
+| `bypass.null.keys`      | This property is used to use a random key for incoming messages with null key. This may be useful when you want a message with null key bypass a join.  | false |
 
 **Note:** If you want to configure specific [Kafka Streams properties](http://kafka.apache.org/documentation#streamsconfigs), you can add these properties to this config file. The properties `key.serde` and `value.serde` will be overwritten by enricher.
 

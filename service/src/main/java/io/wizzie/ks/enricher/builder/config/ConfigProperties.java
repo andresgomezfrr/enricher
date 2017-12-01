@@ -8,6 +8,7 @@ public class ConfigProperties {
     public static final String MULTI_ID = "multi.id";
     public static final String MAX_KAFKA_OUTPUT_TOPICS = "max.kafka.output.topics";
     public static final String GLOBAL_TOPICS = "global.topics";
+    public static final String BYPASS_NULL_KEYS = "bypass.null.keys";
 }
 
 
