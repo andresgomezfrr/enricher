@@ -16,16 +16,15 @@ import io.wizzie.ks.enricher.query.antlr4.Join;
 import io.wizzie.ks.enricher.query.antlr4.Select;
 import io.wizzie.ks.enricher.query.antlr4.Stream;
 import io.wizzie.metrics.MetricsManager;
+import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.KTable;
+import org.apache.kafka.streams.kstream.KeyValueMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static io.wizzie.ks.enricher.utils.Constants.__KEY;
@@ -94,6 +93,9 @@ public class StreamBuilder {
     }
 
     private void addStreams(PlanModel model, StreamsBuilder builder) {
+
+        Random random = new Random();
+
         model.getQueries().entrySet().forEach(entry -> {
             Select selectQuery = entry.getValue().getSelect();
 
@@ -111,6 +113,15 @@ public class StreamBuilder {
 
             KStream<String, Map<String, Object>> stream =
                     builder.stream(topicStreams);
+
+            if(config.getOrDefault(ConfigProperties.BYPASS_NULL_KEYS, false)){
+                stream = stream.map((s, stringObjectMap) -> {
+                    if(s == null) {
+                        return new KeyValue<>(String.format("%s-%s", "NULL-KEY", random.nextInt(1000)), stringObjectMap);
+                    }else
+                        return new KeyValue<>(s, stringObjectMap);
+                });
+            }
 
             List<String> dimensions = selectQuery.getDimensions();
             if (!dimensions.contains("*")) {
