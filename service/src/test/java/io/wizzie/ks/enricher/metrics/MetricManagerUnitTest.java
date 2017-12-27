@@ -2,7 +2,7 @@ package io.wizzie.ks.enricher.metrics;
 
 import com.codahale.metrics.Counter;
 import com.codahale.metrics.Timer;
-import io.wizzie.bootstrapper.builder.*;
+import io.wizzie.bootstrapper.builder.Config;
 import io.wizzie.metrics.MetricsManager;
 import org.junit.Test;
 

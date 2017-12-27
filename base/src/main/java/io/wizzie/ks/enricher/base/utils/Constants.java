@@ -1,4 +1,4 @@
-package io.wizzie.ks.enricher.utils;
+package io.wizzie.ks.enricher.base.utils;
 
 public class Constants {
     public final static String __KEY = "__KEY";

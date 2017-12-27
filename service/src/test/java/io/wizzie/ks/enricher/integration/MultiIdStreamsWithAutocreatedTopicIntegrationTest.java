@@ -1,8 +1,8 @@
 package io.wizzie.ks.enricher.integration;
 
 import io.wizzie.bootstrapper.builder.Config;
+import io.wizzie.ks.enricher.base.builder.config.ConfigProperties;
 import io.wizzie.ks.enricher.builder.Builder;
-import io.wizzie.ks.enricher.builder.config.ConfigProperties;
 import io.wizzie.ks.enricher.serializers.JsonDeserializer;
 import io.wizzie.ks.enricher.serializers.JsonSerde;
 import io.wizzie.ks.enricher.serializers.JsonSerializer;
@@ -14,7 +14,6 @@ import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.integration.utils.EmbeddedKafkaCluster;
 import org.apache.kafka.streams.integration.utils.IntegrationTestUtils;
-import org.junit.AfterClass;
 import org.junit.ClassRule;
 import org.junit.Test;
 
@@ -24,7 +23,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
-import static io.wizzie.ks.enricher.builder.config.ConfigProperties.BOOTSTRAPER_CLASSNAME;
+import static io.wizzie.ks.enricher.base.builder.config.ConfigProperties.BOOTSTRAPER_CLASSNAME;
 import static org.apache.kafka.streams.StreamsConfig.APPLICATION_ID_CONFIG;
 import static org.junit.Assert.assertEquals;
 

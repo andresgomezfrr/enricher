@@ -1,10 +1,9 @@
 package io.wizzie.ks.enricher.utils.bootstrap;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.wizzie.bootstrapper.bootstrappers.impl.KafkaBootstrapper;
-import io.wizzie.bootstrapper.builder.*;
-import io.wizzie.ks.enricher.exceptions.PlanBuilderException;
+import io.wizzie.bootstrapper.builder.Config;
 import io.wizzie.ks.enricher.model.PlanModel;
+import io.wizzie.ks.enricher.model.exceptions.PlanBuilderException;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.clients.producer.KafkaProducer;

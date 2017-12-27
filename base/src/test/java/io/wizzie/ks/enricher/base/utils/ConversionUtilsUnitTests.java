@@ -1,4 +1,4 @@
-package io.wizzie.ks.enricher.utils;
+package io.wizzie.ks.enricher.base.utils;
 
 import org.junit.Test;
 

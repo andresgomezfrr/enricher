@@ -1,6 +1,6 @@
 package io.wizzie.ks.enricher.metrics;
 
-import io.wizzie.bootstrapper.builder.*;
+import io.wizzie.bootstrapper.builder.Config;
 import io.wizzie.metrics.MetricsManager;
 import io.wizzie.metrics.listeners.ConsoleMetricListener;
 import org.junit.Test;

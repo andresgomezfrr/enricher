@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.wizzie.bootstrapper.bootstrappers.impl.KafkaBootstrapper;
 import io.wizzie.ks.enricher.builder.Builder;
 import io.wizzie.bootstrapper.builder.*;
-import io.wizzie.ks.enricher.builder.config.ConfigProperties;
+import io.wizzie.ks.enricher.base.builder.config.ConfigProperties;
 import io.wizzie.ks.enricher.serializers.JsonDeserializer;
 import io.wizzie.ks.enricher.serializers.JsonSerde;
 import io.wizzie.ks.enricher.serializers.JsonSerializer;

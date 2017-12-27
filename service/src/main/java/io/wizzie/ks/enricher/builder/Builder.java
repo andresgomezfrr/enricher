@@ -2,8 +2,8 @@ package io.wizzie.ks.enricher.builder;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.wizzie.bootstrapper.builder.*;
-import io.wizzie.ks.enricher.exceptions.PlanBuilderException;
 import io.wizzie.ks.enricher.model.PlanModel;
+import io.wizzie.ks.enricher.model.exceptions.PlanBuilderException;
 import io.wizzie.ks.enricher.serializers.JsonSerde;
 import io.wizzie.metrics.MetricsManager;
 import org.apache.kafka.common.serialization.Serdes;
@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-import static io.wizzie.ks.enricher.builder.config.ConfigProperties.BOOTSTRAPER_CLASSNAME;
+import static io.wizzie.ks.enricher.base.builder.config.ConfigProperties.BOOTSTRAPER_CLASSNAME;
 import static org.apache.kafka.streams.StreamsConfig.APPLICATION_ID_CONFIG;
 
 

@@ -12,7 +12,7 @@
     <artifactId>enricher-extensions</artifactId>
 
     <properties>
-        <kafka.version>1.0.0</kafka.version>
+        <geo-ip.version>1.2.11</geo-ip.version>
     </properties>
 
     <dependencies>
@@ -20,20 +20,20 @@
         <dependency>
             <groupId>io.wizzie.ks.enricher</groupId>
             <artifactId>enricher-service</artifactId>
-            <version>0.3.3-SNAPSHOT</version>
+            <version>${parent.version}</version>
         </dependency>
 
         <!-- GeoIP -->
         <dependency>
             <groupId>com.maxmind.geoip</groupId>
             <artifactId>geoip-api</artifactId>
-            <version>1.2.11</version>
+            <version>${geo-ip.version}</version>
         </dependency>
 
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.12</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
 
