@@ -1,4 +1,4 @@
-package io.wizzie.ks.enricher.builder.config;
+package io.wizzie.ks.enricher.base.builder.config;
 
 public class ConfigProperties {
     public static final String BOOTSTRAPER_CLASSNAME = "bootstraper.classname";

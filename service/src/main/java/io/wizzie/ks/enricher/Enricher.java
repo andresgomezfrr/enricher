@@ -1,7 +1,7 @@
 package io.wizzie.ks.enricher;
 
+import io.wizzie.bootstrapper.builder.Config;
 import io.wizzie.ks.enricher.builder.Builder;
-import io.wizzie.bootstrapper.builder.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

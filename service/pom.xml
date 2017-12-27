@@ -11,14 +11,6 @@
     <name>enricher-service</name>
     <description>enricher-service</description>
 
-    <properties>
-        <kafka.version>1.0.0</kafka.version>
-        <dropwizard.version>3.1.0</dropwizard.version>
-        <joda.version>2.9.4</joda.version>
-        <metrics-library.version>0.0.1</metrics-library.version>
-        <config-bootstrapper.version>0.0.2</config-bootstrapper.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>io.wizzie.metrics</groupId>
@@ -34,8 +26,14 @@
 
         <dependency>
             <groupId>io.wizzie.ks.enricher</groupId>
-            <artifactId>enricher-query-compiler</artifactId>
-            <version>0.3.3-SNAPSHOT</version>
+            <artifactId>enricher-base</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.wizzie.ks.enricher</groupId>
+            <artifactId>enricher-model</artifactId>
+            <version>${parent.version}</version>
         </dependency>
 
         <dependency>
@@ -67,7 +65,7 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-all</artifactId>
-            <version>1.10.19</version>
+            <version>${mockito.version}</version>
             <scope>test</scope>
         </dependency>
 
@@ -105,7 +103,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.12</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
 

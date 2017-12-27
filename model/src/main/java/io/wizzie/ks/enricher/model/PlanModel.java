@@ -2,10 +2,10 @@ package io.wizzie.ks.enricher.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.wizzie.bootstrapper.builder.*;
-import io.wizzie.ks.enricher.builder.config.ConfigProperties;
-import io.wizzie.ks.enricher.exceptions.MaxOutputKafkaTopics;
-import io.wizzie.ks.enricher.exceptions.PlanBuilderException;
+import io.wizzie.bootstrapper.builder.Config;
+import io.wizzie.ks.enricher.base.builder.config.ConfigProperties;
+import io.wizzie.ks.enricher.model.exceptions.MaxOutputKafkaTopics;
+import io.wizzie.ks.enricher.model.exceptions.PlanBuilderException;
 import io.wizzie.ks.enricher.query.EnricherCompiler;
 import io.wizzie.ks.enricher.query.antlr4.Join;
 import io.wizzie.ks.enricher.query.antlr4.Query;

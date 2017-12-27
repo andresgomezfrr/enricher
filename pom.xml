@@ -8,6 +8,19 @@
 
     <packaging>pom</packaging>
 
+    <properties>
+        <config-bootstrapper.version>0.0.4</config-bootstrapper.version>
+        <kafka.version>1.0.0</kafka.version>
+        <dropwizard.version>3.1.0</dropwizard.version>
+        <joda.version>2.9.4</joda.version>
+        <metrics-library.version>0.0.1</metrics-library.version>
+        <slf4j.version>1.7.25</slf4j.version>
+        <log4j.version>1.2.17</log4j.version>
+        <mockito.version>1.10.19</mockito.version>
+        <junit.version>4.12</junit.version>
+        <jackson.version>2.9.0</jackson.version>
+    </properties>
+
     <distributionManagement>
         <repository>
             <id>wizzie-release</id>
@@ -40,9 +53,11 @@
     </repositories>
 
     <modules>
+        <module>base</module>
         <module>enricher-query-compiler</module>
         <module>service</module>
         <module>extensions</module>
+        <module>model</module>
     </modules>
 
     <profiles>

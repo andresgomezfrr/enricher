@@ -1,7 +1,7 @@
 package io.wizzie.ks.enricher.builder;
 
-import io.wizzie.bootstrapper.builder.*;
-import io.wizzie.ks.enricher.builder.config.ConfigProperties;
+import io.wizzie.bootstrapper.builder.Config;
+import io.wizzie.ks.enricher.base.builder.config.ConfigProperties;
 import io.wizzie.ks.enricher.enrichment.join.BaseJoiner;
 import io.wizzie.ks.enricher.enrichment.join.Joiner;
 import io.wizzie.ks.enricher.enrichment.join.QueryableBackJoiner;
@@ -10,8 +10,8 @@ import io.wizzie.ks.enricher.enrichment.simple.BaseEnrich;
 import io.wizzie.ks.enricher.enrichment.simple.Enrich;
 import io.wizzie.ks.enricher.exceptions.EnricherNotFound;
 import io.wizzie.ks.enricher.exceptions.JoinerNotFound;
-import io.wizzie.ks.enricher.exceptions.PlanBuilderException;
 import io.wizzie.ks.enricher.model.PlanModel;
+import io.wizzie.ks.enricher.model.exceptions.PlanBuilderException;
 import io.wizzie.ks.enricher.query.antlr4.Join;
 import io.wizzie.ks.enricher.query.antlr4.Select;
 import io.wizzie.ks.enricher.query.antlr4.Stream;
@@ -20,15 +20,14 @@ import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.KTable;
-import org.apache.kafka.streams.kstream.KeyValueMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static io.wizzie.ks.enricher.utils.Constants.__KEY;
-import static org.apache.kafka.streams.StreamsConfig.APPLICATION_ID_CONFIG;
+import static io.wizzie.ks.enricher.base.utils.Constants.*;
+import static org.apache.kafka.streams.StreamsConfig.*;
 
 public class StreamBuilder {
     String appId;
