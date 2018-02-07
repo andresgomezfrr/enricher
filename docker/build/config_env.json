@@ -6,6 +6,7 @@
   "metric.enable": ${METRIC_ENABLE},
   "metric.listeners": ["io.wizzie.metrics.listeners.KafkaMetricListener"],
   "metric.interval": ${METRIC_INTERVAL},
+  "metric.databag": {"component":"enricher"},
   "multi.id": ${MULTI_ID},
   "max.output.kafka.topics": ${MAX_OUTPUT_KAFKA_TOPICS},
   "bootstrap.kafka.topics":["__enricher_bootstrap"],
