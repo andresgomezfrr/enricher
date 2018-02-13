@@ -1,10 +1,14 @@
 package io.wizzie.ks.enricher.builder;
 
+import com.codahale.metrics.JmxAttributeGauge;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yammer.metrics.core.Counter;
 import io.wizzie.bootstrapper.builder.*;
+import io.wizzie.ks.enricher.base.utils.Utils;
 import io.wizzie.ks.enricher.model.PlanModel;
 import io.wizzie.ks.enricher.model.exceptions.PlanBuilderException;
 import io.wizzie.ks.enricher.serializers.JsonSerde;
+import io.wizzie.metrics.MetricsConstant;
 import io.wizzie.metrics.MetricsManager;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.KafkaStreams;
@@ -13,10 +17,16 @@ import org.apache.kafka.streams.StreamsConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.management.MalformedObjectNameException;
+import javax.management.ObjectName;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import static io.wizzie.ks.enricher.base.builder.config.ConfigProperties.BOOTSTRAPER_CLASSNAME;
 import static org.apache.kafka.streams.StreamsConfig.APPLICATION_ID_CONFIG;
+import static org.apache.kafka.streams.StreamsConfig.CLIENT_ID_CONFIG;
+import static org.apache.kafka.streams.StreamsConfig.NUM_STREAM_THREADS_CONFIG;
 
 
 public class Builder implements Listener {
@@ -36,6 +46,13 @@ public class Builder implements Listener {
         metricsManager = new MetricsManager(config.clone().getMapConf());
         metricsManager.start();
 
+        Map<String, Object> metricDataBag = config.getOrDefault(
+                MetricsConstant.METRIC_DATABAG, new HashMap<>()
+        );
+
+        metricDataBag.put("host", Utils.getIdentifier());
+        config.put(MetricsConstant.METRIC_DATABAG, metricDataBag);
+
         streamBuilder = new StreamBuilder(config.clone(), metricsManager);
 
         bootstrapper = BootstrapperBuilder.makeBuilder()
@@ -50,6 +67,85 @@ public class Builder implements Listener {
         streamBuilder.close();
         bootstrapper.close();
         if (streams != null) streams.close();
+    }
+
+    private void registerKafkaMetrics(Config config, MetricsManager metricsManager) {
+        Integer streamThreads = config.getOrDefault(NUM_STREAM_THREADS_CONFIG, 1);
+        String appId = config.get(APPLICATION_ID_CONFIG);
+
+
+        log.info("Register kafka jvm metrics: ");
+
+        for (int i = 1; i <= streamThreads; i++) {
+            try {
+
+                // PRODUCER
+                log.info(" * {}", "producer." + i + ".messages_send_per_sec");
+                metricsManager.registerMetric("producer.stream-" + i + ".messages_send_per_sec",
+                        new JmxAttributeGauge(new ObjectName("kafka.producer:type=producer-metrics,client-id="
+                                + String.format("%s_%s", appId, "enricher") + "-StreamThread-"
+                                + i + "-producer"), "record-send-rate"));
+
+                log.info(" * {}", "producer." + i + ".output_bytes_per_sec");
+                metricsManager.registerMetric("producer.stream-" + i + ".output_bytes_per_sec",
+                        new JmxAttributeGauge(new ObjectName("kafka.producer:type=producer-metrics,client-id="
+                                + String.format("%s_%s", appId, "enricher") + "-StreamThread-"
+                                + i + "-producer"), "outgoing-byte-rate"));
+
+                log.info(" * {}", "producer." + i + ".incoming_bytes_per_sec");
+                metricsManager.registerMetric("producer.stream-" + i + ".incoming_bytes_per_sec",
+                        new JmxAttributeGauge(new ObjectName("kafka.producer:type=producer-metrics,client-id="
+                                + String.format("%s_%s", appId, "enricher") + "-StreamThread-"
+                                + i + "-producer"), "incoming-byte-rate"));
+
+                // CONSUMER
+                log.info(" * {}", "consumer." + i + ".max_lag");
+                metricsManager.registerMetric("consumer.stream-" + i + ".max_lag",
+                        new JmxAttributeGauge(new ObjectName("kafka.consumer:type=consumer-fetch-manager-metrics,client-id="
+                                + String.format("%s_%s", appId, "enricher") + "-StreamThread-"
+                                + i + "-consumer"), "records-lag-max"));
+
+                log.info(" * {}", "consumer." + i + ".output_bytes_per_sec");
+                metricsManager.registerMetric("consumer.stream-" + i + ".output_bytes_per_sec",
+                        new JmxAttributeGauge(new ObjectName("kafka.consumer:type=consumer-metrics,client-id="
+                                + String.format("%s_%s", appId, "enricher") + "-StreamThread-"
+                                + i + "-consumer"), "outgoing-byte-rate"));
+
+                log.info(" * {}", "consumer." + i + ".incoming_bytes_per_sec");
+                metricsManager.registerMetric("consumer.stream-" + i + ".incoming_bytes_per_sec",
+                        new JmxAttributeGauge(new ObjectName("kafka.consumer:type=consumer-metrics,client-id="
+                                + String.format("%s_%s", appId, "enricher") + "-StreamThread-"
+                                + i + "-consumer"), "incoming-byte-rate"));
+
+                log.info(" * {}", "consumer." + i + ".records_per_sec");
+                metricsManager.registerMetric("consumer.stream-" + i + ".records_per_sec",
+                        new JmxAttributeGauge(new ObjectName("kafka.consumer:type=consumer-fetch-manager-metrics,client-id="
+                                + String.format("%s_%s", appId, "enricher") + "-StreamThread-"
+                                + i + "-consumer"), "records-consumed-rate"));
+
+                // STREAMS
+                log.info(" * {}", "streams.stream-" + i + ".process-latency-ms");
+                metricsManager.registerMetric("streams.stream-" + i + ".process-latency-ms",
+                        new JmxAttributeGauge(new ObjectName("kafka.streams:type=stream-metrics,client-id="
+                                + String.format("%s_%s", appId, "enricher") + "-StreamThread-"
+                                + i), "process-latency-avg"));
+
+                log.info(" * {}", "streams.stream-" + i + ".poll-latency-ms");
+                metricsManager.registerMetric("streams.stream-" + i + ".poll-latency-ms",
+                        new JmxAttributeGauge(new ObjectName("kafka.streams:type=stream-metrics,client-id="
+                                + String.format("%s_%s", appId, "enricher") + "-StreamThread-"
+                                + i), "poll-latency-avg"));
+
+                log.info(" * {}", "streams.stream-" + i + ".commit-latency-ms");
+                metricsManager.registerMetric("streams.stream-" + i + ".commit-latency-ms",
+                        new JmxAttributeGauge(new ObjectName("kafka.streams:type=stream-metrics,client-id="
+                                + String.format("%s_%s", appId, "enricher") + "-StreamThread-"
+                                + i), "commit-latency-avg"));
+
+            } catch (MalformedObjectNameException e) {
+                log.error("kafka jvm metrics not found", e);
+            }
+        }
     }
 
     @Override
@@ -72,9 +168,12 @@ public class Builder implements Listener {
             Config configWithNewAppId = config.clone();
             String appId = configWithNewAppId.get(APPLICATION_ID_CONFIG);
             configWithNewAppId.put(APPLICATION_ID_CONFIG, String.format("%s_%s", appId, "enricher"));
+            configWithNewAppId.put(CLIENT_ID_CONFIG, String.format("%s_%s", appId, "enricher"));
             streams = new KafkaStreams(builder.build(), configWithNewAppId.getProperties());
             streams.setUncaughtExceptionHandler((thread, exception) -> log.error(exception.getMessage(), exception));
             streams.start();
+
+            registerKafkaMetrics(config, metricsManager);
 
             log.info("Started Enricher with conf {}", config.getProperties());
         } catch (PlanBuilderException | IOException e) {

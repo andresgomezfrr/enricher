@@ -4,6 +4,7 @@
   "num.stream.threads": ${NUM_STREAM_THREADS},
   "bootstraper.classname": "io.wizzie.bootstrapper.bootstrappers.impl.KafkaBootstrapper",
   "metric.enable": ${METRIC_ENABLE},
+  "metric.kafka.topic": "${METRIC_KAFKA_TOPIC}",
   "metric.listeners": ["io.wizzie.metrics.listeners.KafkaMetricListener"],
   "metric.interval": ${METRIC_INTERVAL},
   "metric.databag": {"component":"enricher"},
