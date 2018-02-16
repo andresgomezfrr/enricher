@@ -6,7 +6,11 @@ date: 2017-02-21 10:18:32
 order: 2
 ---
 
-The listeners are the processes that listen the reported metrics and do something with them. You can have multiple listeners at the same time. Currently, the enricher service supports two listener metrics:
+The Normalizer service use this library to report metrics:
+
+[metrics-library](https://github.com/wizzie-io/metrics-library)
+
+Currently, the enricher service uses two listener metrics:
 
 #### ConsoleMetricListener
 
@@ -21,8 +25,4 @@ This listener `io.wizzie.metrics.listeners.KafkaMetricListener` sends the transf
 {"timestamp":123456789, "monitor":"heap-memory", "value":12345, "app_id":"MY_KAFKA_STREAMS_APP_ID"}
 ```
 
-This listener adds a new property to specify the metrics Kafka topic `metric.kafka.topic`, by default is `__enricher_metrics`
-
-#### Custom Listeners
-You can make new listeners. To do this you need to implement the [MetricListener Class](https://github.com/wizzie-io/metrics-library/blob/master/src/main/java/io/wizzie/metrics/listeners/MetricListener.java). On this class you receive the metric at the method `void updateMetric(String metricName, Object metricValue);`
-
+The `metric.kafka.topic` used by default is `__enricher_metrics`
