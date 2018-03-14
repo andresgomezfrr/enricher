@@ -12,7 +12,7 @@
     <artifactId>enricher-extensions</artifactId>
 
     <properties>
-        <kafka.version>0.10.1.0</kafka.version>
+        <kafka.version>0.10.2.1</kafka.version>
     </properties>
 
     <dependencies>

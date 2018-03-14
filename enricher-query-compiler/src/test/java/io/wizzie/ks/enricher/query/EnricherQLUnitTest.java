@@ -13,7 +13,7 @@ public class EnricherQLUnitTest {
     @Test
     public void InsertIntoShouldWork() {
 
-        String query = "INSERT INTO STREAM rb_output";
+        String query = "INSERT INTO STREAM output";
 
         ANTLRInputStream inputStream = new ANTLRInputStream(query);
         EnricherQLLexer lexer = new EnricherQLLexer(inputStream);
@@ -26,7 +26,7 @@ public class EnricherQLUnitTest {
 
     @Test
     public void JoinWithByKeyShouldWork() {
-        String query = "JOIN SELECT * FROM TABLE rb_input BY rb_key USING jClass";
+        String query = "JOIN SELECT * FROM TABLE input BY key USING jClass";
 
         ANTLRInputStream inputStream = new ANTLRInputStream(query);
         EnricherQLLexer lexer = new EnricherQLLexer(inputStream);
@@ -40,7 +40,7 @@ public class EnricherQLUnitTest {
     @Test
     public void JoinWithoutByKeyShouldWork() {
 
-        String query = "JOIN SELECT * FROM STREAM rb_input USING jClass";
+        String query = "JOIN SELECT * FROM STREAM input USING jClass";
 
         ANTLRInputStream inputStream = new ANTLRInputStream(query);
         EnricherQLLexer lexer = new EnricherQLLexer(inputStream);
@@ -66,9 +66,9 @@ public class EnricherQLUnitTest {
     @Test
     public void SimpleSelectShouldWork() {
 
-        String query = "SELECT * FROM STREAM rb_input " +
-                "JOIN SELECT a,b FROM STREAM rb_input2 USING jpackageClass " +
-                "INSERT INTO STREAM rb_output";
+        String query = "SELECT * FROM STREAM input " +
+                "JOIN SELECT a,b FROM STREAM input2 USING jpackageClass " +
+                "INSERT INTO STREAM output";
 
         ANTLRInputStream inputStream = new ANTLRInputStream(query);
         EnricherQLLexer lexer = new EnricherQLLexer(inputStream);
@@ -82,11 +82,11 @@ public class EnricherQLUnitTest {
     @Test
     public void ComplexSelectShouldWork() {
 
-        String query = "SELECT * FROM STREAM rb_input " +
-                "JOIN SELECT a,b,c FROM STREAM rb_input2 USING jClass1 " +
-                "JOIN SELECT * FROM TABLE rb_input3 USING jClass2 "+
-                "JOIN SELECT x,y FROM STREAM rb_input4 USING jClass3 " +
-                "INSERT INTO TABLE rb_output";
+        String query = "SELECT * FROM STREAM input " +
+                "JOIN SELECT a,b,c FROM STREAM input2 USING jClass1 " +
+                "JOIN SELECT * FROM TABLE input3 USING jClass2 "+
+                "JOIN SELECT x,y FROM STREAM input4 USING jClass3 " +
+                "INSERT INTO TABLE output";
 
         ANTLRInputStream inputStream = new ANTLRInputStream(query);
         EnricherQLLexer lexer = new EnricherQLLexer(inputStream);
