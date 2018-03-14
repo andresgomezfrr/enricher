@@ -43,6 +43,13 @@
             <version>${kafka.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka_2.11</artifactId>
+            <version>${kafka.version}</version>
+        </dependency>
+
+
         <!-- Testing -->
         <dependency>
             <groupId>org.mockito</groupId>
@@ -88,6 +95,11 @@
             <version>4.12</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka_2.11</artifactId>
+            <version>RELEASE</version>
+        </dependency>
 
     </dependencies>
 
@@ -95,6 +107,7 @@
         <plugins>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.6</version>
                 <executions>
                     <execution>
 
