@@ -5,11 +5,13 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.Map;
 
-import static io.wizzie.ks.enricher.enrichment.utils.Constants.__CLIENT_MAC;
-import static io.wizzie.ks.enricher.enrichment.utils.Constants.__CLIENT_MAC_VENDOR;
+import static io.wizzie.ks.enricher.enrichment.utils.Constants.*;
 import static org.junit.Assert.*;
 
 public class MacVendorEnrichUnitTest {
+
+    private final static String __CLIENT_MAC = "client_mac";
+    private final static String __CLIENT_MAC_VENDOR = "mac_vendor";
 
     @Test
     public void enrichesWithMacVendor() {
@@ -17,7 +19,9 @@ public class MacVendorEnrichUnitTest {
         MacVendorEnrich macVendorEnrich = new MacVendorEnrich();
 
         Map<String, Object> properties = new HashMap<>();
-        properties.put("oui.file.path", ClassLoader.getSystemResource("mac_vendors").getFile());
+        properties.put(OUI_FILE_PATH, ClassLoader.getSystemResource("mac_vendors").getFile());
+        properties.put(MAC_DIM, "client_mac");
+        properties.put(MAC_VENDOR_DIM, "mac_vendor");
 
         macVendorEnrich.init(properties, null);
 
@@ -36,11 +40,40 @@ public class MacVendorEnrichUnitTest {
     }
 
     @Test
+    public void defaultPropertiesShouldWorkCorrectly() {
+        MacVendorEnrich macVendorEnrich = new MacVendorEnrich();
+        Map<String, Object> properties = new HashMap<>();
+
+        macVendorEnrich.init(properties, null);
+        properties.put(OUI_FILE_PATH, "path_to_oui_file");
+        properties.put(MAC_DIM, "my_mac_field");
+        properties.put(MAC_VENDOR_DIM, "my_mac_vendor_field");
+
+        macVendorEnrich.init(properties, null);
+
+        assertEquals("my_mac_field", macVendorEnrich.mac);
+        assertEquals("my_mac_vendor_field", macVendorEnrich.macVendor);
+        assertEquals("path_to_oui_file", macVendorEnrich.ouiFilePath);
+    }
+
+    @Test
+    public void dimensionNameShouldBeCorrectly() {
+        MacVendorEnrich macVendorEnrich = new MacVendorEnrich();
+        Map<String, Object> properties = new HashMap<>();
+
+        macVendorEnrich.init(properties, null);
+
+        assertEquals("mac", macVendorEnrich.mac);
+        assertEquals("mac_vendor", macVendorEnrich.macVendor);
+        assertEquals("/opt/etc/objects/mac_vendors", macVendorEnrich.ouiFilePath);
+    }
+
+    @Test
     public void logsWhenVendorFileNotFound() {
         MacVendorEnrich macVendorEnrich = new MacVendorEnrich();
 
         Map<String, Object> properties = new HashMap<>();
-        properties.put("oui.file.path",  "/this_path_doesnt_exist");
+        properties.put(OUI_FILE_PATH,  "/this_path_doesnt_exist");
 
         macVendorEnrich.init(properties, null);
 
