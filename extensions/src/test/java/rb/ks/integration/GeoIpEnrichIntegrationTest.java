@@ -1,5 +1,6 @@
 package rb.ks.integration;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.org.apache.regexp.internal.RE;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -46,6 +47,8 @@ public class GeoIpEnrichIntegrationTest {
 
     private static Properties consumerConfig = new Properties();
 
+    private static ObjectMapper mapper;
+
     @BeforeClass
     public static void startKafkaCluster() throws Exception {
         CLUSTER.createTopic(INPUT_STREAM_TOPIC, 2, REPLICATION_FACTOR);
@@ -65,6 +68,8 @@ public class GeoIpEnrichIntegrationTest {
         consumerConfig.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         consumerConfig.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
         consumerConfig.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+
+        mapper = new ObjectMapper();
     }
 
     @Test
@@ -85,35 +90,31 @@ public class GeoIpEnrichIntegrationTest {
 
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder
-                .append("{")
-                .append("\"joiners\":[ ],\n")
-                .append("\"enrichers\":[\n" +
-                        "    {\n" +
-                        "      \"name\": \"geoipEnrich\",\n" +
-                        "      \"className\": \"rb.ks.enrichment.geoip.GeoIpEnrich\",\n" +
-                        "      \"properties\": {\n" +
-                        "        \"asn.db.path\": \"" + classLoader.getResource("asn.dat").getPath() + "\",\n" +
-                        "        \"asn6.db.path\": \"" + classLoader.getResource("asnv6.dat").getPath() + "\",\n" +
-                        "        \"city.db.path\": \"" + classLoader.getResource("city.dat").getPath() + "\",\n" +
-                        "        \"city6.db.path\": \"" + classLoader.getResource("cityv6.dat").getPath() + "\",\n" +
-                        "        \"src.country.code.dim\": \"src_country_code\",\n" +
-                        "        \"dst.country.code.dim\": \"dst_country_code\",\n" +
-                        "        \"src.dim\": \"src\",\n" +
-                        "        \"dst.dim\": \"dst\",\n" +
-                        "        \"src.as.name.dim\": \"src_as_name\",\n" +
-                        "        \"dst.as.name.dim\": \"dst_as_name\"\n" +
-                        "      }\n" +
-                        "    }\n" +
-                        "  ],\n")
-                .append("  \"queries\": {\n" +
-                        "    \"query1\": \"SELECT * FROM STREAM input ENRICH WITH geoipEnrich INSERT INTO TABLE output\"\n" +
-                        "  }")
-                .append("}")
-                ;
+        Map<String, Object> geoIpProperties = new HashMap<>();
+        geoIpProperties.put("asn.db.path", classLoader.getResource("asn.dat").getPath());
+        geoIpProperties.put("asn6.db.path", classLoader.getResource("asnv6.dat").getPath());
+        geoIpProperties.put("city.db.path", classLoader.getResource("city.dat").getPath());
+        geoIpProperties.put("city6.db.path", classLoader.getResource("cityv6.dat").getPath());
+        geoIpProperties.put("src.country.code.dim", "src_country_code");
+        geoIpProperties.put("dst.country.code.dim", "dst_country_code");
+        geoIpProperties.put("src.dim", "src");
+        geoIpProperties.put("dst.dim", "dst");
+        geoIpProperties.put("src.as.name.dim", "src_as_name");
+        geoIpProperties.put("dst.as.name.dim", "dst_as_name");
 
-        String jsonConfig = stringBuilder.toString();
+        Map<String, Object> geoIpEnricher = new HashMap<>();
+        geoIpEnricher.put("name", "geoipEnrich");
+        geoIpEnricher.put("className", "rb.ks.enrichment.geoip.GeoIpEnrich");
+        geoIpEnricher.put("properties", geoIpProperties);
+
+        Map<String, Object> queries = new HashMap<>();
+        queries.put("query1", "SELECT * FROM STREAM input ENRICH WITH geoipEnrich INSERT INTO TABLE output");
+
+        Map<String, Object> jsonMap = new HashMap<>();
+        jsonMap.put("enrichers", Collections.singletonList(geoIpEnricher));
+        jsonMap.put("queries", queries);
+
+        String jsonConfig = mapper.writeValueAsString(jsonMap);
 
         KeyValue<String, String> jsonConfigKv = new KeyValue<>(appId, jsonConfig);
 
