@@ -12,6 +12,12 @@
     <artifactId>enricher-query-compiler</artifactId>
 
     <dependencies>
+
+        <dependency>
+            <groupId>rb.ks</groupId>
+            <artifactId>enricher-service</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.antlr</groupId>
             <artifactId>antlr4-runtime</artifactId>
@@ -41,10 +47,18 @@
 
                         <configuration>
                             <listener>false</listener>
-                            <visitor>false</visitor>
+                            <visitor>true</visitor>
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
             </plugin>
         </plugins>
     </build>
