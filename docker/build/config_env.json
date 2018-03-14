@@ -3,8 +3,8 @@
   "bootstrap.servers": "${KAFKA_BOOTSTRAP_SERVER}",
   "zookeeper.connect": "${ZOOKEEPER_CONNECT}",
   "num.stream.threads": 1,
-  "bootstraper.classname": "io.wizzie.ks.builder.bootstrap.KafkaBootstraper",
+  "bootstraper.classname": "io.wizzie.ks.enricher.builder.bootstrap.KafkaBootstraper",
   "metric.enable": true,
-  "metric.listeners": ["io.wizzie.ks.metrics.KafkaMetricListener"],
+  "metric.listeners": ["io.wizzie.ks.enricher.metrics.KafkaMetricListener"],
   "metric.interval": 60000
 }

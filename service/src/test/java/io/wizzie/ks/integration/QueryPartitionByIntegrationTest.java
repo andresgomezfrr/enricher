@@ -1,10 +1,10 @@
-package io.wizzie.ks.integration;
+package io.wizzie.ks.enricher.integration;
 
-import io.wizzie.ks.builder.Builder;
-import io.wizzie.ks.builder.config.Config;
-import io.wizzie.ks.serializers.JsonDeserializer;
-import io.wizzie.ks.serializers.JsonSerde;
-import io.wizzie.ks.serializers.JsonSerializer;
+import io.wizzie.ks.enricher.builder.Builder;
+import io.wizzie.ks.enricher.builder.config.Config;
+import io.wizzie.ks.enricher.serializers.JsonDeserializer;
+import io.wizzie.ks.enricher.serializers.JsonSerde;
+import io.wizzie.ks.enricher.serializers.JsonSerializer;
 import kafka.utils.MockTime;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -92,7 +92,7 @@ public class QueryPartitionByIntegrationTest {
 
         Config configuration = new Config(streamsConfiguration);
         configuration.put("file.bootstraper.path", Thread.currentThread().getContextClassLoader().getResource("query-partition-by-integration-test.json").getFile());
-        configuration.put(Config.ConfigProperties.BOOTSTRAPER_CLASSNAME, "io.wizzie.ks.builder.bootstrap.FileBootstraper");
+        configuration.put(Config.ConfigProperties.BOOTSTRAPER_CLASSNAME, "io.wizzie.ks.enricher.builder.bootstrap.FileBootstraper");
 
         Builder builder = new Builder(configuration);
 

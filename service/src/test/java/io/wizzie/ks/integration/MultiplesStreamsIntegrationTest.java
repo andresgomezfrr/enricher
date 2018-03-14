@@ -1,10 +1,10 @@
-package io.wizzie.ks.integration;
+package io.wizzie.ks.enricher.integration;
 
-import io.wizzie.ks.builder.Builder;
-import io.wizzie.ks.builder.config.Config;
-import io.wizzie.ks.serializers.JsonDeserializer;
-import io.wizzie.ks.serializers.JsonSerde;
-import io.wizzie.ks.serializers.JsonSerializer;
+import io.wizzie.ks.enricher.builder.Builder;
+import io.wizzie.ks.enricher.builder.config.Config;
+import io.wizzie.ks.enricher.serializers.JsonDeserializer;
+import io.wizzie.ks.enricher.serializers.JsonSerde;
+import io.wizzie.ks.enricher.serializers.JsonSerializer;
 import kafka.utils.MockTime;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -25,7 +25,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
-import static io.wizzie.ks.builder.config.Config.ConfigProperties.BOOTSTRAPER_CLASSNAME;
+import static io.wizzie.ks.enricher.builder.config.Config.ConfigProperties.BOOTSTRAPER_CLASSNAME;
 import static org.apache.kafka.streams.StreamsConfig.APPLICATION_ID_CONFIG;
 import static org.junit.Assert.assertEquals;
 
@@ -90,7 +90,7 @@ public class MultiplesStreamsIntegrationTest {
 
         Config configuration = new Config(streamsConfiguration);
         configuration.put("file.bootstraper.path", Thread.currentThread().getContextClassLoader().getResource("multiples-streams-integration-test.json").getFile());
-        configuration.put(BOOTSTRAPER_CLASSNAME, "io.wizzie.ks.builder.bootstrap.FileBootstraper");
+        configuration.put(BOOTSTRAPER_CLASSNAME, "io.wizzie.ks.enricher.builder.bootstrap.FileBootstraper");
 
         Builder builder = new Builder(configuration);
 

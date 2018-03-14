@@ -1,10 +1,10 @@
-package io.wizzie.ks.integration;
+package io.wizzie.ks.enricher.integration;
 
-import io.wizzie.ks.builder.Builder;
-import io.wizzie.ks.builder.config.Config;
-import io.wizzie.ks.serializers.JsonDeserializer;
-import io.wizzie.ks.serializers.JsonSerde;
-import io.wizzie.ks.serializers.JsonSerializer;
+import io.wizzie.ks.enricher.builder.Builder;
+import io.wizzie.ks.enricher.builder.config.Config;
+import io.wizzie.ks.enricher.serializers.JsonDeserializer;
+import io.wizzie.ks.enricher.serializers.JsonSerde;
+import io.wizzie.ks.enricher.serializers.JsonSerializer;
 import kafka.utils.MockTime;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -90,7 +90,7 @@ public class KafkaBootstraperGetConfigIntegrationTest {
         streamsConfiguration.put(StreamsConfig.NUM_STREAM_THREADS_CONFIG, 1);
 
         Config configuration = new Config(streamsConfiguration);
-        configuration.put(Config.ConfigProperties.BOOTSTRAPER_CLASSNAME, "io.wizzie.ks.builder.bootstrap.KafkaBootstraper");
+        configuration.put(Config.ConfigProperties.BOOTSTRAPER_CLASSNAME, "io.wizzie.ks.enricher.builder.bootstrap.KafkaBootstraper");
 
         String jsonConfig = getFileContent(file);
 
