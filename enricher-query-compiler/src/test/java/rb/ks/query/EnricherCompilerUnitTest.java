@@ -222,7 +222,8 @@ public class EnricherCompilerUnitTest {
         assertNotNull(joinerClass);
         assertEquals("joiner.package.Class", joinerClass);
 
-        List<EnrichWith> enrichWiths = joins.get(0).getEnrichWiths();
+        // Enrich with tests
+        List<EnrichWith> enrichWiths = query.getEnrichWiths();
 
         assertNotNull(enrichWiths);
 
