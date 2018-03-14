@@ -2,7 +2,7 @@ grammar EnricherQL;
 
 query: SELECT dimensions FROM type streams (query_join)* (query_enrich_with)* query_output;
 
-query_join: JOIN SELECT dimensions FROM type id USING className;
+query_join: JOIN SELECT dimensions FROM type id (BY key)? USING className;
 
 query_enrich_with: ENRICH WITH className;
 
@@ -17,7 +17,7 @@ dimensions: (dimWildcard | (id (',' id)*));
 streams: (dimWildcard | (id (',' id)*));
 
 className: ID;
-
+key: ID;
 id: ID;
 
 dimWildcard: STAR;
@@ -35,6 +35,7 @@ INSERT: I N S E R T;
 INTO: I N T O;
 ENRICH: E N R I C H;
 WITH: W I T H;
+BY: B Y;
 
 ID : [a-zA-Z_] [a-zA-Z_0-9]*;
 
