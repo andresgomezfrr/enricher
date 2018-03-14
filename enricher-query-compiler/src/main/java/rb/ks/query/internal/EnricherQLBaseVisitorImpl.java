@@ -1,9 +1,6 @@
 package rb.ks.query.internal;
 
-import rb.ks.query.antlr4.Join;
-import rb.ks.query.antlr4.Query;
-import rb.ks.query.antlr4.Select;
-import rb.ks.query.antlr4.Stream;
+import rb.ks.query.antlr4.*;
 import rb.ks.query.compiler.EnricherQLBaseVisitor;
 import rb.ks.query.compiler.EnricherQLParser;
 
@@ -24,7 +21,9 @@ public class EnricherQLBaseVisitorImpl extends EnricherQLBaseVisitor {
         List<Stream> selectInputStreams = ctx.streams().id().stream().map(id -> new Stream(id.getText(), ctx.type().getText().equals("TABLE"))).collect(Collectors.toList());
 
         List<Join> joins = ctx.query_join().stream().map(joinContext -> {
+
             boolean table = joinContext.type().getText().equals("TABLE");
+
             List<String> joinDimensions = joinContext.dimensions().id().stream().map(id -> id.getText()).collect(Collectors.toList());
 
             if(joinDimensions.isEmpty())
@@ -33,7 +32,9 @@ public class EnricherQLBaseVisitorImpl extends EnricherQLBaseVisitor {
             String className = joinContext.className().getText();
             String joinStream = joinContext.id().getText();
 
-            return new Join(new Stream(joinStream, table), className, joinDimensions);
+            List<EnrichWith> enrichWiths = joinContext.query_enrich_with().stream().map(enrichContext -> new EnrichWith(enrichContext.id(0).getText(), enrichContext.id(1).getText())).collect(Collectors.toList());
+
+            return new Join(new Stream(joinStream, table), className, joinDimensions, enrichWiths);
         }).collect(Collectors.toList());
 
         Stream output = new Stream(ctx.query_output().id().getText(), ctx.query_output().type().getText().matches("TABLE"));
