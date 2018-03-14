@@ -1,33 +1,54 @@
 package rb.ks.model.antlr4;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.cookingfox.guava_preconditions.Preconditions.checkNotNull;
 
 public class Join {
 
-    List<String> dimensionsList;
-
+    List<String> dimensions;
     Stream topic;
+    String joinerClass;
 
-    String className;
+    public Join(Stream topic, String joinerClass) {
+        this(topic, joinerClass, new ArrayList<>());
+    }
+
+    public Join(Stream topic, String joinerClass, List<String> dimensions) {
+        this.topic = checkNotNull(topic, "\"Topic\" attribute is required");
+        this.joinerClass = checkNotNull(joinerClass, "\"joinerClass\" attribute is required");
+        this.dimensions = checkNotNull(dimensions, "\"dimensions\" is required");
+    }
 
     public void setStream(Stream stream) {
         topic = stream;
     }
 
-    public void setDimensions(List<String> newDimensionsList) {
-        dimensionsList = newDimensionsList;
+    public Stream getStream() {
+        return topic;
     }
 
-    public void setClassName(String newClassName) {
-        className = newClassName;
+    public void setDimensions(List<String> newDimensions) {
+        dimensions = newDimensions;
+    }
+
+    public List<String> getDimensions() {
+        return dimensions;
+    }
+
+    public void setJoinerClass(String newClassName) {
+        joinerClass = newClassName;
+    }
+
+    public String getJoinerClass() {
+        return joinerClass;
     }
 
     public void validate() {
-        checkNotNull(dimensionsList, "Dimensions is required");
-        checkNotNull(topic, "Stream is required");
-        checkNotNull(className, "Class is required");
+        checkNotNull(dimensions, "At least a dimensions is required");
+        checkNotNull(topic, "At least a topic is required");
+        checkNotNull(joinerClass, "At least a joiner class is required");
 
         topic.validate();
     }

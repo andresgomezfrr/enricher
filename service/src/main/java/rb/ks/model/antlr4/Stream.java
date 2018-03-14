@@ -5,11 +5,17 @@ import static com.cookingfox.guava_preconditions.Preconditions.checkNotNull;
 public class Stream {
 
     String name;
-    boolean isTable;
+    boolean isTable = false;
 
-    public static Stream input() {
-        return new Stream();
+    public Stream(String name) {
+        this(name, false);
     }
+
+    public Stream(String name, boolean isTable) {
+        this.name = checkNotNull(name, "\"name\" attribute is required");
+        this.isTable = checkNotNull(isTable, "\"isTable\" attribute is required");
+    }
+
 
     public void setTable(boolean value) {
         isTable = value;
@@ -20,7 +26,7 @@ public class Stream {
     }
 
     public Stream setName(String name) {
-        this.name = checkNotNull(name, "ID is required");
+        this.name = checkNotNull(name, "\"Name\" attributed is required");
         return this;
     }
 
@@ -30,7 +36,7 @@ public class Stream {
 
 
     public void validate() {
-        checkNotNull(name, "ID is required");
+        checkNotNull(name, "\"Name\" attribute is required");
     }
 
 }
