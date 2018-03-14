@@ -11,7 +11,7 @@ public abstract class BaseEnrich implements Enrich, ValueMapper<Map<String, Obje
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Override
-    public void prepare(Map<String, Object> properties, MetricsManager metricsManager) {
+    public void init(Map<String, Object> properties, MetricsManager metricsManager) {
         prepare(properties, metricsManager);
         log.info("   with {}", toString());
     }
