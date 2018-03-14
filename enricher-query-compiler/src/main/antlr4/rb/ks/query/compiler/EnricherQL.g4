@@ -1,8 +1,8 @@
 grammar EnricherQL;
 
-query: SELECT (STAR | (id (',' id)*)) FROM type (id (',' id)*) (query_join)* query_output;
+query: SELECT dimensions FROM type streams (query_join)* query_output;
 
-query_join: JOIN SELECT (STAR|(id (',' id)*)) FROM type id USING className;
+query_join: JOIN SELECT dimensions FROM type id USING className;
 
 query_output: INSERT INTO type id;
 
@@ -11,9 +11,14 @@ type
     | TABLE
     ;
 
+dimensions: (dimWildcard | (id (',' id)*));
+streams: (dimWildcard | (id (',' id)*));
+
 className: ID ('.' ID)*;
 
 id: ID;
+
+dimWildcard: STAR;
 
 STAR: '*';
 
