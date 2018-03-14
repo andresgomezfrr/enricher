@@ -37,11 +37,7 @@ public class EnricherQLBaseVisitorImpl extends EnricherQLBaseVisitor {
             String className = joinContext.className().getText();
             String joinStream = joinContext.id().getText();
 
-            String partitionKey = __KEY;
-
-
-            if(joinContext.key() != null)
-                partitionKey = joinContext.key().getText();
+            String partitionKey = joinContext.key() != null ? joinContext.key().getText() : __KEY;
 
             return new Join(new Stream(joinStream, table), className, joinDimensions, partitionKey);
         }).collect(Collectors.toList());
