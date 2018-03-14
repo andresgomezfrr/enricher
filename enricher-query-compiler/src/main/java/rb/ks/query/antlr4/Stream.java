@@ -1,4 +1,4 @@
-package rb.ks.model.antlr4;
+package rb.ks.query.antlr4;
 
 import static com.cookingfox.guava_preconditions.Preconditions.checkNotNull;
 

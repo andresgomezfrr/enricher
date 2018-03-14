@@ -1,10 +1,10 @@
 package rb.ks.query;
 
 import org.junit.Test;
-import rb.ks.model.antlr4.Join;
-import rb.ks.model.antlr4.Query;
-import rb.ks.model.antlr4.Select;
-import rb.ks.model.antlr4.Stream;
+import rb.ks.query.antlr4.Join;
+import rb.ks.query.antlr4.Query;
+import rb.ks.query.antlr4.Select;
+import rb.ks.query.antlr4.Stream;
 
 import java.util.Arrays;
 import java.util.Collections;

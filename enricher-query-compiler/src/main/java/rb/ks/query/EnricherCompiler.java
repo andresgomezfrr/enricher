@@ -3,7 +3,7 @@ package rb.ks.query;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
-import rb.ks.model.antlr4.Query;
+import rb.ks.query.antlr4.Query;
 import rb.ks.query.compiler.EnricherQLLexer;
 import rb.ks.query.compiler.EnricherQLParser;
 import rb.ks.query.compiler.EnricherQLVisitor;

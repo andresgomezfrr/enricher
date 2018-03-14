@@ -16,10 +16,11 @@
 
     <dependencies>
 
+        <!-- https://mvnrepository.com/artifact/com.cookingfox/guava-preconditions -->
         <dependency>
-            <groupId>rb.ks</groupId>
-            <artifactId>enricher-service</artifactId>
-            <version>${project.parent.version}</version>
+            <groupId>com.cookingfox</groupId>
+            <artifactId>guava-preconditions</artifactId>
+            <version>0.1.5</version>
         </dependency>
 
         <dependency>
