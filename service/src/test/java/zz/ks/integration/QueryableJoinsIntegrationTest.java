@@ -1,4 +1,4 @@
-package rb.ks.integration;
+package zz.ks.integration;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -12,11 +12,11 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Test;
-import rb.ks.builder.Builder;
-import rb.ks.builder.config.Config;
-import rb.ks.serializers.JsonDeserializer;
-import rb.ks.serializers.JsonSerde;
-import rb.ks.serializers.JsonSerializer;
+import zz.ks.builder.Builder;
+import zz.ks.builder.config.Config;
+import zz.ks.serializers.JsonDeserializer;
+import zz.ks.serializers.JsonSerde;
+import zz.ks.serializers.JsonSerializer;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -26,7 +26,7 @@ import java.util.*;
 
 import static org.apache.kafka.streams.StreamsConfig.APPLICATION_ID_CONFIG;
 import static org.junit.Assert.assertEquals;
-import static rb.ks.builder.config.Config.ConfigProperties.BOOTSTRAPER_CLASSNAME;
+import static zz.ks.builder.config.Config.ConfigProperties.BOOTSTRAPER_CLASSNAME;
 
 public class QueryableJoinsIntegrationTest {
 
@@ -91,7 +91,7 @@ public class QueryableJoinsIntegrationTest {
 
         Config configuration = new Config(streamsConfiguration);
         configuration.put("file.bootstraper.path", Thread.currentThread().getContextClassLoader().getResource("queryable-joins-integration-test.json").getFile());
-        configuration.put(BOOTSTRAPER_CLASSNAME, "rb.ks.builder.bootstrap.FileBootstraper");
+        configuration.put(BOOTSTRAPER_CLASSNAME, "zz.ks.builder.bootstrap.FileBootstraper");
 
         Builder builder = new Builder(configuration);
 
