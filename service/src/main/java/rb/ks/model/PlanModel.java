@@ -74,7 +74,7 @@ public class PlanModel {
                 for(Join joiner : joiners) {
                     String joinerName = joiner.getJoinerName();
                     if(!definedJoiners.contains(joinerName)) {
-                        throw new PlanBuilderException(String.format("Joiner[%s]: Not defined", joinerName));
+                        throw new PlanBuilderException(String.format("BaseJoiner[%s]: Not defined", joinerName));
                     }
                 }
             }

@@ -13,6 +13,7 @@
     <modules>
         <module>service</module>
         <module>enricher-query-compiler</module>
+        <module>extensions</module>
     </modules>
 
 
