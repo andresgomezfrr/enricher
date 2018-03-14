@@ -88,7 +88,7 @@ public class PlanModelUnitTest {
         assertEquals("rb_input2", join1_1Stream.getName());
         assertFalse(join1_1Stream.isTable());
 
-        String join1_1ClassName = join1_1.getJoinerClass();
+        String join1_1ClassName = join1_1.getJoinerName();
 
         assertNotNull(join1_1ClassName);
         assertEquals("joiner", join1_1ClassName);
@@ -147,7 +147,7 @@ public class PlanModelUnitTest {
         assertEquals("rb_input3", join2_1Stream.getName());
         assertFalse(join2_1Stream.isTable());
 
-        String join2_1ClassName = join2_1.getJoinerClass();
+        String join2_1ClassName = join2_1.getJoinerName();
 
         assertNotNull(join2_1ClassName);
         assertEquals("joiner1", join2_1ClassName);
@@ -168,7 +168,7 @@ public class PlanModelUnitTest {
         assertEquals("rb_input4", join2_2Stream.getName());
         assertTrue(join2_2Stream.isTable());
 
-        String join2_2ClassName = join2_2.getJoinerClass();
+        String join2_2ClassName = join2_2.getJoinerName();
 
         assertNotNull(join2_2ClassName);
         assertEquals("joinerPkg2Class2", join2_2ClassName);
@@ -189,7 +189,7 @@ public class PlanModelUnitTest {
         assertEquals("rb_input5", join2_3Stream.getName());
         assertFalse(join2_3Stream.isTable());
 
-        String join2_3ClassName = join2_3.getJoinerClass();
+        String join2_3ClassName = join2_3.getJoinerName();
 
         assertNotNull(join2_3ClassName);
         assertEquals("joiner.Class3", join2_3ClassName);
@@ -243,7 +243,7 @@ public class PlanModelUnitTest {
         assertEquals("rb_input2", join3_1Stream.getName());
         assertTrue(join3_1Stream.isTable());
 
-        String join3_1ClassName = join3_1.getJoinerClass();
+        String join3_1ClassName = join3_1.getJoinerName();
 
         assertNotNull(join3_1ClassName);
         assertEquals("joiner1", join3_1ClassName);
@@ -261,7 +261,7 @@ public class PlanModelUnitTest {
         assertEquals("rb_input3", join3_2Stream.getName());
         assertFalse(join3_2Stream.isTable());
 
-        String join3_2ClassName = join3_2.getJoinerClass();
+        String join3_2ClassName = join3_2.getJoinerName();
 
         assertNotNull(join3_2ClassName);
         assertEquals("jClass2", join3_2ClassName);

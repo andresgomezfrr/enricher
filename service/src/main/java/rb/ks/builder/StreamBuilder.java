@@ -135,8 +135,8 @@ public class StreamBuilder {
                 }
 
                 KStream<String, Map<String, Object>> stream = streams.get(entry.getKey());
-                Joiner joiner = joiners.get(join.getJoinerClass());
-                if(joiner == null) throw new JoinerNotFound("Joiner " + join.getJoinerClass() + " not found!");
+                Joiner joiner = joiners.get(join.getJoinerName());
+                if(joiner == null) throw new JoinerNotFound("Joiner " + join.getJoinerName() + " not found!");
                 stream = stream.leftJoin(table, joiner);
                 streams.put(entry.getKey(), stream);
             });
