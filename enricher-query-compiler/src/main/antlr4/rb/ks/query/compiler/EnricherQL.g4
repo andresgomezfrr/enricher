@@ -11,7 +11,7 @@ type
     | TABLE
     ;
 
-className: CLASS_NAME;
+className: ID ('.' ID)*;
 
 id: ID;
 
@@ -27,10 +27,9 @@ USING: U S I N G;
 INSERT: I N S E R T;
 INTO: I N T O;
 
-CLASS_NAME: [A-Z_] [a-zA-Z_0-9]* ('.' [a-zA-Z_0-9]*);
 ID : [a-zA-Z_] [a-zA-Z_0-9]*;
 
-fragment DIGIT : [0-9];
+WS: [ \r\n\t] -> skip;
 
 fragment A : [aA];
 fragment B : [bB];
