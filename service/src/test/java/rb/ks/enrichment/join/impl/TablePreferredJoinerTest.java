@@ -8,7 +8,7 @@ import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
-public class TablePreferedJoinerTest {
+public class TablePreferredJoinerTest {
 
     TablePreferredJoiner tablePreferredJoiner;
 
@@ -42,7 +42,6 @@ public class TablePreferedJoinerTest {
 
     @Test
     public void shouldReturnSameMapWhetherTableIsNull() {
-
         Map<String, Object> stream = new HashMap<>();
         stream.put("a", 1);
         stream.put("b", 2);
