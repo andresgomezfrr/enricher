@@ -8,7 +8,7 @@
 
     <parent>
         <artifactId>enricher</artifactId>
-        <groupId>rb.ks</groupId>
+        <groupId>zz.ks</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
