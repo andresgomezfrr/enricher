@@ -1,8 +1,8 @@
 grammar EnricherQL;
 
-query: SELECT dimensions FROM type streams (query_join)* query_output;
+query: SELECT dimensions FROM type streams (query_join)* (query_enrich_with)* query_output;
 
-query_join: JOIN SELECT dimensions FROM type id USING className (query_enrich_with)*;
+query_join: JOIN SELECT dimensions FROM type id USING className;
 
 query_enrich_with: ENRICH WITH id '.' id;
 
