@@ -4,12 +4,12 @@ machine:
 
 dependencies:
   override:
-    - mvn -Dmaven.test.skip=true install
+    - mvn -Dmaven.test.skip=true install -U
 
 test:
   override:
     - sudo mkdir -p /var/log/ks-enricher/ && sudo chown -R ubuntu:ubuntu /var/log/ks-enricher/
-    - mvn clean test
+    - mvn clean test -U
   post:
     - mvn package -Dmaven.test.skip=true -P dist
     - cp distribution/target/enricher-dist.tar.gz $CIRCLE_ARTIFACTS/
