@@ -20,11 +20,11 @@ public class EnricherQLBaseVisitorImpl extends EnricherQLBaseVisitor {
 
         List<Stream> selectInputStreams = ctx.streams().id().stream().map(id -> new Stream(id.getText(), ctx.type().toString().matches("TABLE"))).collect(Collectors.toList());
 
-        List<Join> joins = ctx.query_join().stream().map(join -> {
-            boolean table = join.type().toString().equals("TABLE");
-            List<String> joinDimensions = join.dimensions().id().stream().map(id -> id.toString()).collect(Collectors.toList());
-            String className = join.className().toString();
-            String joinStream = join.id().toString();
+        List<Join> joins = ctx.query_join().stream().map(joinContext -> {
+            boolean table = joinContext.type().getText().equals("TABLE");
+            List<String> joinDimensions = joinContext.dimensions().id().stream().map(id -> id.getText()).collect(Collectors.toList());
+            String className = joinContext.className().getText();
+            String joinStream = joinContext.id().getText();
 
             return new Join(new Stream(joinStream, table), className, joinDimensions);
         }).collect(Collectors.toList());
