@@ -3,7 +3,7 @@ package rb.ks.query;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
-import rb.ks.model.PlanModel;
+import rb.ks.model.antlr4.Query;
 import rb.ks.query.compiler.EnricherQLLexer;
 import rb.ks.query.compiler.EnricherQLParser;
 import rb.ks.query.compiler.EnricherQLVisitor;
@@ -12,7 +12,7 @@ import rb.ks.query.internal.EnricherQLBaseVisitorImpl;
 
 public class EnricherCompiler {
 
-    public static PlanModel parse(String source) {
+    public static Query parse(String source) {
 
         ANTLRInputStream input = new ANTLRInputStream(source);
         EnricherQLLexer lexer = new EnricherQLLexer(input);
@@ -25,7 +25,7 @@ public class EnricherCompiler {
         parser.addErrorListener(EnricherErrorListener.INSTANCE);
         ParseTree tree = parser.query();
 
-        EnricherQLVisitor<PlanModel> eval = new EnricherQLBaseVisitorImpl();
+        EnricherQLVisitor<Query> eval = new EnricherQLBaseVisitorImpl();
 
         return eval.visit(tree);
     }
