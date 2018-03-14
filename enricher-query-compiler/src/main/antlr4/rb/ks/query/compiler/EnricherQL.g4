@@ -1,5 +1,14 @@
 grammar EnricherQL;
 
+query_output: INSERT INTO type id;
+
+type
+    : STREAM
+    | TABLE
+    ;
+
+id: ID;
+
 START: '*';
 
 // Keywords
