@@ -16,4 +16,91 @@
     <name>docker</name>
     <description>Docker packaging manager</description>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>0.4.13</version>
+
+                <configuration>
+                    <imageName>${project.parent.artifactId}</imageName>
+
+                    <imageTags>
+                        <imageTag>${project.version}</imageTag>
+                        <imageTag>latest</imageTag>
+                    </imageTags>
+
+                    <dockerDirectory>${project.basedir}/build</dockerDirectory>
+
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.basedir}/../distribution/target</directory>
+                            <include>${project.parent.artifactId}-dist.tar.gz</include>
+                        </resource>
+                    </resources>
+
+                </configuration>
+
+                <executions>
+                    <execution>
+                        <id>build-image</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                    </execution>
+
+                    <execution>
+                        <id>tag-image</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>tag</goal>
+                        </goals>
+                        <configuration>
+                            <image>${project.parent.artifactId}:${project.version}</image>
+                            <newName>resources.redborder.lan:5000/${project.parent.artifactId}:${project.version}</newName>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>tag-latest-image</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>tag</goal>
+                        </goals>
+                        <configuration>
+                            <image>${project.parent.artifactId}:latest</image>
+                            <newName>resources.redborder.lan:5000/${project.parent.artifactId}:latest</newName>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>push-image</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>push</goal>
+                        </goals>
+                        <configuration>
+                            <imageName>resources.redborder.lan:5000/${project.parent.artifactId}:${project.version}</imageName>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>push-latest-image</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>push</goal>
+                        </goals>
+                        <configuration>
+                            <imageName>resources.redborder.lan:5000/${project.parent.artifactId}:latest</imageName>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+
+    </build>
+
 </project>
