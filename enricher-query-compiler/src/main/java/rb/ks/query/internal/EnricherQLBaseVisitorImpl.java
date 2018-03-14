@@ -11,6 +11,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static rb.ks.query.utils.Constants.__KEY;
+
 public class EnricherQLBaseVisitorImpl extends EnricherQLBaseVisitor {
 
     @Override
@@ -34,16 +36,16 @@ public class EnricherQLBaseVisitorImpl extends EnricherQLBaseVisitor {
 
             String className = joinContext.className().getText();
             String joinStream = joinContext.id().getText();
-            String key;
+            String partitionKey;
 
             EnricherQLParser.KeyContext keyContext = joinContext.key();
 
             if(keyContext != null)
-                key = keyContext.getText();
+                partitionKey = keyContext.getText();
             else
-                key = "__KEY";
+                partitionKey = __KEY;
 
-            return new Join(new Stream(joinStream, table), className, joinDimensions, key);
+            return new Join(new Stream(joinStream, table), className, joinDimensions, partitionKey);
         }).collect(Collectors.toList());
 
         List<String> enrichWiths = ctx.query_enrich_with().stream().map(enrichContext -> new String(enrichContext.className().getText())).collect(Collectors.toList());

@@ -2,7 +2,7 @@ grammar EnricherQL;
 
 query: SELECT dimensions FROM type streams (query_join)* (query_enrich_with)* query_output;
 
-query_join: JOIN SELECT dimensions FROM type id (BY key)? USING className;
+query_join: JOIN SELECT dimensions FROM type id (BY partitionKey)? USING className;
 
 query_enrich_with: ENRICH WITH className;
 
@@ -17,7 +17,7 @@ dimensions: (dimWildcard | (id (',' id)*));
 streams: (dimWildcard | (id (',' id)*));
 
 className: ID;
-key: ID;
+partitionKey: ID;
 id: ID;
 
 dimWildcard: STAR;
