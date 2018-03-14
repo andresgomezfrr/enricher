@@ -6,6 +6,8 @@ import org.junit.Test;
 import rb.ks.query.compiler.EnricherQLLexer;
 import rb.ks.query.compiler.EnricherQLParser;
 
+import static org.junit.Assert.assertEquals;
+
 public class EnricherQLUnitTest {
 
     @Test
@@ -18,7 +20,7 @@ public class EnricherQLUnitTest {
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         EnricherQLParser parser = new EnricherQLParser(tokens);
 
-        parser.query_output();
+        assertEquals(query.replaceAll("\\s+", ""), parser.query_output().getText());
 
     }
 
@@ -32,7 +34,7 @@ public class EnricherQLUnitTest {
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         EnricherQLParser parser = new EnricherQLParser(tokens);
 
-        parser.query_join();
+        assertEquals(query.replaceAll("\\s+", ""), parser.query_join().getText());
 
     }
 
@@ -48,7 +50,7 @@ public class EnricherQLUnitTest {
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         EnricherQLParser parser = new EnricherQLParser(tokens);
 
-        parser.query();
+        assertEquals(query.replaceAll("\\s+", ""), parser.query().getText());
 
     }
 
@@ -66,7 +68,7 @@ public class EnricherQLUnitTest {
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         EnricherQLParser parser = new EnricherQLParser(tokens);
 
-        parser.query();
+        assertEquals(query.replaceAll("\\s+", ""), parser.query().getText());
 
     }
 }
