@@ -5,7 +5,7 @@ import java.util.List;
 
 import static com.cookingfox.guava_preconditions.Preconditions.checkNotNull;
 
-import static rb.ks.query.utils.Constants.__KEY;
+import static zz.ks.query.utils.Constants.__KEY;
 
 public class Join {
 
