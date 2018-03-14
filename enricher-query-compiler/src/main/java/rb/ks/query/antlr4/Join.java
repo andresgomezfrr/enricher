@@ -10,22 +10,15 @@ public class Join {
     List<String> dimensions;
     Stream topic;
     String joinerName;
-    List<EnrichWith> enrichWiths;
 
     public Join(Stream topic, String joinerName) {
         this(topic, joinerName, Collections.EMPTY_LIST);
     }
 
     public Join(Stream topic, String joinerName, List<String> dimensions) {
-        this(topic, joinerName, dimensions, Collections.EMPTY_LIST);
-    }
-
-    public Join(Stream topic, String joinerName, List<String> dimensions, List<EnrichWith> enrichWiths) {
         this.topic = checkNotNull(topic, "<topic> attribute is required");
         this.joinerName = checkNotNull(joinerName, "<joinerName> attribute is required");
-        this.dimensions = checkNotNull(dimensions, "<dimensions> is required");
-        this.enrichWiths = checkNotNull(enrichWiths, "<enrichWith> is required");
-    }
+        this.dimensions = checkNotNull(dimensions, "<dimensions> is required");    }
 
     public void setStream(Stream stream) {
         topic = stream;
@@ -51,19 +44,10 @@ public class Join {
         return joinerName;
     }
 
-    public void setEnrichWiths(List<EnrichWith> enrichWiths) {
-        this.enrichWiths = enrichWiths;
-    }
-
-    public List<EnrichWith> getEnrichWiths() {
-        return enrichWiths;
-    }
-
     public void validate() {
         checkNotNull(dimensions, "At least a dimensions list is required");
         checkNotNull(topic, "At least a topic is required");
         checkNotNull(joinerName, "At least a joiner class name is required");
-        checkNotNull(enrichWiths, "At least a enrich with list is required");
 
         topic.validate();
     }
