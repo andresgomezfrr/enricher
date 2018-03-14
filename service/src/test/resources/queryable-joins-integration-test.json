@@ -1,0 +1,10 @@
+{
+  "joiners":[
+    {"name":"streamQueryablePreferred", "className":"rb.ks.enrichment.join.impl.queryable.StreamPreferredJoiner"},
+    {"name":"streamPreferred", "className":"rb.ks.enrichment.join.impl.StreamPreferredJoiner"}
+
+  ],
+  "queries": {
+    "query1": "SELECT * FROM STREAM flow JOIN SELECT * FROM TABLE location USING streamPreferred JOIN SELECT * FROM TABLE reputation USING streamQueryablePreferred INSERT INTO TABLE output"
+  }
+}
