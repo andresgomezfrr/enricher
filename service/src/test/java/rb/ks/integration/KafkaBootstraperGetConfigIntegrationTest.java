@@ -95,7 +95,6 @@ public class KafkaBootstraperGetConfigIntegrationTest {
 
         KeyValue<String, String> jsonConfigKv = new KeyValue<>(appId, jsonConfig);
 
-
         producerConfig.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
 
         IntegrationTestUtils.produceKeyValuesSynchronously(BOOTSTRAP_TOPIC, Collections.singletonList(jsonConfigKv), producerConfig);
@@ -146,6 +145,7 @@ public class KafkaBootstraperGetConfigIntegrationTest {
 
         assertEquals(Collections.singletonList(expectedDataKv), receivedMessagesFromOutput);
 
+        builder.close();
     }
 
 

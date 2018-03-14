@@ -123,6 +123,7 @@ public class FileBootstraperIntegrationTest {
 
         assertEquals(Collections.singletonList(expectedDataKv), receivedMessagesFromOutput);
 
+        builder.close();
     }
 
     @AfterClass
