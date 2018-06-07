@@ -2,7 +2,6 @@ package io.wizzie.ks.enricher.builder;
 
 import com.codahale.metrics.JmxAttributeGauge;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.yammer.metrics.core.Counter;
 import io.wizzie.bootstrapper.builder.*;
 import io.wizzie.ks.enricher.base.utils.Utils;
 import io.wizzie.ks.enricher.model.PlanModel;
@@ -24,9 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static io.wizzie.ks.enricher.base.builder.config.ConfigProperties.BOOTSTRAPER_CLASSNAME;
-import static org.apache.kafka.streams.StreamsConfig.APPLICATION_ID_CONFIG;
-import static org.apache.kafka.streams.StreamsConfig.CLIENT_ID_CONFIG;
-import static org.apache.kafka.streams.StreamsConfig.NUM_STREAM_THREADS_CONFIG;
+import static org.apache.kafka.streams.StreamsConfig.*;
 
 
 public class Builder implements Listener {

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn" name="MyApp" packages="">
+    <Appenders>
+        <File name="FileLog" fileName="/var/log/enricher/enricher.log">
+            <PatternLayout>
+                <Pattern>%d{yyyy-MM-dd HH:mm:ss} %highlight{%p} [%c{3.}] %m%n</Pattern>
+            </PatternLayout>
+        </File>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %highlight{%p} [%c{3.}] %m%n"/>
+        </Console>
+        <File name="FileLogEnricher" fileName="/var/log/enricher/enricher.log">
+            <PatternLayout>
+                <Pattern>%d{yyyy-MM-dd HH:mm:ss} %highlight{%p} [%c{3.}] %highlight{%m{ansi}}%n</Pattern>
+            </PatternLayout>
+        </File>
+        <Console name="ConsoleEnricher" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %highlight{%p} [%c{3.}] %highlight{%m{ansi}}%n"/>
+        </Console>
+    </Appenders>
+    <Loggers>
+        <Logger name="io.wizzie.ks.enricher" level="${LOG_LEVEL}" additivity="false">
+            <AppenderRef ref="FileLogEnricher"/>
+            <AppenderRef ref="ConsoleEnricher"/>
+        </Logger>
+        <Root level="${GENERAL_LOG_LEVEL}">
+            <AppenderRef ref="FileLog"/>
+            <AppenderRef ref="Console"/>
+        </Root>
+    </Loggers>
+</Configuration>

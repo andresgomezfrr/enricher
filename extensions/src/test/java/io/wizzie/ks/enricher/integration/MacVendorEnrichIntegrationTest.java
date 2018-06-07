@@ -2,8 +2,8 @@ package io.wizzie.ks.enricher.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.wizzie.bootstrapper.bootstrappers.impl.KafkaBootstrapper;
+import io.wizzie.bootstrapper.builder.Config;
 import io.wizzie.ks.enricher.builder.Builder;
-import io.wizzie.bootstrapper.builder.*;
 import io.wizzie.ks.enricher.serializers.JsonDeserializer;
 import io.wizzie.ks.enricher.serializers.JsonSerde;
 import io.wizzie.ks.enricher.serializers.JsonSerializer;
@@ -17,7 +17,6 @@ import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.integration.utils.EmbeddedKafkaCluster;
 import org.apache.kafka.streams.integration.utils.IntegrationTestUtils;
-import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Test;

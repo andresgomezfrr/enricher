@@ -26,8 +26,8 @@ import org.slf4j.LoggerFactory;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static io.wizzie.ks.enricher.base.utils.Constants.*;
-import static org.apache.kafka.streams.StreamsConfig.*;
+import static io.wizzie.ks.enricher.base.utils.Constants.__KEY;
+import static org.apache.kafka.streams.StreamsConfig.APPLICATION_ID_CONFIG;
 
 public class StreamBuilder {
     String appId;

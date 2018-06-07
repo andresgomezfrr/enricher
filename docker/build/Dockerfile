@@ -10,7 +10,7 @@ RUN mkdir -p /var/log/enricher
 ADD enricher-dist.tar.gz /opt/
 RUN rm -f /opt/enricher/config/*
 
-ADD log4j.xml /opt/enricher/config/
+ADD log4j2_env.xml /opt/enricher/config/
 ADD config_env.json /opt/enricher/config/
 ADD enricher-start.sh /bin
 ADD *.dat /opt/enricher/data/
@@ -25,6 +25,9 @@ ENV METRIC_KAFKA_TOPIC __metrics
 ENV GLOBAL_TOPICS []
 ENV BYPASS_NULL_KEYS true
 ENV BOOTSTRAP_KAFKA_TOPICS [\"__enricher_bootstrap\"]
+
+ENV LOG_LEVEL info
+ENV GENERAL_LOG_LEVEL info
 
 ENV JVM_OPTIONS -Xmx512m -Xms512m
 
