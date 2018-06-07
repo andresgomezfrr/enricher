@@ -13,53 +13,63 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>2.11.0</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.fusesource.jansi</groupId>
+            <artifactId>jansi</artifactId>
+            <version>1.17.1</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>io.wizzie.metrics</groupId>
             <artifactId>metrics-library</artifactId>
             <version>${metrics-library.version}</version>
         </dependency>
-
         <dependency>
             <groupId>io.wizzie</groupId>
             <artifactId>config-bootstrapper</artifactId>
             <version>${config-bootstrapper.version}</version>
         </dependency>
-
         <dependency>
             <groupId>io.wizzie.ks.enricher</groupId>
             <artifactId>enricher-base</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
-
         <dependency>
             <groupId>io.wizzie.ks.enricher</groupId>
             <artifactId>enricher-model</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
-
         <dependency>
             <groupId>io.dropwizard.metrics</groupId>
             <artifactId>metrics-core</artifactId>
             <version>${dropwizard.version}</version>
         </dependency>
-
         <dependency>
             <groupId>io.dropwizard.metrics</groupId>
             <artifactId>metrics-jvm</artifactId>
             <version>${dropwizard.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.apache.kafka</groupId>
             <artifactId>kafka-streams</artifactId>
             <version>${kafka.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.apache.kafka</groupId>
             <artifactId>kafka_2.12</artifactId>
             <version>${kafka.version}</version>
         </dependency>
-
 
         <!-- Testing -->
         <dependency>
@@ -68,7 +78,6 @@
             <version>${mockito.version}</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.apache.kafka</groupId>
             <artifactId>kafka-streams</artifactId>
@@ -76,7 +85,6 @@
             <classifier>test</classifier>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.apache.kafka</groupId>
             <artifactId>kafka-clients</artifactId>
@@ -84,33 +92,49 @@
             <classifier>test</classifier>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.apache.kafka</groupId>
             <artifactId>kafka_2.12</artifactId>
             <version>${kafka.version}</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.apache.kafka</groupId>
             <artifactId>kafka_2.12</artifactId>
             <version>${kafka.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-log4j12</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>log4j</groupId>
+                    <artifactId>log4j</artifactId>
+                </exclusion>
+            </exclusions>
             <classifier>test</classifier>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.apache.kafka</groupId>
             <artifactId>kafka_2.12</artifactId>
             <version>${kafka.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-log4j12</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>log4j</groupId>
+                    <artifactId>log4j</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 
