@@ -4,15 +4,15 @@
 
 Enricher is a stream enriching engine based of Kafka Streams. Enricher does joins (streams and tables) end enrichment with any data store system that you define. You only need to define a JSON stream where you specify the joiners and enrichers to use and your enrichment query.
 
-Enricher offers us: scalability, fault tolerance, back-preassure and full Kafka integration ... [Try it now!!](https://wizzie.io/enricher/getting/base-tutorial.html)
+Enricher offers us: scalability, fault tolerance, back-preassure and full Kafka integration ... [Try it now!!](https://wizzie-io.github.io/enricher/getting/base-tutorial.html)
 
 ## Documentation
 
-You can find the docs on the [Docs Website](https://wizzie.io/enricher/)
+You can find the docs on the [Docs Website](https://wizzie-io.github.io/enricher/)
 
 ## Getting Started
 
-You can get started with Enricher with this [tutorial](http://wizzie.io/enricher/getting/base-tutorial.html).
+You can get started with Enricher with this [tutorial](https://wizzie-io.github.io/enricher/getting/base-tutorial.html).
 
 ## Compiling Sources
 
