@@ -7,7 +7,7 @@
     <parent>
         <artifactId>enricher</artifactId>
         <groupId>io.wizzie.ks.enricher</groupId>
-        <version>0.4.4</version>
+        <version>0.4.5-SNAPSHOT</version>
     </parent>
 
     <artifactId>distribution</artifactId>
