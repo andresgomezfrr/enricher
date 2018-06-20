@@ -31,6 +31,6 @@ ENV GENERAL_LOG_LEVEL info
 
 ENV JVM_OPTIONS -Xmx512m -Xms512m
 
-CMD /bin/enricher-start.sh
+CMD exec /bin/enricher-start.sh
 
 
