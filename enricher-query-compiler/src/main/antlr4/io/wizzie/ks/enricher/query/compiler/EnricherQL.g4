@@ -14,7 +14,7 @@ type
     ;
 
 dimensions: (dimWildcard | (id (',' id)*));
-streams: (dimWildcard | (id (',' id)*));
+streams: id (',' id)*;
 
 className: ID;
 partitionKey: ID;

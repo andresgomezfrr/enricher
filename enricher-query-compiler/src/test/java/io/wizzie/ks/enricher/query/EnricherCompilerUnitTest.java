@@ -4,7 +4,9 @@ import io.wizzie.ks.enricher.query.antlr4.Join;
 import io.wizzie.ks.enricher.query.antlr4.Query;
 import io.wizzie.ks.enricher.query.antlr4.Select;
 import io.wizzie.ks.enricher.query.antlr4.Stream;
+import io.wizzie.ks.enricher.query.exception.EnricherParserException;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -396,6 +398,18 @@ public class EnricherCompilerUnitTest {
         assertNotNull(insertObject);
         assertEquals("my_output_stream", insertObject.getName());
         assertTrue(insertObject.isTable());
+
+    }
+
+    @Test(expected = EnricherParserException.class)
+    public void NotShouldParseQueryWithWildcardInStreamIDs() {
+
+        String stringQuery = "SELECT * FROM STREAM * " +
+                "JOIN SELECT a,b FROM STREAM * USING jClass " +
+                "ENRICH WITH pkg2classA " +
+                "INSERT INTO TABLE my_output_stream";
+
+        Query query = EnricherCompiler.parse(stringQuery);
 
     }
 }
