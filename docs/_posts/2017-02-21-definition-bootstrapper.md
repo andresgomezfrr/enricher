@@ -7,9 +7,9 @@ order: 1
 ---
 
 The bootstrapper is the mechanism that is used to load stream config into enricher. You can configure the boostrapper class on the config file, using `bootstrapper.classname` property. Currently, the enricher has two bootstrappers:
-http://wizzie.io/enricher/bootstrapper/file-bootstrapper.html
-* [FileBootstrapper](http://wizzie.io/enricher/bootstrapper/file-bootstrapper.html)
-* [KafkaBootstrapper](http://wizzie.io/enricher/bootstrapper/kafka-bootstrapper.html)
+http://wizzie-io.github.io/enricher/bootstrapper/file-bootstrapper.html
+* [FileBootstrapper](http://wizzie-io.github.io/enricher/bootstrapper/file-bootstrapper.html)
+* [KafkaBootstrapper](http://wizzie-io.github.io/enricher/bootstrapper/kafka-bootstrapper.html)
 
 If you want you can extend the bootstrappers using the [ThreadBootstrapper](https://github.com/wizzie-io/enricher/blob/master/service/src/main/java/io/wizzie/ks/enricher/builder/bootstrap/ThreadBootstrapper.java) abstract class. 
 

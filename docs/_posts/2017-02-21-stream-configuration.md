@@ -6,13 +6,13 @@ date: 2017-02-21 10:16:50
 order: 2
 ---
 
-The stream configuration is the execution plan of the enricher. Enricher uses the stream configuration to build the Kafka Streams topology using DSL API. You can configure how the enricher gets the stream conf. To do it you need to use [Bootstrappers](http://wizzie.io/enricher/bootstrapper/definition-bootstrapper.html).
+The stream configuration is the execution plan of the enricher. Enricher uses the stream configuration to build the Kafka Streams topology using DSL API. You can configure how the enricher gets the stream conf. To do it you need to use [Bootstrappers](http://wizzie-io.github.io/enricher/bootstrapper/definition-bootstrapper.html).
 
 Stream configuration has three main sections:
 
-* [enrichers](http://wizzie.io/enricher/conf/stream-configuration.html#enrichers)
-* [joiners](http://wizzie.io/enricher/conf/stream-configuration.html#joiners)
-* [queries](http://wizzie.io/enricher/conf/stream-configuration.html#queries)
+* [enrichers](http://wizzie-io.github.io/enricher/conf/stream-configuration.html#enrichers)
+* [joiners](http://wizzie-io.github.io/enricher/conf/stream-configuration.html#joiners)
+* [queries](http://wizzie-io.github.io/enricher/conf/stream-configuration.html#queries)
 
 ```json
 {
@@ -45,11 +45,11 @@ The enrichers have three properties:
 * `name`: The enricher's name.
 * `className`: The enricher class reference.
 
-Currently, the enricher has three joiner types: [Base Joiner](http://wizzie.io/enricher/joiners/base-joiners.html), [Queryable Joiner](http://wizzie.io/enricher/joiners/queryable-joiners.html), [QueryableBack Joiner](http://wizzie.io/enricher/joiners/queryableback-joiners.html)
+Currently, the enricher has three joiner types: [Base Joiner](http://wizzie-io.github.io/enricher/joiners/base-joiners.html), [Queryable Joiner](http://wizzie-io.github.io/enricher/joiners/queryable-joiners.html), [QueryableBack Joiner](http://wizzie-io.github.io/enricher/joiners/queryableback-joiners.html)
 
 ## Queries
 
-Finally, the queries are the enrichment logic that you can define using the [SQL Syntax](http://wizzie.io/enricher/conf/sql-syntax.html). You can define multiple queries, inside the queries you can use the enricher and joiner definitions.
+Finally, the queries are the enrichment logic that you can define using the [SQL Syntax](http://wizzie-io.github.io/enricher/conf/sql-syntax.html). You can define multiple queries, inside the queries you can use the enricher and joiner definitions.
 
 The `queries` property is a JSON Object where the `key` is the query's name and the `value` is the query.
 

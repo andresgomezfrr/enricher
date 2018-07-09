@@ -9,9 +9,9 @@ order: 4
 On this section, we are trying to explain how to develop your own joiners.
 
 We have next joiners:
-* [Base Joiner](http://wizzie.io/enricher/joiners/base-joiners.html)
-* [Queryable Joiner](http://wizzie.io/enricher/joiners/queryable-joiners.html)
-* [Queryableback Joiner](http://wizzie.io/enricher/joiners/queryableback-joiners.html)
+* [Base Joiner](http://wizzie-io.github.io/enricher/joiners/base-joiners.html)
+* [Queryable Joiner](http://wizzie-io.github.io/enricher/joiners/queryable-joiners.html)
+* [Queryableback Joiner](http://wizzie-io.github.io/enricher/joiners/queryableback-joiners.html)
 
 All the joiners classes implement the [Joiner](https://github.com/wizzie-io/enricher/blob/master/service/src/main/java/io/wizzie/ks/enricher/enrichment/join/Joiner.java) interface.
 

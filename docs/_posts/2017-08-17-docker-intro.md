@@ -40,7 +40,7 @@ Once kafka broker is up, we can start a Enricher container and link it to the ka
 ```
 $ docker run --rm --name my-enricher --net=host -e APPLICATION_ID=my-enricher-app -e KAFKA_BOOTSTRAP_SERVER=localhost:9092 gcr.io/wizzie-registry/enricher:0.1.0
 ```
-Now you can follow the [base tutorial](http://www.wizzie.io/enricher/getting/base-tutorial.html) to test Enricher!
+Now you can follow the [base tutorial](http://www.wizzie-io.github.io/enricher/getting/base-tutorial.html) to test Enricher!
 
 ### Using environment variables in enricher configuration
 
@@ -53,8 +53,8 @@ You can configure the docker image using these environment properties:
 | `NUM_STREAM_THREADS` |  Number parallelism | 1|
 | `METRIC_ENABLE` | Enable the metrics |  true  |
 | `METRIC_INTERVAL`|The interval time to report metrics (milliseconds) | 60000 |
-| `MULTI_ID`| Configure the `multi.id` property [Multi Tenant](http://www.wizzie.io/enricher/conf/multi-tenant.html) | false |
+| `MULTI_ID`| Configure the `multi.id` property [Multi Tenant](http://www.wizzie-io.github.io/enricher/conf/multi-tenant.html) | false |
 | `MAX_OUTPUT_KAFKA_TOPICS`| Max limit of output kafka topics | 500 |
-| `GLOBAL_TOPICS`| Configure the `global.topics` property [Multi Tenant](http://www.wizzie.io/enricher/conf/multi-tenant.html) | [] |
+| `GLOBAL_TOPICS`| Configure the `global.topics` property [Multi Tenant](http://www.wizzie-io.github.io/enricher/conf/multi-tenant.html) | [] |
 
-You can found more information about base configuration [here](http://www.wizzie.io/enricher/conf/base-configuration.html)
+You can found more information about base configuration [here](http://www.wizzie-io.github.io/enricher/conf/base-configuration.html)
