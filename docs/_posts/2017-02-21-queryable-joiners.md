@@ -8,7 +8,7 @@ order: 2
 
 The queryable joiner works like base joiner. The difference is that a queryable joiner will notify to `__enricher_queryable` topic, if received message cannot be join it with other message with same key.
 
-![](../_images/queryable_preferred_concept.png)
+![](../_images/queryable_preferred_concept.png?raw=true)
 
 Image above represents the queryable joiner behaviour, we can see two cases:
 

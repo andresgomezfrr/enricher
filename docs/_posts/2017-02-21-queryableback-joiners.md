@@ -8,7 +8,7 @@ order: 3
 
 The queryableback joiner work like base joiner. The difference is that a queryableback joiner will notify to `__enricher_queryable` and will resend message to stream, if received message cannot be join it with other message with same key.
 
-![](../_images/queryableback_preferred_concept.png)
+![](../_images/queryableback_preferred_concept.png?raw=true)
 
 Image above represents the queryableback join behaviour:
  

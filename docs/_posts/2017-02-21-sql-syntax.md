@@ -21,7 +21,7 @@ order: 3
 ## Queries
 Following provides an abstract diagram definition for EQL.
 
-![](https://github.com/wizzie-io/enricher/blob/master/docs/_images/eql_syntax.png)
+![](https://github.com/wizzie-io/enricher/blob/master/docs/_images/eql_syntax.png?raw=true)
 
 ### Joiners
 A joiner merges two streams or tables based on the keys of their data records, and yields a new stream.
@@ -41,7 +41,7 @@ The `BY` clause allows us partition by field instead of stream's key. However th
 
 We are going to illustrate this behaviour in    next diagram:
 
-![](https://github.com/wizzie-io/enricher/blob/master/docs/_images/joiner_partition_by.png)
+![](https://github.com/wizzie-io/enricher/blob/master/docs/_images/joiner_partition_by.png?raw=true)
 
 ### Enrichers
 An enricher add relational information about events.
@@ -70,7 +70,7 @@ SELECT fieldA, fieldB, fieldY FROM inputStreamA, inputStreamB INSERT INTO STREAM
 Enricher extracts fieldA, fieldB and fieldY from both inputStreamA and inputStreamB if exists and inserts them in outputStream.
 
 This query is very simple and not enrich, Enricher only extracts and inserts fields.
-![](https://github.com/wizzie-io/enricher/blob/master/docs/_images/simple_extract.png)
+![](https://github.com/wizzie-io/enricher/blob/master/docs/_images/simple_extract.png?raw=true)
 
 ### Simple streams join
 If we define next query
@@ -81,7 +81,7 @@ SELECT * FROM STREAM inputStreamA JOIN SELECT fieldY FROM STREAM inputStreamX US
 
 Enricher extracts all fields from intputStreamA and join them with the fieldY from inputStreamX using simpleStreamPreferredJoiner in order to do it is necessary that the streams share the same key.
 
-![](https://github.com/wizzie-io/enricher/blob/master/docs/_images/simple_join.png)
+![](https://github.com/wizzie-io/enricher/blob/master/docs/_images/simple_join.png?raw=true)
 
 ### Simple streams enrich
 If we define next query
@@ -90,13 +90,13 @@ SELECT * FROM STREAM inputStreamA ENRICH WITH simpleStreamEnrich INSERT INTO STR
 ```
 Enricher extracts all fields from inputStreamA and enrich with simpleStreamEnrich using as data source a relational database.
 
-![](https://github.com/wizzie-io/enricher/blob/master/docs/_images/simple_enrich.png)
+![](https://github.com/wizzie-io/enricher/blob/master/docs/_images/simple_enrich.png?raw=true)
 
 ### Complex streams enrich and join
 
 Suppose that we have a system with data about **flow** and **location** and we have a key-value store with information about ip **reputation**:
 
-![](https://github.com/wizzie-io/enricher/blob/master/docs/_images/complex_join_and_enrich.png)
+![](https://github.com/wizzie-io/enricher/blob/master/docs/_images/complex_join_and_enrich.png?raw=true)
 We need enrich and join this information and send data to final stream **enrichflow**. In order to do this we have to define next EQL:
 
 ```sql

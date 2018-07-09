@@ -9,7 +9,7 @@ The Base Enrich is a simple enricher that complements the information of receive
 
 The enrichment system can be either SQL or NoSQL database, a CSV file or any other data store system.
 
-![](../_images/basenrich_concept.png)
+![](../_images/basenrich_concept.png?raw=true)
 
 Image above represents the base enrich behaviour:
 
