@@ -10,7 +10,7 @@
 
     <properties>
         <config-bootstrapper.version>0.0.4</config-bootstrapper.version>
-        <kafka.version>1.0.0</kafka.version>
+        <kafka.version>1.1.0</kafka.version>
         <slf4j-api.version>1.8.0-alpha2</slf4j-api.version>
         <dropwizard.version>3.1.0</dropwizard.version>
         <joda.version>2.9.4</joda.version>
