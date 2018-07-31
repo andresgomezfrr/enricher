@@ -19,7 +19,7 @@
         </Console>
     </Appenders>
     <Loggers>
-        <Logger name="io.wizzie.ks.enricher" level="info" additivity="false">
+        <Logger name="io.wizzie.enricher" level="info" additivity="false">
             <AppenderRef ref="FileLogEnricher"/>
             <AppenderRef ref="ConsoleEnricher"/>
         </Logger>

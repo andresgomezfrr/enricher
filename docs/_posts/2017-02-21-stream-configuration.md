@@ -17,10 +17,10 @@ Stream configuration has three main sections:
 ```json
 {
   "enrichers": [
-    {"name":"myEnricher", "className":"io.wizzie.ks.enricher.enrichment.simple.MyCustomEnricher", "properties":{"property1":"value1", "property2":"value2"}}
+    {"name":"myEnricher", "className":"io.wizzie.enricher.enrichment.simple.MyCustomEnricher", "properties":{"property1":"value1", "property2":"value2"}}
   ],
   "joiners": [
-    {"name":"streamPreferredJoiner", "className":"io.wizzie.ks.enricher.enrichment.join.impl.StreamPreferredJoiner"}
+    {"name":"streamPreferredJoiner", "className":"io.wizzie.enricher.enrichment.join.impl.StreamPreferredJoiner"}
   ],
   "queries": {
     "query1": "SELECT a,c,k,j FROM STREAM stream1, stream2 JOIN SELECT v FROM TABLE table1 USING streamPreferred INSERT INTO TABLE output"

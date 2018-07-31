@@ -2,7 +2,7 @@
   "joiners": [
     {
       "name": "streamPreferred",
-      "className": "io.wizzie.ks.enricher.enrichment.join.impl.StreamPreferredJoiner"
+      "className": "io.wizzie.enricher.enrichment.join.impl.StreamPreferredJoiner"
     }
   ],
   "queries": {

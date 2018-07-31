@@ -2,19 +2,19 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>io.wizzie.ks.enricher</groupId>
+    <groupId>io.wizzie</groupId>
     <artifactId>enricher</artifactId>
     <version>0.5.1-SNAPSHOT</version>
 
     <packaging>pom</packaging>
 
     <properties>
-        <config-bootstrapper.version>0.0.6</config-bootstrapper.version>
+        <config-bootstrapper.version>0.0.7</config-bootstrapper.version>
         <kafka.version>1.1.0</kafka.version>
         <slf4j-api.version>1.8.0-alpha2</slf4j-api.version>
         <dropwizard.version>3.1.0</dropwizard.version>
         <joda.version>2.9.4</joda.version>
-        <metrics-library.version>0.0.3</metrics-library.version>
+        <metrics-library.version>0.0.4</metrics-library.version>
         <slf4j.version>1.7.25</slf4j.version>
         <log4j.version>1.2.17</log4j.version>
         <mockito.version>1.10.19</mockito.version>
@@ -22,36 +22,46 @@
         <jackson.version>2.9.1</jackson.version>
     </properties>
 
+    <name>Wizzie enricher</name>
+    <description>The enricher project</description>
+    <url>https://github.com/wizzie-io/enricher</url>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Wizzie Commiters</name>
+            <email>devel@wizzie.io</email>
+            <organization>Wizzie Analytics</organization>
+            <organizationUrl>https://wizzie.io</organizationUrl>
+        </developer>
+    </developers>
+
+    <inceptionYear>2017</inceptionYear>
+
     <distributionManagement>
-        <repository>
-            <id>wizzie-release</id>
-            <name>Wizzie Release Repository</name>
-            <url>s3://wizzie-mvn-repo/release</url>
-        </repository>
         <snapshotRepository>
-            <id>wizzie-snapshot</id>
-            <name>Wizzie Snapshot Repository</name>
-            <url>s3://wizzie-mvn-repo/snapshot</url>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
     </distributionManagement>
 
     <scm>
         <developerConnection>scm:git:git@github.com:wizzie-io/enricher.git</developerConnection>
-        <tag>enricher-0.4.0</tag>
+        <connection>scm:git:git@github.com:wizzie-io/enricher.git</connection>
+        <tag>HEAD</tag>
+        <url>git@github.com:wizzie-io/enricher.git</url>
     </scm>
-
-    <repositories>
-        <repository>
-            <id>wizzie-release</id>
-            <name>Wizzie Release Repository</name>
-            <url>s3://wizzie-mvn-repo/release</url>
-        </repository>
-        <repository>
-            <id>wizzie-snapshot</id>
-            <name>Wizzie Snapshot Repository</name>
-            <url>s3://wizzie-mvn-repo/snapshot</url>
-        </repository>
-    </repositories>
 
     <modules>
         <module>base</module>
@@ -78,27 +88,86 @@
                 <module>docker</module>
             </modules>
         </profile>
+
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>2.2.1</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>2.9.1</version>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.5</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
 
     <build>
-        <extensions>
-            <extension>
-                <groupId>org.springframework.build</groupId>
-                <artifactId>aws-maven</artifactId>
-                <version>5.0.0.RELEASE</version>
-            </extension>
-        </extensions>
-
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
-                <version>2.5.1</version>
+                <version>2.5.3</version>
+                <configuration>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                    <useReleaseProfile>false</useReleaseProfile>
+                    <releaseProfiles>release</releaseProfiles>
+                    <goals>deploy</goals>
+                </configuration>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.19.1</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.7</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
             </plugin>
         </plugins>
     </build>

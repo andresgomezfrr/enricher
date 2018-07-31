@@ -6,7 +6,7 @@ date: 2017-02-21 10:18:32
 order: 2
 ---
 
-The Normalizer service use this library to report metrics:
+The Enricher service use this library to report metrics:
 
 [metrics-library](https://github.com/wizzie-io/metrics-library)
 

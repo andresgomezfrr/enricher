@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-    <packaging>pom</packaging>
     <modelVersion>4.0.0</modelVersion>
+
+    <packaging>pom</packaging>
 
     <parent>
         <artifactId>enricher</artifactId>
-        <groupId>io.wizzie.ks.enricher</groupId>
+        <groupId>io.wizzie</groupId>
         <version>0.5.1-SNAPSHOT</version>
     </parent>
 
@@ -15,7 +16,8 @@
     <description>Docker packaging manager</description>
 
     <properties>
-        <docker.registry>gcr.io/wizzie-registry</docker.registry>
+        <docker.google.registry>gcr.io/wizzie-registry</docker.google.registry>
+        <docker.hub.registry>wizzieio</docker.hub.registry>
     </properties>
 
     <build>
@@ -26,7 +28,6 @@
                 <version>1.0.0</version>
 
                 <configuration>
-                    <useConfigFile>true</useConfigFile>
                     <forceTags>true</forceTags>
 
                     <imageName>${project.parent.artifactId}</imageName>
@@ -58,6 +59,30 @@
                     </execution>
 
                     <execution>
+                        <id>tag-google-image</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>tag</goal>
+                        </goals>
+                        <configuration>
+                            <image>${project.parent.artifactId}:${project.version}</image>
+                            <newName>${docker.google.registry}/${project.parent.artifactId}:${project.version}</newName>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>tag-google-latest-image</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>tag</goal>
+                        </goals>
+                        <configuration>
+                            <image>${project.parent.artifactId}:latest</image>
+                            <newName>${docker.google.registry}/${project.parent.artifactId}:latest</newName>
+                        </configuration>
+                    </execution>
+
+                    <execution>
                         <id>tag-image</id>
                         <phase>deploy</phase>
                         <goals>
@@ -65,7 +90,7 @@
                         </goals>
                         <configuration>
                             <image>${project.parent.artifactId}:${project.version}</image>
-                            <newName>${docker.registry}/${project.parent.artifactId}:${project.version}</newName>
+                            <newName>${docker.hub.registry}/${project.parent.artifactId}:${project.version}</newName>
                         </configuration>
                     </execution>
 
@@ -77,35 +102,59 @@
                         </goals>
                         <configuration>
                             <image>${project.parent.artifactId}:latest</image>
-                            <newName>${docker.registry}/${project.parent.artifactId}:latest</newName>
+                            <newName>${docker.hub.registry}/${project.parent.artifactId}:latest</newName>
                         </configuration>
                     </execution>
 
                     <execution>
-                        <id>push-image</id>
+                        <id>push-image-google</id>
                         <phase>deploy</phase>
                         <goals>
                             <goal>push</goal>
                         </goals>
                         <configuration>
-                            <imageName>${docker.registry}/${project.parent.artifactId}:${project.version}</imageName>
+                            <imageName>${docker.google.registry}/${project.parent.artifactId}:${project.version}</imageName>
                         </configuration>
                     </execution>
 
                     <execution>
-                        <id>push-latest-image</id>
+                        <id>push-latest-image-google</id>
                         <phase>deploy</phase>
                         <goals>
                             <goal>push</goal>
                         </goals>
                         <configuration>
-                            <imageName>${docker.registry}/${project.parent.artifactId}:latest</imageName>
+                            <imageName>${docker.google.registry}/${project.parent.artifactId}:latest</imageName>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>push-image-docker-hub</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>push</goal>
+                        </goals>
+                        <configuration>
+                            <imageName>${docker.hub.registry}/${project.parent.artifactId}:${project.version}</imageName>
+                            <serverId>docker-hub</serverId>
+                            <registryUrl>https://index.docker.io/v1/</registryUrl>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>push-latest-image-docker-hub</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>push</goal>
+                        </goals>
+                        <configuration>
+                            <imageName>${docker.hub.registry}/${project.parent.artifactId}:latest</imageName>
+                            <serverId>docker-hub</serverId>
+                            <registryUrl>https://index.docker.io/v1/</registryUrl>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
         </plugins>
-
     </build>
-
 </project>

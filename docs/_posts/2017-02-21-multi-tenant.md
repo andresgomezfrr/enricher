@@ -14,7 +14,7 @@ On this mode when you define a stream definition, for example:
 ```json
 {
   "joiners": [
-    {"name":"streamPreferred", "className":"io.wizzie.ks.enricher.enrichment.join.impl.StreamPreferredJoiner"}
+    {"name":"streamPreferred", "className":"io.wizzie.enricher.enrichment.join.impl.StreamPreferredJoiner"}
   ],
   "queries": {
     "query1": "SELECT * FROM STREAM topic1 JOIN SELECT dim1,dim2 FROM TABLE topic2 USING streamPreferred INSERT INTO TABLE output"

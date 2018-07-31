@@ -9,7 +9,7 @@
         </Console>
     </Appenders>
     <Loggers>
-        <Logger name="io.wizzie.ks.enricher" level="debug" additivity="false">
+        <Logger name="io.wizzie.enricher" level="debug" additivity="false">
             <AppenderRef ref="ConsoleProject"/>
         </Logger>
         <Root level="error">

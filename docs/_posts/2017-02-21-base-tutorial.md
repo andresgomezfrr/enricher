@@ -15,7 +15,7 @@ First of all, we need define an enrichment stream for launch an enrich applicati
 ```json
 {
   "joiners":[
-    {"name":"joinerStream", "className":"io.wizzie.ks.enricher.enrichment.join.impl.StreamPreferredJoiner"}
+    {"name":"joinerStream", "className":"io.wizzie.enricher.enrichment.join.impl.StreamPreferredJoiner"}
   ],
   "queries": {
     "myquery": "SELECT timestamp, level FROM STREAM alarms JOIN SELECT * FROM STREAM metrics USING joinerStream INSERT INTO STREAM output"
@@ -79,7 +79,7 @@ We need to modify the config file that is inside the folder `config/sample_confi
   "bootstraper.classname": "io.wizzie.bootstrapper.bootstrappers.impl.FileBootstrapper",
   "file.bootstraper.path": "/etc/enricher/my-enrichment-tutorial.json",
   "metric.enable": true,
-  "metric.listeners": ["io.wizzie.ks.metrics.ConsoleMetricListener"],
+  "metric.listeners": ["io.wizzie.metrics.ConsoleMetricListener"],
   "metric.interval": 60000
 }
 ```

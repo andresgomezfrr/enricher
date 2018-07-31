@@ -14,7 +14,7 @@ do
 done
 
 if [ $# -eq 2 ]; then
-  java ${JVM_OPTIONS} -cp ${CLASSPATH} io.wizzie.ks.enricher.utils.bootstrap.StreamerKafkaConfig $1 $2
+  java ${JVM_OPTIONS} -cp ${CLASSPATH} io.wizzie.enricher.utils.bootstrap.StreamerKafkaConfig $1 $2
 elif [ $# -eq 3 ]; then
-  java ${JVM_OPTIONS} -cp ${CLASSPATH} io.wizzie.ks.enricher.utils.bootstrap.StreamerKafkaConfig $1 $2 $3
+  java ${JVM_OPTIONS} -cp ${CLASSPATH} io.wizzie.enricher.utils.bootstrap.StreamerKafkaConfig $1 $2 $3
 fi

@@ -30,7 +30,7 @@ The GeoIpEnrich allow us enrich streams with information about IP location, inte
 ```json
 {
   "name":"geoIp",
-  "className":"io.wizzie.ks.enricher.enrichment.geoip.GeoIpEnrichr",
+  "className":"io.wizzie.enricher.enrichment.geoip.GeoIpEnrichr",
   "properties": {
     "src.dim": "src_ip",
     "dst.dim": "dst_ip",
@@ -79,7 +79,7 @@ The MacVendorEnrich allow us enrich streams with information about Mac vendors i
 ```json
 {
   "name": "macVendor",
-  "className": "io.wizzie.ks.enricher.enrichment.MacVendorEnrich",
+  "className": "io.wizzie.enricher.enrichment.MacVendorEnrich",
   "properties": {
     "oui.file.path": "/opt/enricher/data/mac_vendors",
     "mac.dim": "client_mac",
