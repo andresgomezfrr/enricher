@@ -7,7 +7,7 @@ date: 2017-08-17 11:17:33
 ## How to get Enricher image
 You can pull the docker image from our registry:
 ```
-$ docker pull gcr.io/wizzie-registry/enricher:0.1.0
+$ docker pull wizzieio/enricher:latest
 ```
 
 ## How to use this image
@@ -38,7 +38,7 @@ You can found more information about `wurstmeister/kafka` image [here](https://h
 Once kafka broker is up, we can start a Enricher container and link it to the kafka broker, and configuring the APPLICATION_ID environment variable with our custom app name:
 
 ```
-$ docker run --rm --name my-enricher --net=host -e APPLICATION_ID=my-enricher-app -e KAFKA_BOOTSTRAP_SERVER=localhost:9092 gcr.io/wizzie-registry/enricher:0.1.0
+$ docker run --rm --name my-enricher --net=host -e APPLICATION_ID=my-enricher-app -e KAFKA_BOOTSTRAP_SERVER=localhost:9092 wizzieio/enricher:latest
 ```
 Now you can follow the [base tutorial](http://www.wizzie-io.github.io/enricher/getting/base-tutorial.html) to test Enricher!
 
