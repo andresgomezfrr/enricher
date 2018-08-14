@@ -1,6 +1,12 @@
-[![CircleCI](https://circleci.com/gh/wizzie-io/enricher/tree/master.svg?style=svg)](https://circleci.com/gh/wizzie-io/enricher/tree/master)
 
-# Enricher
+<p align="center">
+    <img src="docs/assets/img/enricher.logo.svg" alt="Enricher" title="Enricher" width="250%"/>
+</p>
+
+[![CircleCI](https://circleci.com/gh/wizzie-io/enricher/tree/master.svg?style=shield)](https://circleci.com/gh/wizzie-io/enricher/tree/master)
+[![Docs](https://img.shields.io/badge/docs-current-brightgreen.svg)](https://wizzie-io.github.io/enricher/)
+[![GitHub release](https://img.shields.io/github/release/wizzie-io/enricher.svg)](https://github.com/wizzie-io/enricher/releases/latest)
+[![wizzie-io](https://img.shields.io/badge/powered%20by-wizzie.io-F68D2E.svg)](https://github.com/wizzie-io/)
 
 Enricher is a stream enriching engine based of Kafka Streams. Enricher does joins (streams and tables) end enrichment with any data store system that you define. You only need to define a JSON stream where you specify the joiners and enrichers to use and your enrichment query.
 
