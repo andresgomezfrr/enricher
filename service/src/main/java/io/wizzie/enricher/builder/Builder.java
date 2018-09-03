@@ -9,6 +9,8 @@ import io.wizzie.enricher.model.exceptions.PlanBuilderException;
 import io.wizzie.enricher.serializers.JsonSerde;
 import io.wizzie.metrics.MetricsConstant;
 import io.wizzie.metrics.MetricsManager;
+import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.KafkaStreams;
 import org.apache.kafka.streams.StreamsBuilder;
@@ -21,6 +23,7 @@ import javax.management.ObjectName;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 import static io.wizzie.enricher.base.builder.config.ConfigProperties.BOOTSTRAPER_CLASSNAME;
 import static org.apache.kafka.streams.StreamsConfig.*;
@@ -166,8 +169,26 @@ public class Builder implements Listener {
             String appId = configWithNewAppId.get(APPLICATION_ID_CONFIG);
             configWithNewAppId.put(APPLICATION_ID_CONFIG, String.format("%s_%s", appId, "enricher"));
             configWithNewAppId.put(CLIENT_ID_CONFIG, String.format("%s_%s", appId, "enricher"));
-            streams = new KafkaStreams(builder.build(), configWithNewAppId.getProperties());
-            streams.setUncaughtExceptionHandler((thread, exception) -> log.error(exception.getMessage(), exception));
+
+            Properties properties = configWithNewAppId.getProperties();
+
+            properties.put(StreamsConfig.producerPrefix(ProducerConfig.RETRIES_CONFIG), Integer.MAX_VALUE);
+            properties.put(StreamsConfig.producerPrefix(ProducerConfig.MAX_BLOCK_MS_CONFIG), Integer.MAX_VALUE);
+            properties.put(StreamsConfig.REQUEST_TIMEOUT_MS_CONFIG, 305000);
+            properties.put(StreamsConfig.consumerPrefix(ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG),
+                    Integer.MAX_VALUE);
+
+            streams = new KafkaStreams(builder.build(), properties);
+            streams.setUncaughtExceptionHandler((thread, exception) -> {
+                log.error(exception.getMessage(), exception);
+                log.info("Stopping enricher engine");
+                try {
+                    close();
+                } catch (Exception e) {
+                    log.error(e.getMessage(), exception);
+                }
+                log.info("Closing enricher engine");
+            });
             streams.start();
 
             registerKafkaMetrics(config, metricsManager);
