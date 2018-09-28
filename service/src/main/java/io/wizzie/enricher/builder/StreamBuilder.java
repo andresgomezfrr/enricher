@@ -113,14 +113,7 @@ public class StreamBuilder {
             KStream<String, Map<String, Object>> stream =
                     builder.stream(topicStreams);
 
-            if(config.getOrDefault(ConfigProperties.BYPASS_NULL_KEYS, false)){
-                stream = stream.map((s, stringObjectMap) -> {
-                    if(s == null) {
-                        return new KeyValue<>(String.format("%s-%s", "NULL-KEY", random.nextInt(1000)), stringObjectMap);
-                    }else
-                        return new KeyValue<>(s, stringObjectMap);
-                });
-            }
+
 
             List<String> dimensions = selectQuery.getDimensions();
             if (!dimensions.contains("*")) {
@@ -135,6 +128,19 @@ public class StreamBuilder {
 
                     return filterValue;
                 });
+            }
+
+            if (config.getOrDefault(ConfigProperties.BYPASS_NULL_KEYS, false)) {
+                KStream<String, Map<String, Object>> splitBranch[] = stream.branch((k, v) -> k != null, (k, v) -> k == null);
+
+                stream = splitBranch[0];
+
+                String outputStream = entry.getValue().getInsert().getName();
+                if (config.getOrDefault(ConfigProperties.MULTI_ID, false)) {
+                    outputStream = String.format("%s_%s", appId, outputStream);
+                }
+
+                splitBranch[1].to(outputStream);
             }
 
             streams.put(entry.getKey(), stream);

@@ -29,6 +29,7 @@ import java.util.stream.Stream;
 import static io.wizzie.enricher.base.builder.config.ConfigProperties.BOOTSTRAPER_CLASSNAME;
 import static org.apache.kafka.streams.StreamsConfig.APPLICATION_ID_CONFIG;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 public class NullKeyJoinIntegrationTest {
@@ -206,7 +207,7 @@ public class NullKeyJoinIntegrationTest {
         List<KeyValue<String, Map<String, Object>>> receivedMessagesFromOutput = IntegrationTestUtils.waitUntilMinKeyValueRecordsReceived(consumerConfig, OUTPUT_TOPIC, 2);
 
         for(KeyValue<String, Map<String, Object>> keyValueReceived : receivedMessagesFromOutput){
-            assertTrue(keyValueReceived.key.matches("NULL-KEY-\\d*"));
+            assertNull(keyValueReceived.key);
         }
 
         Set<Map<String, Object>> setValuesReceived = receivedMessagesFromOutput.stream().map(f -> f.value).collect(Collectors.toSet());

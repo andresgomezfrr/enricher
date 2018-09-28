@@ -178,6 +178,8 @@ public class Builder implements Listener {
             properties.put(StreamsConfig.consumerPrefix(ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG),
                     Integer.MAX_VALUE);
 
+            log.info(builder.build().describe().toString());
+
             streams = new KafkaStreams(builder.build(), properties);
             streams.setUncaughtExceptionHandler((thread, exception) -> {
                 log.error(exception.getMessage(), exception);

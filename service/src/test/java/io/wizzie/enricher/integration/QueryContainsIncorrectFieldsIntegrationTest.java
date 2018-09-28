@@ -48,6 +48,7 @@ public class QueryContainsIncorrectFieldsIntegrationTest {
     public static void startKafkaCluster() throws Exception {
         CLUSTER.createTopic(INPUT_STREAM_TOPIC, 2, REPLICATION_FACTOR);
         CLUSTER.createTopic(INPUT_TABLE_1_TOPIC, 2, REPLICATION_FACTOR);
+        CLUSTER.createTopic("table2", 2, REPLICATION_FACTOR);
 
         CLUSTER.createTopic(OUTPUT_TOPIC, 2, REPLICATION_FACTOR);
 
